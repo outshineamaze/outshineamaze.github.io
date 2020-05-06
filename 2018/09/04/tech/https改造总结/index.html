@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="http2,https," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="全栈迁移HTTPS/HTTP2总结系列文章第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:x.xx.com全站迁移HTTPS总结系列文章导航:  (一):投放端业务迁移介绍  (二):业务HTTP排查和梳理  (三):灰度策略和错漏检测  (四):CSP与HSTS安全策略  (五):HTTPS/HTTP2与性能提升   为了给广告主提供更安全可靠的广告系统，避免一些浏览器将系统表示">
+<meta name="keywords" content="http2,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全栈迁移HTTPS&#x2F;HTTP2总结系列文章">
+<meta property="og:url" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="全栈迁移HTTPS/HTTP2总结系列文章第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:x.xx.com全站迁移HTTPS总结系列文章导航:  (一):投放端业务迁移介绍  (二):业务HTTP排查和梳理  (三):灰度策略和错漏检测  (四):CSP与HSTS安全策略  (五):HTTPS/HTTP2与性能提升   为了给广告主提供更安全可靠的广告系统，避免一些浏览器将系统表示">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536054679_7.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536054571_65.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536074678_5.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536074823_57.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536075062_36.png">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全栈迁移HTTPS&#x2F;HTTP2总结系列文章">
+<meta name="twitter:description" content="全栈迁移HTTPS/HTTP2总结系列文章第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:x.xx.com全站迁移HTTPS总结系列文章导航:  (一):投放端业务迁移介绍  (二):业务HTTP排查和梳理  (三):灰度策略和错漏检测  (四):CSP与HSTS安全策略  (五):HTTPS/HTTP2与性能提升   为了给广告主提供更安全可靠的广告系统，避免一些浏览器将系统表示">
+<meta name="twitter:image" content="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/1536054679_7.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/"/>
+
+
+
+
+
+  <title>全栈迁移HTTPS/HTTP2总结系列文章 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2018/09/04/tech/https改造总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">全栈迁移HTTPS/HTTP2总结系列文章</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T00:00:00+08:00">
+                2018-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/04/tech/https改造总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/04/tech/https改造总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="全栈迁移HTTPS-HTTP2总结系列文章"><a href="#全栈迁移HTTPS-HTTP2总结系列文章" class="headerlink" title="全栈迁移HTTPS/HTTP2总结系列文章"></a>全栈迁移HTTPS/HTTP2总结系列文章</h1><h2 id="第一篇-x-xx-com全站迁移HTTPS-HTTP2总结"><a href="#第一篇-x-xx-com全站迁移HTTPS-HTTP2总结" class="headerlink" title="第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:"></a>第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:</h2><p>x.xx.com全站迁移HTTPS总结系列文章导航:</p>
+<ul>
+<li><p>(一):投放端业务迁移介绍</p>
+</li>
+<li><p>(二):业务HTTP排查和梳理</p>
+</li>
+<li><p>(三):灰度策略和错漏检测</p>
+</li>
+<li><p>(四):CSP与HSTS安全策略</p>
+</li>
+<li><p>(五):HTTPS/HTTP2与性能提升</p>
+</li>
+</ul>
+<p>为了给广告主提供更安全可靠的广告系统，避免一些浏览器将系统表示为不安全, 消除广告投放端被中间人劫持插入广告,  保证广告主的账户安全.</p>
+<a id="more"></a>
+<p>此项工作主要处理了以下任务：</p>
+<ol>
+<li>系统的http调用排查和梳理：我们梳理了约10个关联产品的约20多个相关域名, 并排查出存在MixContent页面50多个</li>
+<li>x.xx.com 域名下8个服务的HTTPS改造：域名收归为三个域名收归为 x.xx.com (HTML和CGI),cdn.com (JS资源)cdn.com (CSS样式资源)</li>
+<li>HTTP2相关特性测试和支持：开启HTTP2, HTTPS下页面资源加载性能提升40%</li>
+<li>灰度放量机制和错漏排查机制：设计灰度放量机制和开发配套的监控系统确保没有遗漏。</li>
+<li>部署相关安全协议： Upgrade-Insecure-Requests, HSTS, CSP等</li>
+</ol>
+<h3 id="整体迁移工作划分"><a href="#整体迁移工作划分" class="headerlink" title="整体迁移工作划分"></a>整体迁移工作划分</h3><p>x.xx.com整站迁移HTTPS工作分为如下三块内容：</p>
+<ol>
+<li>业务侧及各个依赖模块HTTPS改造</li>
+<li>服务层接入HTTPS(NGINX)</li>
+<li>HTTPS灰度上线</li>
+</ol>
+<p>现在将这些工作中的一些经验和工作的技术分享如下</p>
+<h3 id="业务侧http资源排查和梳理"><a href="#业务侧http资源排查和梳理" class="headerlink" title="业务侧http资源排查和梳理"></a>业务侧http资源排查和梳理</h3><p>在推动x.xx.com业务代码兼容HTTPS时, 需要考虑的点非常多, 把工作上的一些要点记录了一下, 并梳理了几点方法论, 希望可以提供一些参考</p>
+<h3 id="灰度策略和错漏检测"><a href="#灰度策略和错漏检测" class="headerlink" title="灰度策略和错漏检测:"></a>灰度策略和错漏检测:</h3><p>在推进HTTPS灰度的阶段, 由于投放端依赖的服务众多, 项目历史包袱较重, 即便是收归了域名之后, 在项目代码中 做了全部的资源url 替换, 有部分资源url是写的数据库中的, 或者是第三方服务加载的. 这部分请求是http的, HTTPS 网页中加载的 HTTP 资源被称之为 Mixed Content（混合内容）. 这种场景首先考虑的时候使用 使用 Content-Security-Policy: upgrade-insecure-requests 升级不安全的请求。</p>
+<p>但是面临的问题是: 我们不知道这些触发MixContent的资源是否支持https, 所以前期先部署了 MixContent上报策略.<br>Content-Security-Policy-Report-Only: block-all-mixed-content</p>
+<p>通过近两周的每日MixContent上报统计, 我们排查出 x.xx.com 下面所有的 MixContent, 并逐个推进排查(排查的依赖域名20+, 存在MixContent页面50+)</p>
+<p>通过两周的排查, 并确认所有的 http资源请求都支持 https之后 , 再部署了 upgrade-insecure-requests策略. 到达这个阶段就完整的实现了灰度的用户 地址栏的绿色协议头不会因为MixContent灰掉了.</p>
+<p>上线upgrade-insecure-requests策略之后, https页面下http的请求会自动升级为https, 如果存在某些资源不支持https, 同时我们在MixContent排查阶段没有发现, 那么这个资源就会404, 我们在x.xx.com下所有的业务都引入异常上报, 对页面资源 404的进行上报,  经过一周的统计, 没有发现有集中的某个资源404, 初步可以确定当前投放端下所有的资源都是支持https, 也回归验证了MixContent排查的效果. 异常上报的接入可以参考: badjs</p>
+<h3 id="HSTS-amp-CSP安全策略"><a href="#HSTS-amp-CSP安全策略" class="headerlink" title="HSTS&amp;CSP安全策略:"></a>HSTS&amp;CSP安全策略:</h3><p>在网站全站HTTPS后，如果用户手动敲入网站的HTTP地址，或者从其它地方点击了网站的HTTP链接，通常依赖于服务端301/302跳转才能使用HTTPS服务。而第一次的HTTP请求就有可能被劫持，导致请求无法到达服务器，从而构成HTTPS降级劫持。<br>HSTS的作用是强制客户端（如浏览器）使用HTTPS与服务器创建连接。<br>当客户端通过HTTPS发出请求时，在服务器返回的超文本传输协议（HTTP）响应头中包含Strict-Transport-Security字段。<br>比如，<a href="https://x.xx.com/" target="_blank" rel="noopener">https://x.xx.com/</a> 的响应头含有Strict-Transport-Security: max-age=31536000; 这意味着：<br>在接下来的一年中，浏览器向x.xx.com发送HTTP请求时，浏览器应当自动将 http 转写成 https.</p>
+<h3 id="HTTP2与性能提升"><a href="#HTTP2与性能提升" class="headerlink" title="HTTP2与性能提升:"></a>HTTP2与性能提升:</h3><p><img src="/2018/09/04/tech/https改造总结/1536054679_7.png" alt="http 与http2加载性能对比"><br>从上面两个图可以看出, HTTP模式下, 资源的请求仍然遵循Chrome对同一源最大6个TCP连接的规则, 从timeline看出HTTP下多个tcp的stalled的时间(灰色部分)总和比较长, 呈现瀑布状<br>在HTTP2 下, 由于tcp连接的多路复用, 可以可以看出整个stalled的时间(灰色部分)大致为一个tcp的时间.<br>从整个耗时来算,  HTTP2下加载20个js资源耗时110ms, HTTP下耗时 180ms,  我们在升级HTTPS/HTTP2之后, 在js css等静态资源的加载上反而比之前快了40%左右.</p>
+<h3 id="开发测试环境全环境HTTPS化"><a href="#开发测试环境全环境HTTPS化" class="headerlink" title="开发测试环境全环境HTTPS化"></a>开发测试环境全环境HTTPS化</h3><p>在部署https的同时, x.xx.com也部署了 HSTS策略(HTTP严格传输安全), 而我们在开发测试环境中会经常使用HTTP请求来开发调试, 目前已经在开发测试环境预发布环境全部部署了HTTPS证书, 为了跟外网环境保持高度一致, 建议在开发测试中使用https协议. 如果遇到需要抓包的场景, 建议配置代理的HTTPS抓包支持:</p>
+<ul>
+<li><a href="https://blog.csdn.net/idlear/article/details/50999490" target="_blank" rel="noopener">fiddler</a></li>
+<li><a href="https://juejin.im/post/5a30a52a6fb9a0451d4175ed" target="_blank" rel="noopener">Charles</a></li>
+<li><a href="https://whistle.gitbooks.io/help/content/webui/https.html" target="_blank" rel="noopener">whistle</a></li>
+</ul>
+<p>如果一定需要使用http访问, 可以chrome://net-internals/#hsts  删除对应的域名的 hsts缓存即可</p>
+<h2 id="第二篇-老业务HTTP排查和梳理"><a href="#第二篇-老业务HTTP排查和梳理" class="headerlink" title="第二篇 - 老业务HTTP排查和梳理"></a>第二篇 - 老业务HTTP排查和梳理</h2><p>在推动x.xx.com老的业务代码兼容HTTPS时, 需要考虑的点非常多, 其中重要的包括如下几点:</p>
+<ol>
+<li>不能简单的做全局替换:   x.xx.com整个站点下依赖的各种服务约十多个, 各种资源和域名超过五十多个, 全局替换的问题在于, 如何确认这些依赖的域名都支持HTTPS了, 貌似没有比较好的办法, 只能全局搜索并一个个梳理出来一个个推动改造, 最好是有一个check list,  详细的记录各个服务或者资源被调用的地方, 目前是否支持https, 当前推进的进度,  相关的负责人, 截止的时间点等等, 定期去review各个模块的进度</li>
+</ol>
+<ol start="2">
+<li><p>并非所有的资源或者URL都在代码库中:  比如在广告投放端中, 有很多URL是写入到DB中的, 或者CGI层只是作为一个透传, 下面还依赖好几层更底层的服务,   而且这些URL调用方并非是只有投放端,  最开始的反应是在CGI层做一层替换, 例如获取qq信息等我们可以通过修改透传数据接口, 强行修改返回的url协议头, 但是更多接口对于返回的内容是不确定的, 贸然修改 成本高, 风险也高. 针对这种情况, 我们的处理方式是: 使用Upgrade-Insecure-Requests策略,  但是需要所有的资源的域名都支持https, 那么问题来了, 如何确认这些域名都支持https?  可以参考一篇文章看看我们是如何在灰度的流程中做minxContent上报错漏检测</p>
+</li>
+<li><p>并非所有的依赖方能及时支持https改造, 甚至有些老的接口已经处于不在维护的状况. 建议CGI层统一对这些不支持https的服务做一层封装转发, 系统尽量只依赖CGI的接口, 减少在前端做跨域跨系统的请求</p>
+</li>
+<li><p>一些底层的库  还有一些项目本身依赖旧的底层库, 里面有部分异步请求加载模块, 有部分异步加载模块的URL都是固定http协议头的, 如果短时间没有办法剔除前端代码对这些模块的依赖, 只能强行拉取代码进行升级兼容. 比如 底层的上报地址需要修改// 的兼容模式, 测速上报可以修改为 (location.protocol === ‘https:’ ? ‘//report.xxx.com/cgi-bin/r.cgi’ : ‘//report.xxx.com//cgi-bin/r.cgi’) + params.join(‘&amp;’)</p>
+</li>
+<li><p>开发,测试环境, 预发布环境要先支持https, 最好的方式联系 运维提供相关的证书,  部署到开发环境和测试环境, 和外网保持高度一致. 推动各环境 部署https证书也是做https改造的一个重要准备工作之一, 建议在做完这块的工作之后, 把各个环境, 各个域名的证书的负责人落地实到wiki或者邮件中去</p>
+</li>
+</ol>
+<h2 id="第三篇-灰度策略和错漏检测"><a href="#第三篇-灰度策略和错漏检测" class="headerlink" title="第三篇 - 灰度策略和错漏检测:"></a>第三篇 - 灰度策略和错漏检测:</h2><p>在”(一):投放端业务迁移介绍”文章中提到过,, https全站改造第三个的步骤就是灰度上线, 那么如何设置灰度的策略,并且真正利用灰度这个流程来推动https改造.</p>
+<p>先看一下x.xx.com灰度的流程:</p>
+<ol>
+<li>开始1%的灰度放量</li>
+<li>上线MixContent上报策略, 以及相关的统计日报表</li>
+<li>在灰度1%-20%期间, 通过MixContent统计的来逐步排查页面中遗漏的http资源</li>
+<li>上线资源404上报机制, 用于排查因为某些静态资源站点不支持https导致的404错误</li>
+<li>HTTPS页面部署Upgrade-Insecure-Requests策略, HTTPS页面下http请求自动升级为 HTTPS</li>
+<li>灰度到50%, 观察两周.</li>
+<li>全量, http请求默认重定向到https请求, 并开启HSTS策略</li>
+</ol>
+<p>这里有两个关键点:</p>
+<ol>
+<li>灰度期间外网同时支持https 和 http, 方便用户在https有问题的时候直接切换为http的页面</li>
+<li>在灰度的前期, 我们允许https页面MixContent的情况出现(地址栏协议头变灰)</li>
+</ol>
+<p>在推进HTTPS灰度的阶段, 由于投放端依赖的服务众多, 项目历史包袱较重, 即便是收归了域名之后, 在项目代码中 做了全部的资源url 替换, 有部分资源url是写的数据库中的, 或者是第三方服务加载的. 这部分请求是http的, HTTPS 网页中加载的 HTTP 资源被称之为 Mixed Content（混合内容）. 这种场景首先考虑的时候使用 使用 Content-Security-Policy: upgrade-insecure-requests 升级不安全的请求。</p>
+<h4 id="upgrade-insecure-requests"><a href="#upgrade-insecure-requests" class="headerlink" title="upgrade-insecure-requests"></a><a href="https://www.w3.org/TR/upgrade-insecure-requests/" target="_blank" rel="noopener">upgrade-insecure-requests</a></h4><p>首先它是一个 CSP 指令。 W3C 工作组考虑到了我们升级 HTTPS 的艰难，在 2015 年 4 月份就出了一个 Upgrade Insecure Requests 的草案，他的作用就是让浏览器自动升级当前页面内容的http请求。 对于页面内的 图片 样式 js XHR 等请求生效,  但是对于a标签跳转不会生效.  同时,当自动升级https请求失败时, 不会自动降级到http, 资源就404或者网络错误了.</p>
+<p>所以我们面临的问题是: 不知道这些触发MixContent的资源是否支持https, 所以前期先部署了 MixContent上报策略</p>
+<h4 id="MixContent上报策略"><a href="#MixContent上报策略" class="headerlink" title="MixContent上报策略:"></a>MixContent上报策略:</h4><p>Content-Security-Policy-Report-Only: block-all-mixed-content</p>
+<p>Content-Security-Policy-Report-Only 可以让我们只上报违反CSP策略的情况, 而不会真正的拦截这些MixContent资源<br>block-all-mixed-content: 这条指令在当前页面为通过 HTTPS 协议加载的情况下禁止通过 HTTP 渠道加载任何资源。任何混合类型的资源请求都是被禁止的，包括混合活动内容和混合被动内容。这一条也适用于 iframe 中的文档，确保整体页面都不包含混合内容。</p>
+<p>upgrade-insecure-requests 指令会在 block-all-mixed-content 之前执行；如果前者执行成功，后者就不再发挥任何作用。推荐的做法是设置二者之一，而不是全部</p>
+<h4 id="MixContent数据统计和查询"><a href="#MixContent数据统计和查询" class="headerlink" title="MixContent数据统计和查询"></a>MixContent数据统计和查询</h4><p>配置MixContent上报数据之后, 需要同步上线MixContent数据统计和查询</p>
+<p><img src="/2018/09/04/tech/https改造总结/1536054571_65.png" alt="数据统计和查询"></p>
+<p>通过近两周的每日MixContent上报统计, 我们排查出 x.xx.com 下面所有的 MixContent, 并逐个推进排查(排查的依赖域名20+, 存在MixContent页面50+)</p>
+<p>确认所有的 http资源请求都支持 https之后 ,  再部署了 upgrade-insecure-requests策略. 到达这个阶段就完整的实现了灰度的用户 地址栏的绿色协议头不会因为MixContent灰掉了</p>
+<h4 id="资源加载失败上报"><a href="#资源加载失败上报" class="headerlink" title="资源加载失败上报"></a>资源加载失败上报</h4><p>上线upgrade-insecure-requests策略之后, https页面下http的请求会自动升级为https, 如果存在某些资源不支持https, 同时我们在MixContent排查阶段没有发现, 那么这个资源就会404, 我们在x.xx.com下所有的业务都引入异常上报, 对页面资源 404的进行上报,  经过一周的统计, 没有发现有集中的某个资源404, 初步可以确定当前投放端下所有的资源都是支持https, 也回归验证了MixContent排查的效果. 异常上报的接入可以参考 badjs</p>
+<h2 id="第四篇-CSP与HSTS安全策略"><a href="#第四篇-CSP与HSTS安全策略" class="headerlink" title="第四篇 - CSP与HSTS安全策略"></a>第四篇 - CSP与HSTS安全策略</h2><p>在全站升级HTTPS之后, 并不意味着站点就是安全的, 本文主要从 HTTPS重定向劫持 HSTS策略, CSP策略 这三个方面讲述投放端在web页面安全这块的建设</p>
+<h4 id="HTTPS-重定向劫持"><a href="#HTTPS-重定向劫持" class="headerlink" title="HTTPS 重定向劫持"></a>HTTPS 重定向劫持</h4><p><img src="/2018/09/04/tech/https改造总结/1536074678_5.png" alt=""></p>
+<ol>
+<li>重定向劫持劫持 攻击<br>中间人一旦发现有重定向到 HTTPS 网站的，拦下这个重定向，然后以 HTTPS 的方式，获取重定向后的内容，最后再以 HTTP 明文的方式，回复给用户。</li>
+<li>重定向劫持之后一般会把页面中的https 请求替换为 http的, 不然第一次劫持了后面客户端依旧发起的是 https 的请求,无法劫持. 传统的方案是在中间人代理层替换 就是经典的中间人攻击工具 —— SSLStrip</li>
+<li>新的攻击方案是在首次劫持返回的前端html 页面中插入代码, 劫持用户的https超链接, 降级为 http<ol start="4">
+<li>页面被 ssl 劫持之后, 攻击者面对的主要问题是如果保证页面再次发起的请求是 http的,<br>页面批量超链接替换, 表单提交,window.open 弹窗,框架页面都是需要进行http降级处理的,否则就报跨域错误了.</li>
+</ol>
+</li>
+</ol>
+<p>分析了攻击方法, 下面是应对的方案:</p>
+<p>通过代码跳转, 混淆替换代码明文的 https 超链接, 部署hsts</p>
+<p><a href="http://blog.jobbole.com/78590/?utm_source=blog.jobbole.com&amp;utm_medium=relatedPosts" target="_blank" rel="noopener">http://blog.jobbole.com/78590/?utm_source=blog.jobbole.com&amp;utm_medium=relatedPosts</a></p>
+<h4 id="HTST"><a href="#HTST" class="headerlink" title="HTST:"></a>HTST:</h4><p>HTTP Strict Transport Security (HSTS)<br>访问网站时，用户很少直接在地址栏输入https://，总是通过点击链接，或者3xx重定向，从HTTP页面进入HTTPS页面。攻击者完全可以在用户发出HTTP请求时，劫持并篡改该请求。<br>另一种情况是恶意网站使用自签名证书，冒充另一个网站，这时浏览器会给出警告，但是许多用户会忽略警告继续访问。<br>“HTTP严格传输安全”（简称 HSTS）的作用，就是强制浏览器只能发出HTTPS请求，并阻止用户接受不安全的证书。<br>它在网站的响应头里面，加入一个强制性声明。以下例子摘自维基百科。</p>
+<p>Strict-Transport-Security: max-age=31536000; includeSubDomains</p>
+<p>上面这段头信息有两个作用。<br>（1）在接下来的一年（即31536000秒）中，浏览器只要向example.com或其子域名发送HTTP请求时，必须采用HTTPS来发起连接。用户点击超链接或在地址栏输入<a href="http://www.example.com/，浏览器应当自动将http转写成https，然后直接向https://www.example.com/发送请求。" target="_blank" rel="noopener">http://www.example.com/，浏览器应当自动将http转写成https，然后直接向https://www.example.com/发送请求。</a><br>（2）在接下来的一年中，如果example.com服务器发送的证书无效，用户不能忽略浏览器警告，将无法继续访问该网站。<br>HSTS 很大程度上解决了 SSL 剥离攻击。只要浏览器曾经与服务器建立过一次安全连接，之后浏览器会强制使用HTTPS，即使链接被换成了HTTP。<br>该方法的主要不足是，用户首次访问网站发出HTTP请求时，是不受HSTS保护</p>
+<p>https 安全问题不仅仅是后端只监听一个443端口就能解决的的事情, 更有前端的页面降级ssl 劫持, 重定向劫持等安全问题需要我们去关注</p>
+<h5 id="开发测试环境全环境HTTPS化-1"><a href="#开发测试环境全环境HTTPS化-1" class="headerlink" title="开发测试环境全环境HTTPS化"></a>开发测试环境全环境HTTPS化</h5><p>在部署https的同时, x.xx.com也部署了 HSTS策略(HTTP严格传输安全), 而我们在开发测试环境中会经常使用HTTP请求来开发调试, 目前已经在开发测试环境预发布环境全部部署了HTTPS证书, 为了跟外网环境保持高度一致, 建议在开发测试中使用https协议. 如果遇到需要抓包的场景, 建议配置代理的HTTPS抓包支持:</p>
+<ul>
+<li><a href="https://blog.csdn.net/idlear/article/details/50999490" target="_blank" rel="noopener">fiddler</a></li>
+<li><a href="https://juejin.im/post/5a30a52a6fb9a0451d4175ed" target="_blank" rel="noopener">Charles</a></li>
+<li><a href="https://whistle.gitbooks.io/help/content/webui/https.html" target="_blank" rel="noopener">whistle</a></li>
+</ul>
+<p>如果一定需要使用http访问, 可以chrome://net-internals/#hsts  删除对应的域名的 hsts缓存即可</p>
+<h4 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h4><p>在x.xx.com 全站迁移HTTPS过程中, 主要使用的CSP规则是 upgrade-insecure-requests 和 block-all-mixed-content, 作为在灰度升级阶段的一个辅助工具. 而在全站https之前, 我们是如何保证投放端的页面安全呢? 使用主要还是CSP规则, 同时配合投放端自研的监控上报系统进行数据展示(MixContent上报也是基于这个系统)<br><img src="/2018/09/04/tech/https改造总结/1536074823_57.png" alt="csp_report"><br>即使在升级HTTPS之后, 在页面安全这块依旧不能掉以轻心</p>
+<h2 id="第吴篇-HTTPS-HTTP2与性能提升"><a href="#第吴篇-HTTPS-HTTP2与性能提升" class="headerlink" title="第吴篇 - HTTPS/HTTP2与性能提升"></a>第吴篇 - HTTPS/HTTP2与性能提升</h2><h2 id="升级后的性能对比"><a href="#升级后的性能对比" class="headerlink" title="升级后的性能对比"></a>升级后的性能对比</h2><p><img src="/2018/09/04/tech/https改造总结/1536075062_36.png" alt="http 与http2加载性能对比"><br>从上面两个图可以看出, HTTP模式下, 资源的请求仍然遵循Chrome对同一源最大6个TCP连接的规则, 从timeline看出HTTP下多个tcp的stalled的时间(灰色部分)总和比较长, 呈现瀑布状<br>在HTTP2 下, 由于tcp连接的多路复用, 可以可以看出整个stalled的时间(灰色部分)大致为一个tcp的时间.<br>从真的耗时来算,  HTTP2下加载20个js资源耗时110ms, HTTP下耗时 180ms,  我们在升级HTTPS之后, 在js css等静态资源的加载上反而比之前快了40%左右.</p>
+<p>后面继续探究性能提升背后的原理.</p>
+<h2 id="一个HTTPS请求为例，简单描述下接入转发流程："><a href="#一个HTTPS请求为例，简单描述下接入转发流程：" class="headerlink" title="一个HTTPS请求为例，简单描述下接入转发流程："></a>一个HTTPS请求为例，简单描述下接入转发流程：</h2><p>用户发起HTTPS请求，首先到达网关入口。<br>网关入口将该请求转发给https网关入口。由于网关入口只是四层的转发，所以无法识别HTTPS请求内容。<br>https网关入口会对HTTPS请求进行卸载，也就是完成SSL握手及应用层内容的解密，将HTTPS转换成HTTP协议，再按照分流配置转发给业务侧RS。<br>业务侧收到HTTP请求后，生产响应内容并回复给https网关入口。<br>https网关入口将业务的响应内容进行加密，回复给网关入口。<br>网关入口再返回给用户。</p>
+<p>了解过一个https请求的链路之后, 我们将从 TLS 和 HTTP/2 这两方方向分析性能提升背后的原理</p>
+<h2 id="TLS-优化"><a href="#TLS-优化" class="headerlink" title="TLS 优化"></a>TLS 优化</h2><p>耗时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -w &quot;TCP handshake: %&#123;time_connect&#125;, SSL handshake: %&#123;time_appconnect&#125;\n&quot; -so /dev/null https://x.xx.com</span><br><span class="line">TCP handshake: 0.012235, SSL handshake: 0.044042</span><br></pre></td></tr></table></figure></p>
+<p>网关 的对其 tsl 握手的优化</p>
+<p>网关针对HTTPS进行了全方位的优化。包括：</p>
+<h5 id="非对称加密—-异步代理计算"><a href="#非对称加密—-异步代理计算" class="headerlink" title="非对称加密—-异步代理计算"></a>非对称加密—-异步代理计算</h5><pre><code>算法分离。
+代理计算
+异步执行。
+</code></pre><h5 id="网络协议栈全链路优化"><a href="#网络协议栈全链路优化" class="headerlink" title="网络协议栈全链路优化"></a>网络协议栈全链路优化</h5><pre><code>TCP。包括拥塞窗口的调整，tcp fast open的支持，reuseport的支持。
+SSL，分布式session cache, session ticket，False start, ocsp stapling file，动态record size等。
+应用层。同时支持SPDY，HTTP2.
+</code></pre><h5 id="前后端优化"><a href="#前后端优化" class="headerlink" title="前后端优化"></a>前后端优化</h5><pre><code>域名收归。通过页面资源及性能分析，确实域名收归方案，比如移动页面不超过3个
+预建连接。https网关入口提供预连接页面，通过对热点页面的用户行为进行分析，提前建立连接，减少协议开销对用户体验的影响。
+通过CDN及多地IDC就近完成HTTPS卸载。
+</code></pre><h5 id="session-identifier"><a href="#session-identifier" class="headerlink" title="session identifier"></a>session identifier</h5><p>Session Identifier（会话标识符），是 TLS 握手中生成的 Session ID。服务端可以将 Session ID 协商后的信息存起来，浏览器也可以保存 Session ID，并在后续的 ClientHello 握手中带上它，如果服务端能找到与之匹配的信息，就可以完成一次快速握手。</p>
+<h5 id="Session-Ticket"><a href="#Session-Ticket" class="headerlink" title="Session Ticket"></a>Session Ticket</h5><p>Session Identifier 机制有一些弊端，负载均衡中，多机之间往往没有同步 Session 信息，如果客户端两次请求没有落在同一台机器上就无法找到匹配的信息；2）服务端存储 Session ID 对应的信息不好控制失效时间，太短起不到作用，太长又占用服务端大量资源。<br>而 Session Ticket（会话记录单）可以解决这些问题，Session Ticket 是用只有服务端知道的安全密钥加密过的会话信息，最终保存在浏览器端。浏览器如果在 ClientHello 时带上了 Session Ticket，只要服务器能成功解密就可以完成快速握手。<br>部署的需要注意: 例如在 Nginx 中，就需要通过 ssl_session_ticket_key 参数让多台机器使用相同的 key 文件</p>
+<h2 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h2><p>相比 HTTP/1.x，HTTP/2 在底层传输做了很大的改动和优化：</p>
+<ol>
+<li>HTTP/2 采用二进制格式传输数据，而非 HTTP/1.x 的文本格式。二进制格式在协议的解析和优化扩展上带来更多的优势和可能。</li>
+<li>HTTP/2 对消息头采用 HPACK 进行压缩传输，能够节省消息头占用的网络的流量。而 HTTP/1.x 每次请求，都会携带大量冗余头信息，浪费了很多带宽资源。头压缩能够很好的解决该问题。</li>
+<li>多路复用，直白的说就是所有的请求都是通过一个 TCP 连接并发完成。HTTP/1.x 虽然通过 pipeline 也能并发请求，但是多个请求之间的响应会被阻塞的，所以 pipeline 至今也没有被普及应用，而 HTTP/2 做到了真正的并发请求。同时，流还支持优先级和流量控制。</li>
+<li>Server Push：服务端能够更快的把资源推送给客户端。例如服务端可以主动把 JS 和 CSS 文件推送给客户端，而不需要客户端解析 HTML 再发送这些请求。当客户端需要的时候，它已经在客户端了。</li>
+</ol>
+<p>本次x.xx.com迁移HTTPS 并且升级到HTTP2主要使用到的特性是 TCP的多路复用, 在收归静态资源域名之后, 减少TCP握手环节的耗时, 也减少了TSL握手的耗时. 对静态资源的并行加载性能提升非常明显</p>
+<p>文末的HTTP2.0总结文档中详细的对比了HTTP/2 与 HTTP1.X, 对HTTP2关键的四个特性做了原理上的分析.<br>另外关于传输层安全也有一篇翻译文档专门介绍  <a href="https://segmentfault.com/a/1190000008656644" target="_blank" rel="noopener">传输层安全性(Transport Layer Security,TLS)-译</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http2/" rel="tag"># http2</a>
+          
+            <a href="/tags/https/" rel="tag"># https</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/25/tech/浅谈React事件系统-事件绑定/" rel="next" title="浅谈React事件系统-事件绑定">
+                <i class="fa fa-chevron-left"></i> 浅谈React事件系统-事件绑定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/26/daily_think/使用hexo重新整理过去的文章/" rel="prev" title="使用hexo重新整理过去的文章">
+                使用hexo重新整理过去的文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#全栈迁移HTTPS-HTTP2总结系列文章"><span class="nav-number">1.</span> <span class="nav-text">全栈迁移HTTPS/HTTP2总结系列文章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一篇-x-xx-com全站迁移HTTPS-HTTP2总结"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 - x.xx.com全站迁移HTTPS/HTTP2总结:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体迁移工作划分"><span class="nav-number">1.1.1.</span> <span class="nav-text">整体迁移工作划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业务侧http资源排查和梳理"><span class="nav-number">1.1.2.</span> <span class="nav-text">业务侧http资源排查和梳理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#灰度策略和错漏检测"><span class="nav-number">1.1.3.</span> <span class="nav-text">灰度策略和错漏检测:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HSTS-amp-CSP安全策略"><span class="nav-number">1.1.4.</span> <span class="nav-text">HSTS&amp;CSP安全策略:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP2与性能提升"><span class="nav-number">1.1.5.</span> <span class="nav-text">HTTP2与性能提升:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发测试环境全环境HTTPS化"><span class="nav-number">1.1.6.</span> <span class="nav-text">开发测试环境全环境HTTPS化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二篇-老业务HTTP排查和梳理"><span class="nav-number">1.2.</span> <span class="nav-text">第二篇 - 老业务HTTP排查和梳理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三篇-灰度策略和错漏检测"><span class="nav-number">1.3.</span> <span class="nav-text">第三篇 - 灰度策略和错漏检测:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#upgrade-insecure-requests"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">upgrade-insecure-requests</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixContent上报策略"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">MixContent上报策略:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixContent数据统计和查询"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">MixContent数据统计和查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#资源加载失败上报"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">资源加载失败上报</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四篇-CSP与HSTS安全策略"><span class="nav-number">1.4.</span> <span class="nav-text">第四篇 - CSP与HSTS安全策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS-重定向劫持"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">HTTPS 重定向劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTST"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">HTST:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#开发测试环境全环境HTTPS化-1"><span class="nav-number">1.4.0.2.1.</span> <span class="nav-text">开发测试环境全环境HTTPS化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSP"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">CSP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第吴篇-HTTPS-HTTP2与性能提升"><span class="nav-number">1.5.</span> <span class="nav-text">第吴篇 - HTTPS/HTTP2与性能提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级后的性能对比"><span class="nav-number">1.6.</span> <span class="nav-text">升级后的性能对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个HTTPS请求为例，简单描述下接入转发流程："><span class="nav-number">1.7.</span> <span class="nav-text">一个HTTPS请求为例，简单描述下接入转发流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TLS-优化"><span class="nav-number">1.8.</span> <span class="nav-text">TLS 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#非对称加密—-异步代理计算"><span class="nav-number">1.8.0.0.1.</span> <span class="nav-text">非对称加密—-异步代理计算</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络协议栈全链路优化"><span class="nav-number">1.8.0.0.2.</span> <span class="nav-text">网络协议栈全链路优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#前后端优化"><span class="nav-number">1.8.0.0.3.</span> <span class="nav-text">前后端优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#session-identifier"><span class="nav-number">1.8.0.0.4.</span> <span class="nav-text">session identifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Session-Ticket"><span class="nav-number">1.8.0.0.5.</span> <span class="nav-text">Session Ticket</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-2"><span class="nav-number">1.9.</span> <span class="nav-text">HTTP/2</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

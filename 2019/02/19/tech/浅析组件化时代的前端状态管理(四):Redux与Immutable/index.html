@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react,Redux,Mobx,Vue,Immutable,Immer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ReduxReact + Redux是目前React技术栈下一个比较常见的组合, 其解决的问题就是上一节我们提到的 如何玩转 “组件化+数据驱动”,简单的理解就是 React 负责管理视图, Redux提供一个可预测化的状态管理">
+<meta name="keywords" content="react,Redux,Mobx,Vue,Immutable,Immer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析组件化时代的前端状态管理(四):Redux与Immutable">
+<meta property="og:url" content="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="ReduxReact + Redux是目前React技术栈下一个比较常见的组合, 其解决的问题就是上一节我们提到的 如何玩转 “组件化+数据驱动”,简单的理解就是 React 负责管理视图, Redux提供一个可预测化的状态管理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+<meta property="og:image" content="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/immer.png">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.715Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析组件化时代的前端状态管理(四):Redux与Immutable">
+<meta name="twitter:description" content="ReduxReact + Redux是目前React技术栈下一个比较常见的组合, 其解决的问题就是上一节我们提到的 如何玩转 “组件化+数据驱动”,简单的理解就是 React 负责管理视图, Redux提供一个可预测化的状态管理">
+<meta name="twitter:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/"/>
+
+
+
+
+
+  <title>浅析组件化时代的前端状态管理(四):Redux与Immutable | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">浅析组件化时代的前端状态管理(四):Redux与Immutable</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T18:53:19+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端状态管理/" itemprop="url" rel="index">
+                    <span itemprop="name">前端状态管理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h2><p>React + Redux是目前React技术栈下一个比较常见的组合, 其解决的问题就是上一节我们提到的 如何玩转 “组件化+数据驱动”,<br>简单的理解就是 React 负责管理视图, Redux提供一个可预测化的状态管理<br><a id="more"></a><br>在Redux中, 通过一个全局 Store保存整个页面的所有模型数据,  再通过 dispatch(action) 的方式更新store中的数据, 再通过 connect 的方式, 把 store的数据注入到组件中去.<br>也就是说, store每一个数据的改变, 都是通过 action触发的, 即 UI渲染的每一步也是和 action对应的, 假如我们能把这些action记录下来,  逆序 dispatch这些action,  甚至可以实现 “时光倒流的” 的效果,  </p>
+<p>如果没有接触过Redux可以简单的浏览一下 <a href="https://www.redux.org.cn/docs/introduction/CoreConcepts.html" target="_blank" rel="noopener">redux文档</a></p>
+<h4 id="Redux的简单介绍"><a href="#Redux的简单介绍" class="headerlink" title="Redux的简单介绍:"></a>Redux的简单介绍:</h4><p>Action 是把数据从应用传到 store 的载体。它是 store 数据的唯一来源。一般来说你会通过 store.dispatch() 将 action 传到 store。</p>
+<p>Reducers 指定了应用状态的变化如何响应 actions 并发送到 store 的，记住 actions 只是描述了有事情发生了这一事实，并没有描述应用如何更新 state。</p>
+<p>Store 就是把它们联系到一起的对象。Store 有以下职责：<br>    维持应用的 state；<br>    提供 getState() 方法获取 state；<br>    提供 dispatch(action) 方法更新 state；</p>
+<p>Redux是如何驱动UI更新的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">                 _________               ____________               ___________</span><br><span class="line">                |         |             |            |             |           |</span><br><span class="line">                | Action  |------------▶| Dispatcher |------------▶| callbacks |</span><br><span class="line">                |_________|             |____________|             |___________|</span><br><span class="line">                     ▲                                                   |</span><br><span class="line">                     |                                                   |</span><br><span class="line">                     |                                                   |</span><br><span class="line"> _________       ____|_____                                          ____▼____</span><br><span class="line">|         |◀----|  Action  |                                        |         |</span><br><span class="line">| Web API |     | Creators |                                        |  Store  |</span><br><span class="line">|_________|----▶|__________|                                        |_________|</span><br><span class="line">                     ▲                                                   |</span><br><span class="line">                     |                                                   |</span><br><span class="line">                 ____|________           ____________                ____▼____</span><br><span class="line">                |   User       |         |   React   |              | Change  |</span><br><span class="line">                | interactions |◀--------|   Views   |◀-------------| events  |</span><br><span class="line">                |______________|         |___________|              |_________|</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">component(渲染UI) -&gt; action（定义用户操作动作） -&gt; reducer(处理action动作) -&gt; store（处理reducer绑定state和dispatch） -&gt; component（Provider注入数据, connect连接组件, 驱动UI更新</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/happypoulp/redux-tutorial/blob/master/00_introduction.js" target="_blank" rel="noopener">图片来源</a></p>
+<p>看一个简单的 React-redux 的例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; PureComponent, Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> &#123; connect, Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// reducer/index.js</span></span><br><span class="line"><span class="comment">// reduce里面都是纯函数, 不依赖其他的全局状态. 具有幂等性, 简单的理解就是传入 store 和 action, 函数结束时返回新的 store, 然后触发页面UI的更新</span></span><br><span class="line"><span class="keyword">const</span> reducer = <span class="function">(<span class="params">state = &#123; str: <span class="string">'✒️write something: '</span>, placeholder: <span class="string">'here?'</span> &#125;, action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'INPUTCHANGE'</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        str: action.value</span><br><span class="line">      &#125;;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// actions/index.js</span></span><br><span class="line"><span class="keyword">const</span> onChangeAction = <span class="function">(<span class="params">e</span>) =&gt;</span> (</span><br><span class="line">  &#123;</span><br><span class="line">    type: <span class="string">'INPUTCHANGE'</span>,</span><br><span class="line">    value: e.target.value</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// component/Input.js</span></span><br><span class="line"><span class="comment">// 纯UI组件, stateless, 不维护组件的状态, 只做纯渲染操作</span></span><br><span class="line"><span class="keyword">const</span> Input = <span class="function">(<span class="params">props</span>) =&gt;</span> (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;&#123;props.str&#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">    &lt;input onChange=&#123;props.onChange&#125; placeholder=&#123;props.placeholder&#125; /</span>&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ container/i</span>ndex.js</span><br><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (&#123;</span><br><span class="line">    str: state.str,</span><br><span class="line">    placeholder: state.placeholder</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (&#123;</span><br><span class="line">    onChange: <span class="function">(<span class="params">e</span>) =&gt;</span> &#123; <span class="keyword">return</span> dispatch(onChangeAction(e)) &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 在这里把store的数据和 修改数据的dispatch方法注入到组件中</span></span><br><span class="line"><span class="keyword">const</span> InputWithState = connect(mapStateToProps, mapDispatchToProps)(Input);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//  app.js 应用入口</span></span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer);</span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;InputWithState /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Provider&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App</span></span><br></pre></td></tr></table></figure>
+<p>看完例子可以再返回上面重新回顾一下redux的概念, 也许会有不一样的理解<br><a href="https://codesandbox.io/s/moqr8pxzqy?codemirror=1&amp;fontsize=14&amp;module=%2Fsrc%2Fdemo_4_1.js&amp;moduleview=1" target="_blank" rel="noopener"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit front_end_state_manage_demo"></a></p>
+<h2 id="PureComponent-与-Component的使用"><a href="#PureComponent-与-Component的使用" class="headerlink" title="PureComponent 与 Component的使用"></a>PureComponent 与 Component的使用</h2><p>看到上面的例子, 可能回想, 如果每次触发一个action, 就从 Provider开始渲染整个页面的, 是否会导致页面所有的组件的重复渲染?</p>
+<p>假如页面的组件大量使用 PureComponent, 会自带一个浅对比的功能,  如果传入新的props对象 与旧的props对象第一层数据是一样的, 那么这个组件就不会重新执行render函数.  效果类似于 Component 中 shouldUpdateCompnent 自行实现浅对比是一样的. 对于大部分场景都推崇使用PureComponent</p>
+<p>浅对比:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">    <span class="string">"value1"</span>: &#123;</span><br><span class="line">        <span class="string">"value2"</span>: &#123;</span><br><span class="line">            <span class="string">"value3"</span>: <span class="number">12345</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是嵌套的结构, 直接修改第一层以下的数据节点,  浅对比的结果是 相等的</span></span><br><span class="line"><span class="keyword">const</span> b = <span class="built_in">Object</span>.assign(&#123;&#125;, a)</span><br><span class="line">b.value1.value2.value3 = <span class="number">54321</span></span><br><span class="line">shallowEual(a, b) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果直接修改第一层的数据节点</span></span><br><span class="line"><span class="keyword">const</span> c = <span class="built_in">Object</span>.assign(&#123;&#125;, a)</span><br><span class="line">c.value1 = <span class="number">54321</span></span><br><span class="line">shallowEual(a, b) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h2 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h2><p>假如我们大规模使用PureComponent,  就会强依赖于 PureComponent自带的shallowEqual(数据浅对比), 而开发者在更新组件的过程中, 由于各种人为的不可控原因, 会直接修改数据, 这就违背了数据不可变的 原则了, 导致的后果最常见的就是数据变了, UI不更新, 因为直接修改数据, 数据的引用没有改变, 浅对比的时候就认为数据没有改变, 自然就不重新渲染组件</p>
+<p>Immutable即数据不可变, 当更新store中的数据后, 不能在原来的指针下更新数据对象,  正确的做法应该是直接用一个新的对象替换掉之前的对象.<br>Facebook也提供对应的 <a href="https://facebook.github.io/immutable-js/" target="_blank" rel="noopener">Immutable.js</a> 工具来帮我们解决这个问题. </p>
+<p>Immutable.js解决问题的思路是: 既然开发者喜欢直接修改源数据,  那我就把这条路堵死, 只能通过我提供的 api 来操作数据对象,  我只要保证开发者每次调用api修改数据的时候, 能返回一个新的对象回去就好了.   Immutable.js底层实现并非使用cloneDeep这么简单粗暴低效的方式,  Immutable 实现的原理是 Persistent Data Structure（持久化数据结构）, 也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。</p>
+<p><a href="https://user-gold-cdn.xitu.io/2018/4/4/1628e77dc419816b?imageslim" target="_blank" rel="noopener"></a></p>
+<p>当然使用 Immutable.js对于开发者还是有挺高的成本的, 对于项目的侵入是非常大的,  所以很多开发者也没有勇气直接把Immutable.js在自己的大型项目中使用起来.</p>
+<ol>
+<li>只能通过调用 api 来更新数据</li>
+<li>在jsx渲染的时候, 只能通过 api 获取 Immutable对象中的数据</li>
+<li>不能用es6的结构赋值了</li>
+</ol>
+<p>广大开发者肯定都是又想要 Immutable的特性, 又想用js原生的对象操作方法, immer就帮我们实现了这个梦想</p>
+<h2 id="immer"><a href="#immer" class="headerlink" title="immer"></a><a href="https://github.com/mweststrate/immer" target="_blank" rel="noopener">immer</a></h2><h4 id="immer的简单使用场景"><a href="#immer的简单使用场景" class="headerlink" title="immer的简单使用场景:"></a>immer的简单使用场景:</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> produce = <span class="built_in">require</span>(<span class="string">'immer'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  done: <span class="literal">false</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newState = produce(state, (draft) =&gt; &#123;</span><br><span class="line">  draft.done = <span class="literal">true</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(state.done) <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(newState.done) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>简单的来说就是 immer提供一个 produce 函数, 这个函数接受两个参数:  一个是原始的数据对象,  另外一个是一个纯函数, 在这个函数里面, 用户可以任意修改 draft, 如果用户修改了 draft, 最终 produce 返回的是一个新的对象. 在produce第二个参数的函数中,  可以使用 原生js的”.” 操作符进行对象的数据修改, 和原生的修改数据对象的写法几乎一致.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 immer, 可以更加方便地像修改原生对象一样修改state, 同时保证数据的不可变性</span></span><br><span class="line"><span class="keyword">this</span>.setState(</span><br><span class="line">    produce(<span class="function"><span class="params">draft</span> =&gt;</span> &#123;</span><br><span class="line">        draft.user.age += <span class="number">1</span></span><br><span class="line">    &#125;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="immer的实现"><a href="#immer的实现" class="headerlink" title="immer的实现"></a>immer的实现</h4><p>immer的底层实现理念和 mobx 和 vue的一些底层的理念非常相似.</p>
+<p>先来思考一下, 假如要让我们自己设计这个 produce函数, 我们会怎么做, 才能保证数据的不可变性, 并保证运行效率. (需要更Immutable.js一样 使用了Structural Sharing, 即只有改动了, 才生成新对象)</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noopener">Object.defineProperty</a>和<a href="http://es6.ruanyifeng.com/#docs/proxy" target="_blank" rel="noopener">Proxy</a>这两个方法很多人可能觉得有点陌生,<br>简单的来说就是在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写</p>
+<p>immer官网有个图很直接的展示了 immer的原理:</p>
+<p><img src="/2019/02/19/tech/浅析组件化时代的前端状态管理(四):Redux与Immutable/immer.png" alt="immer"><br> 具体的实现参考下面的简化代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Store</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(state) &#123;</span><br><span class="line">    <span class="keyword">this</span>.modified = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">this</span>.source = state</span><br><span class="line">    <span class="keyword">this</span>.copy = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  get(key) &#123;</span><br><span class="line">    <span class="comment">// 如果没有修改, 就直接返回原来的对象</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.modified) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.source[key]</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.copy[key]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  set(key, value) &#123;</span><br><span class="line">    <span class="comment">// 如果之前未修改过数据,  就把modified标识设置为 true, 并copy一份source数据到 this.copy上, 后续的修改都是在 this.copy 上修改,  this.copy 就是 前面demo中的 draft</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.modified) &#123;</span><br><span class="line">        <span class="keyword">this</span>.modified = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">this</span>.copy = <span class="built_in">Array</span>.isArray(<span class="keyword">this</span>.source) ? <span class="keyword">this</span>.source.slice() : &#123; ...this.source &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.copy[key] = value</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> produce = <span class="function">(<span class="params">state, producer</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第一步: 把 state转换为 store对象</span></span><br><span class="line">    <span class="keyword">const</span> store = <span class="keyword">new</span> Store(state)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第二步: 添加给 store 添加一个 Proxy,劫持 数据的 get set方法</span></span><br><span class="line">    <span class="keyword">const</span> PROXY_FLAG = <span class="string">'@@SYMBOL_PROXY_FLAG'</span></span><br><span class="line">    <span class="keyword">const</span> handler = &#123;</span><br><span class="line">        get(target, key) &#123;</span><br><span class="line">            <span class="keyword">if</span> (key === PROXY_FLAG) <span class="keyword">return</span> target</span><br><span class="line">            <span class="keyword">return</span> target.get(key)</span><br><span class="line">        &#125;,</span><br><span class="line">        set(target, key, value) &#123;</span><br><span class="line">            <span class="keyword">return</span> target.set(key, value)</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(store, handler)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第三步: 执行用户修改数据的逻辑</span></span><br><span class="line">    producer(proxy)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第四步骤: 判断是否修改了数据, 如果没有, 就返回原数据, 如果有, 返回新的对象.</span></span><br><span class="line">    <span class="keyword">const</span> newState = proxy[PROXY_FLAG]</span><br><span class="line">    <span class="keyword">if</span> (newState.modified) <span class="keyword">return</span> newState.copy</span><br><span class="line">    <span class="keyword">return</span> newState.source</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数式编程-与-数据不可变性"><a href="#函数式编程-与-数据不可变性" class="headerlink" title="函数式编程 与 数据不可变性"></a>函数式编程 与 数据不可变性</h2><p>从上面的简写版本的immer可以看出来,  对象的劫持是实现 “数据不可变性” 的关键的步骤. </p>
+<p>现在我们反过来再思考一下,  我们为什么需要 “数据不可变性”这个概念呢?</p>
+<p>这得从函数式编程开始讨论起来,  React核心核心开发团队算是函数式编程的优秀布道者, 函数式编程对于很多人来说很陌生,  新手接触的时候, 一大堆系统的概念, 很多人在网上搜索一大堆, 往往看完几篇博文之后, 连Monad的定义还是搞不清楚, 相比于一上来就是各种灌输各种概念,  React团队可谓是不知道高到哪里去了, 在React Redux框架中, 无处不体现函数式的思维, 同时也不会给开发者灌输很多函数概念, 讲究一个循序渐进的方式,  很多开发者都觉得自己离函数式编程非常远,  其实不然, 我们写的每一个 组件, 都是函数式的一个体现.</p>
+<p>函数 是函数式编程中的 “一等公民”, 函数可以与其他数据一样，作为参数传递，或作为返回值返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> add = <span class="function">(<span class="params">x, y</span>) =&gt;</span> x + y;</span><br><span class="line"><span class="keyword">const</span> multiply= (x, y) = &gt; x * y; </span><br><span class="line"><span class="keyword">const</span> subtract = <span class="function">(<span class="params">x, y</span>) =&gt;</span> x  - y;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> result = subtract(multiply(add(a, b), c), d);</span><br></pre></td></tr></table></figure>
+<p>上面这段代码 等效于中学数学中的函数:  y = (a + b) * c - d<br>同理很多数据公式都可以用函数式编程的方式表达出来,  那这里我们回忆一下, 以前我们上中学的时候, 列的那些数学函数, 里面那些 x, y, a , b, c 等等, 是否跟我们平时定义的变量一样, 会在运行的过程中, 发生改变?</p>
+<p>从上面的例子我们看到, 数学函数的运算, 就是一个函数计算完再把结果传递到下一个函数, 直到没有后续的运算. 根本是不存在变量这个说法, 只有 函数 + 输入输出.</p>
+<p>在编程语言中, 我们很难做到不使用变量去完全模拟 数学中的函数运算, 在很多函数中, 还是会写一些变量, 方便编码(计算机的底层就是 寄存器 + 逻辑运算单元),  比如在JS中, 函数的参数是放在一个叫做  arguments的数组中的, 我们在函数内部可以直接通过 arguments[1] 获取第一个参数,  设想一下, 假如这里的 arguments[1] 是可以被改变的, a函数在执行的过程中直接修改了 arguments[1], 等b函数用到 arguments[1]时, 已经是改变过的值, arguments[1]在这里是一个引用的值, 类似一个指针.  这个显然就有问题的,  比如 y = (a + b) * c - d这个函数,  在执行的时候,  a变量被其他的函数修改了, 那这里 a + b 就不等于期望的值了, 也就是说 a + b这个函数有副作用了, 它无法实现幂等的特性, 这个现象在函数式编程的世界里必然会造成一篇混乱.</p>
+<p>在React编程中的具体表现就是 “浅对比” 认为数据没有改变, 导致UI没有更新, 可以认为React在设计上, 默认数据不可变的, 利用这个特性, 使用 “浅对比” 来减少重复渲染的次数</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+            <a href="/tags/Redux/" rel="tag"># Redux</a>
+          
+            <a href="/tags/Mobx/" rel="tag"># Mobx</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+            <a href="/tags/Immutable/" rel="tag"># Immutable</a>
+          
+            <a href="/tags/Immer/" rel="tag"># Immer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/tech/浅析组件化时代的前端状态管理(三):数据驱动渲染/" rel="next" title="浅析组件化时代的前端状态管理(三):数据驱动渲染">
+                <i class="fa fa-chevron-left"></i> 浅析组件化时代的前端状态管理(三):数据驱动渲染
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/tech/浅析组件化时代的前端状态管理(五):响应式状态管理/" rel="prev" title="浅析组件化时代的前端状态管理(五):响应式状态管理">
+                浅析组件化时代的前端状态管理(五):响应式状态管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redux"><span class="nav-number">1.</span> <span class="nav-text">Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Redux的简单介绍"><span class="nav-number">1.0.1.</span> <span class="nav-text">Redux的简单介绍:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PureComponent-与-Component的使用"><span class="nav-number">2.</span> <span class="nav-text">PureComponent 与 Component的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Immutable"><span class="nav-number">3.</span> <span class="nav-text">Immutable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#immer"><span class="nav-number">4.</span> <span class="nav-text">immer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#immer的简单使用场景"><span class="nav-number">4.0.1.</span> <span class="nav-text">immer的简单使用场景:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#immer的实现"><span class="nav-number">4.0.2.</span> <span class="nav-text">immer的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式编程-与-数据不可变性"><span class="nav-number">5.</span> <span class="nav-text">函数式编程 与 数据不可变性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

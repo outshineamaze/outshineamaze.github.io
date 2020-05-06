@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="daily_think," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2016.06.28项目学习文档 require.js学习:1 .首先就是checkout 项目的trunk代码, 使用svn工具 将代码检出到文件夹中 (trunk是稳定的支持版本)2 .了解grunt构建工具3 .学习fet工具,学习require.js的模块化加载流程,具体的在项目中使用参考  C:\Users\laynezhou\Desktop\project\trunk\tools\fe">
+<meta name="keywords" content="daily_think">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2016&#x2F;6实习工作记录">
+<meta property="og:url" content="https://outshineamaze.github.io/2016/06/01/daily_think/学习记录/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="2016.06.28项目学习文档 require.js学习:1 .首先就是checkout 项目的trunk代码, 使用svn工具 将代码检出到文件夹中 (trunk是稳定的支持版本)2 .了解grunt构建工具3 .学习fet工具,学习require.js的模块化加载流程,具体的在项目中使用参考  C:\Users\laynezhou\Desktop\project\trunk\tools\fe">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.665Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2016&#x2F;6实习工作记录">
+<meta name="twitter:description" content="2016.06.28项目学习文档 require.js学习:1 .首先就是checkout 项目的trunk代码, 使用svn工具 将代码检出到文件夹中 (trunk是稳定的支持版本)2 .了解grunt构建工具3 .学习fet工具,学习require.js的模块化加载流程,具体的在项目中使用参考  C:\Users\laynezhou\Desktop\project\trunk\tools\fe">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2016/06/01/daily_think/学习记录/"/>
+
+
+
+
+
+  <title>2016/6实习工作记录 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2016/06/01/daily_think/学习记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">2016/6实习工作记录</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-01T00:00:00+08:00">
+                2016-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/实习总结/" itemprop="url" rel="index">
+                    <span itemprop="name">实习总结</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/06/01/daily_think/学习记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/06/01/daily_think/学习记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2016.06.28项目学习文档</p>
+<h2 id="require-js学习"><a href="#require-js学习" class="headerlink" title="require.js学习:"></a>require.js学习:</h2><p>1 .首先就是checkout 项目的trunk代码, 使用svn工具 将代码检出到文件夹中 (trunk是稳定的支持版本)<br>2 .了解grunt构建工具<br>3 .学习fet工具,学习require.js的模块化加载流程,具体的在项目中使用参考  C:\Users\laynezhou\Desktop\project\trunk\tools\fet\fetMain 下面的操作手册, entrance.js 是requireJs 入口的模块。一切的起源<br><a id="more"></a><br>2016.06.29学习文档<br>atlas项目流程学习:<br>加载首页逻辑 idnex.js文件, 其中 在index文件中加载页面conmom组件heangularjs的bootstrap来启东angular<br>具体的代码逻辑如下<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">require([</span><br><span class="line">	&apos;jquery&apos;, </span><br><span class="line">	&apos;angular&apos;, </span><br><span class="line">	&apos;js/pages/common&apos;, </span><br><span class="line">	&apos;js/controller/index&apos;,</span><br><span class="line">	&apos;utils&apos;,</span><br><span class="line">	&apos;prefetchapi&apos;,</span><br><span class="line">	&apos;performanceapi&apos;</span><br><span class="line">	], </span><br><span class="line">function ($, angular, pageComm, indexController, util, prefetchapi, performanceapi) &#123;</span><br><span class="line">	&apos;use strict&apos;;</span><br><span class="line">	util.stat.monitorPage.create(&apos;modIndex&apos;, [175,384,1]);</span><br><span class="line"></span><br><span class="line">	$(&apos;#main&apos;).addClass(&quot;home&quot;);</span><br><span class="line">	pageComm.initPage(&#123;    //初始化页面的公共模块</span><br><span class="line">		isIndex: true</span><br><span class="line">	&#125;);</span><br><span class="line">	angular.bootstrap(document, [indexController]);</span><br></pre></td></tr></table></figure></p>
+<p>问题: reportJsCache index的作用应该是报告 index的缓存情况,具体情况还需要进一步分析</p>
+<p>common 公共模块 首先引入一些页面的公共组件 比如jquery, route , message, accountlist.</p>
+<p>对于这里的require写法的:</p>
+<pre><code>对于这里的写法he一般的require的写法有点不同, 一般引入多个组件会选择 
+require([&apos;jquery&apos;, &apos;angular&apos;, ], function ($, angular) {} 这种形式的方式,淡然这种方式的原理也应该都差不多的,在common中手动引入依赖的模块
+</code></pre><p>同时在initPage中执行各个初始化页面函数 比如</p>
+<pre><code>initPageHottag();
+initPageActionHottag();
+initMaterialHottag();
+initShowMPQrcode();
+initPageWrap();
+这里有个提示去开户的很频繁,,就是每次都有showAccountNoReadyTips()来提示去开户.
+</code></pre><p>最后common模块return的是initPage,logout: logout,sideslide, maskLayout,showAccountNoReadyTips等对象</p>
+<p>2016.06.30学习笔记</p>
+<p> react 组件前端编程</p>
+<pre><code>webpack工具安装 与package.json项目配置
+npm install webpack--dev-server 服务器
+npm install react 安装
+</code></pre><p>主要开发教程:</p>
+<p>学习一个评论框的react开发 <a href="http://reactjs.cn/react/docs/tutorial.html" target="_blank" rel="noopener">http://reactjs.cn/react/docs/tutorial.html</a> 教程地址<br>具体学习内容:<br> 构造一个commentBox组件<br> 然后分别构建一个 commentList和conmment<br> 再构建 commentForm组件</p>
+<p>commentBox组件包含 两个子组件, 同时将ajax拉取评论数据抽离出来,代码复用.<br>其中有个setState的函数用于更新数据,<br>实现本地先更新数据然后再从服务器拉取数据更新的方法<br>     handleCommentSubmit: function(comment) {<br>        var comments = this.state.data;//获取原本数据评论数据列表数组<br>        var newComments = comments.concat([comment]);拼接数组和新添加的评论<br>        this.setState({data: newComments});更新数据状态为新的评论列表对象<br>          $.ajax({//ajax 拉取新的评论列表<br>          url: this.props.url,<br>          dataType: ‘json’,<br>          type: ‘POST’,<br>          data: comment,<br>          success: function(data) {<br>            this.setState({data: data});<br>          }.bind(this),<br>          error: function(xhr, status, err) {<br>            console.error(this.props.url, status, err.toString());<br>          }.bind(this)<br>        });<br>      },</p>
+<p>##2016.06.30 上午11.25 学习数据报表系统的开发;晚上看房子</p>
+<p>##2016.07.1 今天配置了一天开发的环境, 并没有搞定,下午开会,了解同事们主要的最近的工作,晚上看房子去</p>
+<h2 id="2016-07-2-周末-加班"><a href="#2016-07-2-周末-加班" class="headerlink" title="2016.07.2 周末, 加班"></a>2016.07.2 周末, 加班</h2><pre><code>来配置环境,出现环境的主要原因是找错了Apache的目录了,导致我的一直在错误的目录下面配置, 浪费了很多的时间 在对面的小哥的帮助下找到这个问题
+可以正常访问到目录文件之后, 潘合平因为缺少log文件夹导致php代码报错, 在eshioxiao的帮助小创建了log
+</code></pre><p>##2016.07.7<br>今天是周四，atlas投放端性能监控上报系统已经开发了4天了，<br>目前完成了初步的需求，实现了一个较完善的报表系统<br>具体的工作内容：<br>1 更改bootstrap代码将atlas投放端性能监控系统从hera项目中独立出来， 方便以后应用其他的ui组件并不影响原hera系统<br>2 实现趋势图中用户可以同时显示两个曲线，提高图表利用率<br>3 将无法使用趋势图展示的对象使用 列表以文本的显示显示出来<br>待跟进的工作任务：<br>1 增加一次ajax拉取的报表数据内容， 用户在选择其他的字段的内容不需要重复拉取<br>2 重新研究php后台提供的配置文件，统一配置的格式方便前端展示（需要和eshionxiao和walkerwang讨论）<br>3 减少页面的全局变量，优化组织代理架构<br>遇到的问题：<br> 在ajax拉取图表数据之后， 需要重复用到这个数据，但是不能每次都重新拉取，所以一开始把这个数据以window对象的形式存储为全局变量。但是考虑的到js开发的避免使用全局变量的原则，目前在参考组里成熟项目的项目代码组织方式，目前有两个解决方案<br> 1 可以爱回调函数中写入代码<br> 2 使用单全局变量的方式， 定义一个全局对象<br>  需要更多的实验来证明那种方式比较适合本项目</p>
+<p> ##2016.07.08</p>
+<p>今天早上把atlas_V2的代码大致又看了一遍, 思考一下昨天遇到的数据共享的问题，<br>有如下总结：</p>
+<pre><code>1 atlas_v2项目还是使用了全局变量的, 不过使用的唯一的全局是window.GDT这个全局变量（walker说这是为了新老项目的迁移而保留的）
+
+2 项目中如何将ajax数据存储下来?这个问题也找到解决的方案, 大致是在angular使用 同一个$scope作用域来共享同一个json对象.
+
+3 atlas_v2将所有的ajax请求都抽象为service， 每次将业务处理代码以回调函数的形式来传入service，这样可以实现同一个service对象可以被多个controller访问。
+   （问题：angular中有自带的factory方法来定义service，而在atlas中并没有使用这个来定义service，而是直接使用require.js来导入services模块，这两者有什么区别？需要后续的实验探究）
+</code></pre><p>为了编写可维护的前端项目，尽量做到前后端分离，所以在参考e.qq.com项目的代码之后，决定重构报表系统。</p>
+<p>后期具体的开发任务：</p>
+<pre><code>1 使用require.js重组代目结构，实现前端代码的模块化，减少代码耦合度
+2 使用angular组件来重新构建前面几天使用原生php开发的投放端性能监控报表系统
+3 规范旧项目中的命名规范，和注释规范
+</code></pre><p>今日进度：</p>
+<pre><code>1 完成新版本代码架构设计
+2 学习angular在报表系统的功能实现
+</code></pre><p>三省吾身：</p>
+<pre><code>1 在学校期间写的代码很随意，代码各种不规范，这些都是急需现在去纠正
+2 前端开发的基础比较薄弱，需要多累积代码经验并且要多学习优秀的项目代码
+3 要摆正心态，虚心多向同事们学习
+</code></pre><p>##2016.07.11<br>周末主要继续完成上周五的定下的重构项目的任务(使用require.js重新组织前端代码),同时也在看书学习前端代码规范.<br>今日主要的开发任务:<br>1 选用table组件,经过筛选追踪选择了datatables这个前端table组件,主要的原因是:它的功能和目前项目的需求还是很契合的. 同时这是一个相对于比较流行的组件,同时中文社区也活跃,考虑到后期的维护性,使用该组件对项目的本身的代码不会造成很大的变动,就算更换另外一个组件可以通过一行代码来解决.同时我将table的配置写在一个单独的文件中,不影响项目本身的稳定性.<br>2 关于前后台的json数据的安全性,在接受hera项目的过程中,原项目本身有些方法把一些数据库的字段也返回到前端去, 在没有破坏原本代码的前提下,我新增了几个方法,可以快速提供安全的xml配置数据输出到前端.<br>3 cgi返回数据,在php端从hermers中查询时,在第一版本中我是直接查询结果返回到前台,然后前台解析数据并显示,但是这样的问题是把数据库的字段暴露给前台了,后来发现这个问题之后,在后台提前预处理了查询的数据,然后,返回安全的查询结果</p>
+<p>学习的感悟</p>
+<p>选用开源组件,要多方面的进行考虑,项目的社区活跃性,开源组件现阶段的稳定性等…另一方面是项目的源代码阅读,只有进行源代码的阅读之后才能更好的去使用开源组件.</p>
+<p>datatable 开源组件资料:<br>官网:<br><a href="https://www.datatables.net/" target="_blank" rel="noopener">https://www.datatables.net/</a><br>github <a href="https://github.com/DataTables/DataTables" target="_blank" rel="noopener">https://github.com/DataTables/DataTables</a><br>完善的api文档,并且还有中文文档,<br>中文网友很多实现的例子<br>配套完善的拓展同时也提供众多css样式以供使用或者修改<br>自带分页和搜索功能,减少开发量(参考很多其他的table组件仅仅提供样式,缺少其他的扩展支持)<br>项目始于2011年,主要是基于jquery的一个table扩展,现在已经进入到相对于稳定的版本</p>
+<p>##2016.07.12</p>
+<p>投放端性能监测上报系统 目前进度</p>
+<pre><code>1 继续完善性能监测系统,使用require.js重新组织项目代码架构
+2 引入tablesData组件,增加分页,排序,页面内搜索功能
+3 在php后台对输出数据结果进行预处理,避免将数据库字段暴露给前台
+4 php后台选择新输出可图表统计的字段数据
+5 实现查询分页功能,每次都查询全部如果返回的数据量太大容易页面卡死
+</code></pre><p>今日主要任务:</p>
+<p>实现php后端查询分页前端分页显示功能</p>
+<p>遇到的问题:<br>    在使用DataTable的过程中,由于dataTable本身的功能的限制,无法与后台配合使用ajax实现分页数据的更新<br>    如果使用DataTable默认的ajax交互功能，对传给后台和从后台获取的数据都有命名格式要求，这样一来耦合度较高，不利于后期扩展，不能直接适用于需要跟多种不同前端或其他业务交互的项目。</p>
+<p>解决的办法<br>    1 不利用dataTable内置的分页功能, 自己重新实现前端的分页功能.同时也带来了不足的地方,会产生大量的ajax请求,同时也会影响排序和搜索功能(下午在项目中已经实现这种方案,效果不理想)</p>
+<pre><code>2 重写DataTable中的ajax模块,大约 需要一天的工作量(考虑到table在报表系统中的重要性,决定明天实现该方案)
+</code></pre><p>思考:<br>    在使用开源的组件时,往往会因为开源组件本身的功能限制,无法与后台的传出的数据进行良好交互,这时候是去修改后台输出数据或者是去修改前端代码,这就是一个取舍问题了,在本项目中,直接修改后台的输出会很方便实现功能,但是考虑到拓展其他的功能,还是决定修改前端的代码.</p>
+<pre><code>实现分页操作的过程中,将数据缓存出来,缓存在一个数组中,每次加载的时候先判断本地时候有缓存,然后再决定是否ajax拉取后端数据
+另外一个思路是: 每次直接将 table隐藏,然后使用js动态添加新的table,当用户点击已经加存在的table页时,直接显示该页面table.
+</code></pre><p>##2016.07.13</p>
+<p>学习的内容:</p>
+<pre><code>hermers的SQL交互说明, 在项目中多处需要查询hermers数据,所以在构造sql语句的时候要注意其规范
+在没有看这个文档前, 把sql查询中的取平均值操作写成avg(),而在hermers中是average().
+</code></pre><p>讨论:</p>
+<pre><code>和Walkerwang和eshionxiao 讨论 上报配置的数据库设计, 需要建立两个表,具体的表的设计如下图
+
+初步的设计: 用户提交表单到php后台, 后台进行数据校验, 写入DB,(该操作需要需要接入敏感权限)
+将DB数据更新到XML配置文件, 解析配置文件返回到前台.
+</code></pre><p>开发任务:</p>
+<pre><code>1 今日主要的重写dataTable组件的ajax部分,同时实现全局的排序(    原本实现的本地页面局部的排序,和Walker讨论之后改为全局的排序), 
+
+2 前端构造模糊搜索参数,传入后台拉取搜索结果,
+
+3 php后台开发 dataTable的服务端接口. 
+
+以上三个功能的开发整体上大概进行到40%左右
+
+预期的实现效果:     将dataTable的数据和php后台传出的数据对接起来,同时实现表头点击整体排序和模糊搜索功能
+</code></pre><p>代码评审记录:</p>
+<pre><code>1  对cgi返回的数据应该做一下数据完整性验证
+
+2  self是javascript中的关键字，局部变量的命名应避免使用
+
+3  输出比较多的重复结构时，可以考虑使用 document.createDocumentFragment 来提升性能 , (DocumentFragments 是一个DOM节点。它们不是DOM树的一部分。通常的使用场景是创建一个文档片段，然后将创建的DOM元素插入到文                 档片段中，最后把文档片段插入到DOM树中。在DOM树中，文档片段会被替换为它所有的子元素。因为文档片段存在与内存中，并不在DOM树中，所以将子元素插入到文档片段时不会引起页面回流(reflow)(对元素位置和几何上的                     计算)。因此，使用文档片段document fragments 通常会起到优化性能的作用)
+</code></pre><p>4   Date的使用规范  <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" rel="noopener">https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date</a></p>
+<p> 总结:<br>     1 在构思设计数据表的时候,因为对公司的CGI和数据库的交互不熟悉,导致把过程想的太简单,需要再研究一下php后台中一些DB的操作代码</p>
+<pre><code>2 一周前的今天,我把报表系统做了个大概出来, 但是那仅仅能看而已,远远达不到能用的,在这一周的时间,投放端性能监控系统在功能上还没有什么大的改进, 更多的是在做好功能细节.
+就如walker中午给我提到的软件开发的就像冰山一样, 产品提出来的需求就是水上能看到那一角,但是我们需要花80%以上的时间去把水下的那一部分做好
+</code></pre><p>laynezhou(周磊)</p>
+<p>##2016.07.14</p>
+<p>学习的内容:<br>    因为看到腾讯班车查询网页的底部菜单栏可以固定不动,以前一直想实现这个功能<br>    禁止浏览器拖动反弹（橡皮筋效果）具体的实现代码如下:<br>    $(document).ready(function(){<br>        function stopScrolling( touchEvent ) {<br>            touchEvent.preventDefault();<br>        }<br>        document.addEventListener( ‘touchstart’ , stopScrolling , false );<br>        document.addEventListener( ‘touchmove’ , stopScrolling , false );   </p>
+<pre><code>});  
+这是touch事件的相关文档  https://developer.mozilla.org/zh-CN/docs/Web/API/Touch_events#跟踪新的触摸行为
+由这个可以衍生出更多关于移动端touch事件的特性,同时在业余用较短的代码实现了一个简单的的 &lt;canvas&gt; 绘图程序
+</code></pre><p>开发内容:</p>
+<pre><code>1  完成初步的dataTable组件的ajax模块重写, 目前在独立的页面中实现,下一步是把这个模块嵌入到报表系统中
+2  开发php端的 排序, 模糊搜索搜索,精准条件查询 等业务逻辑,并与datatable组件进行ajax数据交互
+3  引入新的css样式,表格看起来更加美观,得益于重写dataTable的ajax模块,以后可以对表格进行更多的功能拓展
+</code></pre><p>遇到的问题:</p>
+<pre><code>在做模糊搜索的时候, 使用hermers的sql操作时发现 like 的功能实现不是很好,确切的来说并没有实现like本该有的功能,
+比如要做一个多关键词搜索 一般是 where (fint1||fint2|| fint3) like &apos;201607*&apos;,这样子搜索出不来结果 . hermers的 like 只能做到单字段的准确匹配
+有可能是我sql语句写的有问题, 也有可能是hermers本身在实现sql查询和mysql有一些区别我没有发现,这个问题需要持续跟进一下
+</code></pre><p>总结:<br>    今天的开发还算顺利,中途也遇到一个小问题,就是我给json数据多套了一层[],导致前台一直解析不出来数据, 突然意识到代码接口的规范性是多么重要<br>    在一个项目中,每个函数的调用和返回, 每个模块的输出,每个请求的返回结构,都应该遵守一套相对稳定的规范.这样在开发的过程中可以减少很多不必要的错误和麻烦.</p>
+<p>##<br>2016.07.15<br>Hi,all</p>
+<p>今日的开发任务:</p>
+<pre><code>1 完善报表系统的功能,
+2 引入新的datePicker组件, 日期选择更加方便
+3 优化查询步骤, 去除顶部查询的按钮
+4 美化界面
+</code></pre><p>总结:</p>
+<pre><code>今天在调试css的时候发现引入的组件样式太多, 存在样式被覆盖的问题,解决的办法就是剥离出我需要的样式即可,只是会比较费时间
+做软件不是简单的把功能做出来就可以了,要在实现功能的基础上把用户体验做好才是王道
+</code></pre><p>学习的内容:<br>    因为昨天在实习生群里讨论了一些关于file api的问题,所以特地重新去看一下关于file api的内容<br>    使用FileReader对象,web应用程序可以异步的读取存储在用户计算机上的文件(或者原始数据缓冲)内容,可以使用File对象或者Blob对象来指定所要处理的文件或数据.其中File对象可以是来自用户在一个<input>元素上选择文件后返回的FileList对象,也可以来自拖放操作生成的 </p>
+<pre><code>想要创建一个FileReader对象,很简单,如下:
+
+var reader = new FileReader();
+
+FileReader 有如下方法:
+    void abort();
+    void readAsArrayBuffer(in Blob blob);
+    void readAsBinaryString(in Blob blob);
+    void readAsDataURL(in Blob blob);
+    void readAsText(in Blob blob, [optional] in DOMString encoding);
+
+
+    readAsArrayBuffer()
+
+    开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个ArrayBuffer对象以表示所读取文件的内容.
+
+
+    readAsBinaryString()
+
+    开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含所读取文件的原始二进制数据.
+
+    readAsDataURL()
+
+    开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.
+
+
+    这是一个实现上传文件并本地预览的例子
+
+    https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader
+</code></pre><p>##2016.07.16</p>
+<p>printf 函数的实现</p>
+<p>printf函数格式化即先根据你的格式分配一定大小的内存空间,然后再把你的参数压栈顺序 具体实现也很简单<br>比如：<br>printf(“%d%f%c”,i,f,ch);<br>参数压栈（从右到左），<br>具体的代码实现</p>
+<p><a href="http://blog.hostilefork.com/where-printf-rubber-meets-road/" target="_blank" rel="noopener">http://blog.hostilefork.com/where-printf-rubber-meets-road/</a></p>
+<p><a href="http://blog.csdn.net/cinmyheart/article/details/24582895" target="_blank" rel="noopener">http://blog.csdn.net/cinmyheart/article/details/24582895</a> </p>
+<p><a href="https://www.zhihu.com/question/28749911" target="_blank" rel="noopener">https://www.zhihu.com/question/28749911</a></p>
+<p><a href="https://github.com/LastAvenger/OS67/blob/master/usr/uio.c#L49" target="_blank" rel="noopener">https://github.com/LastAvenger/OS67/blob/master/usr/uio.c#L49</a><br> uio 实现</p>
+<p>##2016.07.18</p>
+<p>开发任务</p>
+<pre><code>1 设计好数据库建表的细节,在tapd提交建表的项目 子需求
+2 验证转义json数据中的html特殊字符,防止xss攻击
+3 添加 用户上报项管理页面, 具体的功能逻辑未完成
+4 添加加载中过度页面,优化加载体验(已完成)
+</code></pre><p>学习-关于http2.0与web性能优化<br>1 http 为什么慢:<br>    影响一个网络请求的因素主要有两个，带宽和延迟。<br>    连接无法复用会导致每次请求都经历三次握手和慢启动。三次握手在高延迟的场景下影响较明显，慢启动则对文件类大请求影响较大。<br>    head of line blocking会导致带宽无法被充分利用<br>在http1.0时代的解决方案:<br>针对 连接复用,http1.0协议头里可以设置Connection:Keep-Alive。<br>        1 基于tcp的长链接<br>        2 http long-polling<br>        3 http streaming<br>        4 web socket<br>解决head of line blocking:<br>    使用http pipelineg ,浏览器几乎在同一时间把request发向了服务器。节约等待时间,极大的降低了整体的延迟(只适用于http1.1,存在很多的缺陷不被主流浏览器支持)</p>
+<p>来到http2.0时代<br>http2.0对于web开发影响比较大的地方:</p>
+<p>1 新的二进制格式（Binary Format）</p>
+<pre><code>http1.x是明文协议，其格式由三部分组成：start line（request line或者status line），header，body  http2.0的协议解析决定采用二进制格式，http2.0的格式定义更接近tcp层的方式，这张二机制的方式十分高效且精简。length定义了整个frame的开始到结束，type定义frame的类型（一共10种），flags用bit位定义一些重要的参数，stream id用作流控制，剩下的payload就是request的正文了。看上去协议的格式和http1.x完全不同了，实际上http2.0并没有改变http1.x的语义，只是把原来http1.x的header和body部分用frame重新封装了一层而已。
+</code></pre><p>2 多路复用（MultiPlexing）</p>
+<pre><code>上面协议解析中提到的stream id就是用作连接共享机制的。一个request对应一个stream并分配一个id，这样一个连接上可以有多个stream，每个stream的frame可以随机的混杂在一起，接收方可以根据stream id将frame再归属到各自不同的request里面。
+
+http2.0里的每个stream都可以设置又优先级（Priority）和依赖（Dependency）。优先级高的stream会被server优先处理和返回给客户端，stream还可以依赖其它的sub streams。
+</code></pre><p>3 header压缩<br>    http2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。<br>    http的header现在膨胀到有可能会超过tcp有slow start的intial window的值了，所以更显得压缩header的重要性。</p>
+<p>4 Server Push</p>
+<pre><code>http2.0能通过push的方式将客户端需要的内容预先推送过去，所以也叫“cache push”。HTTP/2 的多路复用特性，使得可以在一个连接上同时打开多个流，双向传输数据。Server Push，意味着服务端可以在发送页面 HTML 时主动推送其它资源，而不用等到浏览器解析到相应位置，发起请求再响应。另外，服务端主动推送的资源不是被内联在页面里，它们有自己独立的 URL，可以被浏览器缓存，当然也可以给其他页面使用。
+
+HTTP/2 能解决的时间延迟：1）同域名并发连接数限制造成的阻塞时间；3）浏览器从 HTML 中找出外链资源这段时间；3）浏览器发起请求到服务端收到请求这段时间。
+</code></pre><p>##2016.07.19</p>
+<p>开发进度:<br>1  投放端性能监控上报系统的数据基础展示功能目前已经大致完成<br>    <a href="http://snsad.isd.com/hera/index.php?mod=atlas&amp;act=view" target="_blank" rel="noopener">http://snsad.isd.com/hera/index.php?mod=atlas&amp;act=view</a><br>    需要配置host: 10.123.14.19 snsad.isd.com</p>
+<p>2  今天设计好上报项目配置管理界面结构,编写部分前端界面代码<br>3  和eshionxiao讨论数据库建表的具体细节,同时写好项目的技术方文档</p>
+<p>学习的内容 :</p>
+<p>js代码中的curry化:</p>
+<p>在一些纯粹的函数式编程语言中，对函数的描述不是被调用（called或者invoked），而是被应用（applied）。在JavaScript中也有同样的东西——我们可以使用Function.prototype.apply()来应用一个函数<br>    在这段代码中，第一次调用add()时，在返回的内层函数那里创建了一个闭包。这个闭包将原来的x和y的值存储到了oldx和oldy中。当内层函数执行的时候，oldx会被使用。如果没有部分应用，即x和y都传了值，那么这个函数会简单地将他们相加。</p>
+<p>API模式，它们帮助我们为函数给出更干净的接口，包括：</p>
+<pre><code>回调模式
+
+传入一个函数作为参数
+配置对象
+
+ 帮助保持函数的参数数量可控
+返回函数
+
+ 函数的返回值是另一个函数
+</code></pre><p> 总结:<br>    柯里化<br>     新函数在已有函数的基础上再加上一部分参数构成<br>    初始化模式，这些模式帮助我们用一种干净的、结构化的方法来做一些初始化工作（在web页面和应用中非常常见），通过一些临时变量来保证不污染全局命名空间。这些模式包括：<br>    立即执行的函数<br>     当它们被定义后立即执行<br>    立即初始化的对象<br>     初始化工作被放入一个匿名对象，这个对象提供一个可以立即被执行的方法<br>    条件初始化<br>     使分支代码只在初始化的时候执行一次，而不是在整个程序生命周期中反复执行<br>    性能模式，这些模式帮助提高代码的执行速度，包括：<br>    Memoization<br>     利用函数的属性，使已经计算过的值不用再次计算<br>    自定义函数<br>     重写自身的函数体，使第二次及后续的调用做更少的工作</p>
+<p>##2016.07.20</p>
+<p>开发任务:</p>
+<pre><code>1 投放端性能监控上报系统的 配置管理页面大致定型, 同时在编写业务逻辑部分代码
+2 学习php后端与di数据写入和读取的代码结构和规范
+3 每周例会,今天satan做了https的资料汇总, 学习到很多, 业余要花时间好好研究一下,看能否在项目中应用到
+</code></pre><p>学习的任务<br>今天在周会上面提到的https非对称加密, 很早之前就了解了,但是会后又去看了一下wiki百科: <a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95</a>  个人觉得在https和http2.0上面可以花一些时间去研究学习一下.</p>
+<p>#2016.07.21</p>
+<p>今天的开发任务</p>
+<pre><code>1 完成配置报项目的前端页面,等待数据表的建立,编写php后台api接口拉取数据
+2 学习php后台框架的代码结构, 搞清楚一个请求是如何从index.php一直到返回response的过程
+3 学习建立数据表的命名规范和流程(感谢eshionxiao耐心的指导)
+</code></pre><p>学习:</p>
+<pre><code>1 今天在看php后台的代码的时候,感触特别深, 深深的体会到公司代码的规范和完整性, 因为以前我也尝试做过数据库操作的封装, 对比一下公司的框架对数据增删查改的封装, 自己以前写的封装就是小儿科
+
+2 janzenzhang过来跟我讲了一下他以前写的fetmain工具的终端的原理,了解到node.js 中的child_process这个模块:
+
+        exec() 执行bash命令，它的参数是一个命令字符串
+
+        execSync()  execSync是exec的同步执行版本,接受两个参数，第一个参数是所要执行的命令，第二个参数用来配置执行环境。
+
+        execFile()  execFile方法直接执行特定的程序，参数作为数组传入，不会被bash解释
+
+        spawn() spawn方法创建一个子进程来执行特定命令，用法与execFile方法类似，但是没有回调函数，只能通过监听事件，来获取运行结果。它        属于异步执行，适用于子进程长时间运行的情况。
+
+        fork()  fork方法直接创建一个子进程，执行Node脚本，fork(&apos;./child.js&apos;) 相当于 spawn(&apos;node&apos;, [&apos;./child.js&apos;])     与spawn方法不同的是，fork会在父进程与子进程之间，建立一个通信管道，用于进程之间的通信。
+
+        send()  使用 child_process.fork() 生成新进程之后，就可以用 child.send(message, [sendHandle]) 向新进程发送消息。新进程中通过监听message事件，来获取消息。
+
+fetmain里面的终端的原理应该是通过child_process的 spawn方法来调用grunt或者一些其他的工具程序来实现的
+关于child_process  :  http://javascript.ruanyifeng.com/nodejs/child-process.html
+
+3 对php后台一个请求的过程描述: 
+</code></pre><p>2016.07.22<br>实习日报:<br>HIall</p>
+<p>今日任务:</p>
+<pre><code>1 完善上报配置页面的搜索功能,
+2 修改table的双击事件,变成双击弹出框展示点击的行详细内容
+3 配置文件+IDE的方式来进行规范化。
+</code></pre><p>今天因为主要在调一些前面项目的细节同时格式化一些代码</p>
+<p>总结一下hera系统 数据库建表的需要注意的地方<br>    1 表的字段以F开头<br>    2 表的命名和字段的命名以驼峰式命名<br>    3 在涉及到多个表有相对应的字段可以考虑使用同样的字段名称<br>    4 设计表需要结合业务逻辑,数据库的设计原理等等多方面的因素考虑,应当慎重</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/daily-think/" rel="tag"># daily_think</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/" rel="next" title="高性能网络浏览器-第四章传输层安全性">
+                <i class="fa fa-chevron-left"></i> 高性能网络浏览器-第四章传输层安全性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/01/coding/self-executing/" rel="prev" title="JS自执行函数">
+                JS自执行函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#require-js学习"><span class="nav-number">1.</span> <span class="nav-text">require.js学习:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2016-07-2-周末-加班"><span class="nav-number">2.</span> <span class="nav-text">2016.07.2 周末, 加班</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

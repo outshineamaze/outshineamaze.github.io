@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="translation," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文: [高性能网络浏览器-第四章传输层安全性(Transport Layer Security,TLS) ](1]翻译: outshineamaze 介绍:SSL协议在网景公司最初开发支持电子商务网络交易安全,需要加密 http 请求 来保护客户的个人资料,以及身份验证和完整性保证,以确保一个安全的交易。为了达到这个目标,SSL协议在应用程序层实现,直接上TCP(图4 - 1上面),使协议(HT">
+<meta name="keywords" content="translation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高性能网络浏览器-第四章传输层安全性">
+<meta property="og:url" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="原文: [高性能网络浏览器-第四章传输层安全性(Transport Layer Security,TLS) ](1]翻译: outshineamaze 介绍:SSL协议在网景公司最初开发支持电子商务网络交易安全,需要加密 http 请求 来保护客户的个人资料,以及身份验证和完整性保证,以确保一个安全的交易。为了达到这个目标,SSL协议在应用程序层实现,直接上TCP(图4 - 1上面),使协议(HT">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/001.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/002.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/003.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/004.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/005.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/006.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/007.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/008.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/009.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/010.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/011.png">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高性能网络浏览器-第四章传输层安全性">
+<meta name="twitter:description" content="原文: [高性能网络浏览器-第四章传输层安全性(Transport Layer Security,TLS) ](1]翻译: outshineamaze 介绍:SSL协议在网景公司最初开发支持电子商务网络交易安全,需要加密 http 请求 来保护客户的个人资料,以及身份验证和完整性保证,以确保一个安全的交易。为了达到这个目标,SSL协议在应用程序层实现,直接上TCP(图4 - 1上面),使协议(HT">
+<meta name="twitter:image" content="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/001.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/"/>
+
+
+
+
+
+  <title>高性能网络浏览器-第四章传输层安全性 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">高性能网络浏览器-第四章传输层安全性</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-01T00:00:00+08:00">
+                2016-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文: [高性能网络浏览器-第四章传输层安全性(Transport Layer Security,TLS) ](1]<br>翻译: outshineamaze</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍:"></a>介绍:</h1><p>SSL协议在网景公司最初开发支持电子商务网络交易安全,需要加密 http 请求 来保护客户的个人资料,以及身份验证和完整性保证,以确保一个安全的交易。为了达到这个目标,SSL协议在应用程序层实现,直接上TCP(图4 - 1上面),使协议(HTTP、电子邮件、即时消息和许多其他人)在使用上不做改变,同时提供安全通信时的通信网络。</p>
+<p>正确使用SSL时,第三方观察者只能推断出连接端点类型的加密,以及频率和一个近似发送的数据量,但不能读取或修改任何实际的数据。</p>
+<a id="more"></a>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/001.png" alt="图片描述"><br>图4 - 1。传输层安全性(Transport Layer Security,TLS)</p>
+<p>SSL协议由IETF标准化时,它被命名为传输层安全性(TLS)。许多地方不太区分SSL和TLS名称,但从技术上讲,它们是不同的,因为每个描述了不同版本的协议。</p>
+<p>SSL协议的2.0是第一个公开发布的版本,由于发现安全漏洞,但它很快就被SSL 3.0取代了. 因为SSL协议是网景私有的,努力形成的IETF标准化协议,最终定稿为RFC 2246,这是1999年1月出版,被称为TLS 1.0。此后,IETF继续迭代协议来解决安全漏洞,以及扩大其功能:TLS 1.1(RFC 2246)发表在2006年4月,TLS 1.2(RFC 5246)2008年8月,现在正在开发中的版本,将定义为TLS 1.3。</p>
+<h2 id="不要让大量的版本号误导你"><a href="#不要让大量的版本号误导你" class="headerlink" title="不要让大量的版本号误导你:"></a>不要让大量的版本号误导你:</h2><p>服务器会更加倾向于选择最新稳定版本TLS协议,以确保最好的安全,功能和性能保证。事实上,一些性能关键型特性,比如HTTP / 2,明确需要使用TLS 1.2或更高版本,否则将终止连接。良好的安全性和性能齐头并进。</p>
+<h4 id="notice"><a href="#notice" class="headerlink" title="notice"></a>notice</h4><p>TLS是被设计用于支持的可靠传输的协议(如TCP。然而,它也被适应碾如UDP数据报协议。数据报传输层安全(迪泰)),在RFC 6347中定义的是: 基于TLS协议能够提供类似的安全保障,同时保留数据报传递模型。</p>
+<h1 id="加密、身份验证、完整性-Encryption-Authentication-Integrity"><a href="#加密、身份验证、完整性-Encryption-Authentication-Integrity" class="headerlink" title="加密、身份验证、完整性 (Encryption, Authentication, Integrity)"></a>加密、身份验证、完整性 (Encryption, Authentication, Integrity)</h1><p>TLS协议旨在提供三个基本服务上面运行的应用程序:加密、认证和数据完整性。从技术上讲,你不需要在所有的情况中全部使用上面三个特性。你可以决定接受证书没有验证其真实性,但是你应该清楚这样做的安全风险和影响。在实践中,一个安全的web应用程序将利用所有三个服务。</p>
+<p>加密<br>主机发送数据到到另一个终端的一种混淆机制。</p>
+<p>身份验证<br>提供一种机制来验证的有效性身份资料。</p>
+<p>完整性<br>一种机制来检测消息篡改和伪造。</p>
+<p>为了建立一个密码安全的数据通道,peers 之间的连接必须同意使用密码套件和密钥用于加密数据。TLS协议定义了一个明确的握手顺序来执行这个交换,我们将详细检查TLS握手。TLS 设计巧妙并且可靠原因,是由于其使用公钥加密(也称为非对称密钥加密),它允许同伴协商共享密钥,而无需建立彼此的任何先验知识,并通过未加密的通道。</p>
+<p>TLS协议允许两个 peer 在握手的过程中验证对方的身份。当在浏览器中使用TSL 协议时,这种验证机制允许客户端验证服务器是谁(如。,你的银行),而不是一个虚假的名称或IP地址。这个验证是基于信任的建立的——看到的链的信任和证书颁发机构。此外,服务器还可以选择验证客户端的身份——如。公司代理服务器可以验证所有员工,每个人都可以有公司为自己签署唯一的的证书。</p>
+<p>最后,包含加密和认证的地方,TLS协议还提供自己的消息框架机制和信号每个消息与消息身份验证代码(MAC)。MAC算法是单向加密哈希函数(有效校验和),谈判的两个连接的关键。每当TLS发送记录,MAC值是生成和附加信息,然后接收者是能够计算和验证发送MAC值,以确保消息的完整性和真实性。</p>
+<p>所有三个机制结合在一起,作为网络安全通信的基础。所有现代web浏览器提供支持多种密码套件,可以对客户端和服务器进行身份验证,并透明地为每一个记录执行消息完整性检查。</p>
+<h1 id="代理-中介机构-TLS-web-上的新协议"><a href="#代理-中介机构-TLS-web-上的新协议" class="headerlink" title="代理,中介机构,TLS,web 上的新协议"></a>代理,中介机构,TLS,web 上的新协议</h1><p>HTTP的可扩展性和成功创造了一个充满活力的网上代理和中介机构:缓存服务器,安全网关,网络加速器,内容过滤器,和许多其它生态系统。在某些显式的代理,我们可以意识到它们的存在,最终对于用户是完全透明的。<br>在实践中, 在80端口上常常会部署不可靠的服务,这些服务偏离的定义良好的HTTP / 1语义, 一些客户没有问题,一些客户的不可预知。相同的客户端在不同的网络环境中可能会看到不同的结果,</p>
+<p>由于这些行为,新协议和HTTP扩展,比如WebSocket,HTTP / 2等,必须依靠建立一个HTTPS隧道绕过中间代理, 加密隧道可以很好的保护数据通过中间机构。如果你曾经想知道为什么大多数WebSocket指南会告诉你使用HTTPS来传送数据到移动客户端,这就是为什么。</p>
+<h1 id="HTTPS无处不在"><a href="#HTTPS无处不在" class="headerlink" title="HTTPS无处不在"></a>HTTPS无处不在</h1><p>未加密的HTTP和其他protocols-creates通信提供大量的隐私、安全性和完整性的漏洞。这样的连接很容易被拦截、操纵和模拟,并能暴露用户凭证,历史,身份,和其他敏感信息。HTTPS可以很好的为用户的隐私提供保护 。</p>
+<h2 id="HTTPS保护网站的完整性"><a href="#HTTPS保护网站的完整性" class="headerlink" title="HTTPS保护网站的完整性"></a>HTTPS保护网站的完整性</h2><p>加密可以防止入侵者篡改data-e.g交换。重写内容、注入 广告的和恶意的内容等等。</p>
+<h2 id="HTTPS保护用户的隐私和安全"><a href="#HTTPS保护用户的隐私和安全" class="headerlink" title="HTTPS保护用户的隐私和安全"></a>HTTPS保护用户的隐私和安全</h2><p>加密可以防止入侵者监听传输的数据。每个未受保护的请求可以暴露用户的敏感信息,当这些数据包含很多的 session 信息,可以用来推测用户的身份和其他敏感信息。</p>
+<h2 id="HTTPS支持强大的功能"><a href="#HTTPS支持强大的功能" class="headerlink" title="HTTPS支持强大的功能"></a>HTTPS支持强大的功能</h2><p>越来越多的新的网络平台特性,如访问用户地理位置,拍照,录音录像,支持离线应用经验,,需要显式的用户选择,反过来,需要HTTPS。HTTPS提供的安全性和完整性保证至关重要的一部分在一个安全的用户权限工作环境中<br>进一步指出,因特网工程任务组(IETF)和互联网架构委员会(IAB)发布了指导开发人员和强烈鼓励采用HTTPS协议设计师:</p>
+<p>IETF:无处不在的监控是攻击</p>
+<p>内勤局:互联网保密声明</p>
+<p>当我们依赖互联网的发展,所以对每个依赖它的人来说都有风险,它是我们的责任,作为应用程序开发人员和用户,以确保我们保护自己通过启用HTTPS无处不在。</p>
+<h2 id="Let’s-Encrypt"><a href="#Let’s-Encrypt" class="headerlink" title="Let’s Encrypt"></a>Let’s Encrypt</h2><p>对广泛采用HTTPS常见的疑问和障碍的要求是 从一个可信证书颁发机构购买证书。</p>
+<p>“Let’s Encrypt是一个免费的、自动化的、开放的证书颁发机构为您的网络安全研究小组(ISRG)。让我们加密和ACME协议的目的是能够建立一个HTTPS服务器并让它自动获得browser-trusted证书,没有任何人工干预。”</p>
+<p>访问项目网站学习如何设置它在你自己的站点上。没有限制,现在任何人都可以获得一个受信任的证书的网站,免费的。</p>
+<h1 id="TLS握手"><a href="#TLS握手" class="headerlink" title="TLS握手"></a>TLS握手</h1><p>之前,客户机和服务器可以交换应用程序数据/ TLS加密隧道必须协商:客户端和服务器必须同意TLS协议的版本,如果有必要选择密码套件,并验证证书。不幸的是,每一个步骤需要新的数据包往返(图4 - 2客户机和服务器之间的),这增加了启动延迟所有TLS连接。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/002.png" alt="图片描述"><br>图4 - 2。TLS握手协议<br>图4 - 2假设相同(乐观的情况)28日毫秒的“光纤”延迟纽约和伦敦之间的使用在以前的TCP连接建立的例子,看看表1 - 1.</p>
+<p>0 ms<br>TLS运行在一个可靠的运输(TCP),这意味着我们必须首先完成TCP三方握手,这需要一个完整的往返。</p>
+<p>56 ms<br>与TCP连接,客户端发送一个纯文本的规范,如TLS协议的版本运行,支持的密码套件列表和其他可能想使用TLS选项。</p>
+<p>84 ms<br>服务器选择TLS协议版本进行进一步的沟通,决定从列表所提供的客户端密码套件,高度的证书,并将响应发送回客户端。可选地,服务器也可以发送一个请求客户机的证书和其他参数TLS扩展。</p>
+<p>112 ms<br>假设双方可以协商一个共同的版本和密码,和客户满意提供的证书服务器,客户端发起RSA或diffie - hellman密钥交换,这是建立对称密钥用于随后的会话。</p>
+<p>140 ms<br>服务器处理客户端发送的密钥交换参数,检查消息完整性通过验证MAC,并返回一个加密 Finished消息发送回客户端。</p>
+<p>168 ms<br>客户端与谈判对称密钥解密消息,验证MAC,如果一切顺利,那么建立了隧道和应用程序数据现在可以发送。</p>
+<p>如上述所示,新的TLS连接需要两个往返的“握手”。然而,在实践中,优化部署可以做得更好并提供一个一致的1-RTT TLS握手:</p>
+<p>False Start 是TLS协议的扩展,它允许客户端和服务器上开始传输加密应用程序数据只是部分complete-i.e握手时。,一旦 ChangeCipherSpec和 Finished消息被发送,但没有等待另一侧做同样的事情。这种优化降低了新TLS握手开销连接一个往返,明白了支持TLS FALSE Start.</p>
+<p>如果客户曾与服务器通信,可以使用一个“缩写握手”,这就需要一个往返,还允许客户端和服务器CPU开销降低安全会话重用先前商定的参数;看到TLS会话恢复.</p>
+<p>上述优化的组合使我们能够为首次访问的和非首次访问的访客提供一个 1-RTT TLS握手,加上计算储存先前的会话,可以恢复协商会话参数。确保在部署中利用这些优化点。</p>
+<p>TLS 1.3的设计目标之一是减少建立安全连接的延迟开销:新会话1-RTT,和恢复会话0-RTT!</p>
+<h1 id="RSA、diffie-hellman和保密"><a href="#RSA、diffie-hellman和保密" class="headerlink" title="RSA、diffie - hellman和保密"></a>RSA、diffie - hellman和保密</h1><p>由于各种历史和商业原因RSA握手一直大多数TLS实现中占主导地位的密钥交换机制:客户端生成一个对称密钥,与服务器的公钥进行加密,并将它发送到服务器使用的对称密钥建立会话。反过来,服务器使用自己的私钥解密对称密钥和密钥交换完成发送。从这个角度提出了客户端和服务器使用对称密钥来加密会话协商。</p>
+<p>RSA的握手,但有一个重要缺点:使用相同的公私密钥对服务器进行身份验证和加密对称会话密钥发送到服务器。结果,如果一个攻击者可以访问服务器的私钥和并监听数据传输,他们可以就解密整个会话。更糟糕的是,即使攻击者目前没有访问私钥,他们仍然可以记录加密的会话,之后一旦在获得私钥就可以解密它。</p>
+<p>相比之下,diffie - hellman密钥交换允许客户端和服务器协商共享密钥没有明确沟通的握手:服务器的私钥用于签名和验证的握手,但对称密钥从未离开过客户机或服务器,攻击者无法拦截即使他们获得私钥。</p>
+<p>维基百科文章diffie - hellman密钥交换</p>
+<p>最重要的是,diffie - hellman密钥交换可以用来减少传递 session 的风险:我们可以为每个对话生成一个新的“短暂”对称密钥,每一个密钥交换后丢弃之前的钥匙。因为 暂时的 key 是从来没有沟通,新的会话会导致重新协商,最坏的情况是,攻击者可以破解的客户端或服务器,拿到的当前会话密钥和未来的会话密钥。然而,知道现在的私钥,不能帮助攻击者解密任何先前的会话!</p>
+<p>结合,使用diffie - hellman密钥交换和临时会话密钥使“完美向前保密”(PFS):长期密钥的妥协(如服务器的私钥)和过期的会话密钥 不允许攻击者解密以前记录的会话。一个高度可取的属性,至少可以这样说!</p>
+<p>结果,这个不应该感到惊讶,RSA握手在渐渐的被淘汰:所有流行的浏览器选跟先进的加密算法(即依靠diffie - hellman密钥交换),作为额外的奖励,可能使某些协议优化只有当保密是available-e.g向前发展。通过TLS的 False Start 实现1-RTT握手。</p>
+<h2 id="公共与对称密钥加密的性能"><a href="#公共与对称密钥加密的性能" class="headerlink" title="公共与对称密钥加密的性能"></a>公共与对称密钥加密的性能</h2><p>使用公开密匙加密只在初始设置的TLS隧道:证书认证和密钥交换算法执行。</p>
+<p>对称密钥加密,使用对称密钥是用于建立客户机和服务器之间的所有进一步沟通在会话。这样做,在很大程度上,提高performance-public密钥加密计算昂贵得多。为了说明不同,如果你有OpenSSL安装在您的计算机上,您可以运行下面的测试:</p>
+<p>$&gt; openssl speed ecdh</p>
+<p>$&gt; openssl speed aes</p>
+<p>注意,两次测试之间的单位不具有直接可比性:椭圆曲线diffie - hellman(ECDH)测试提供了一个汇总表的操作每秒对于不同大小的关键,同时AES性能以字节每秒。尽管如此,它应该很容易看到ECDH操作计算昂贵得多。</p>
+<p>使用的具体性能数据建立在不同硬件、核心数量,TLS版本,服务器配置,和其他因素。不要爱上一个过时的基准!总是在自己的硬件上运行性能测试和参考降低计算成本额外的上下文。</p>
+<h2 id="应用程序层协议谈判-ALPN"><a href="#应用程序层协议谈判-ALPN" class="headerlink" title="应用程序层协议谈判(ALPN)"></a>应用程序层协议谈判(ALPN)</h2><p>两个peer 可能想要使用一个自定义协议相互通信。解决这个问题的一个方法是确定协议的前期,分配一个使用比较广泛的端口(如。HTTP 80端口, TLS端口443), 然后配置所有客户端和服务器使用它。然而,在实践中,这是一个缓慢而不切实际的过程:每个端口分配必须批准,更糟糕的是,防火墙和其他中介机构常常允许流量只在端口80和443。</p>
+<p>为了使自定义协议容易部署,我们必须复用端口80或443,使用一个额外的机制应用协议进行协商。端口80是用于HTTP,HTTP规范提供了一个特殊的 Upgrade流这一目的。然而,使用 Upgrade可以添加一个额外的网络往返延迟,在实践中往往是不可靠的许多中介机构,  代理,中介机构,TLS,新协议在网络上.</p>
+<h2 id="notice-1"><a href="#notice-1" class="headerlink" title="notice"></a>notice</h2><p>HTTP操作示例的升级流程,提前翻转升级到HTTP / 2.</p>
+<p>解决方法是使用端口443,它是用于安全的HTTPS会话运行/ TLS。使用端到端加密通道, 一种快速而可靠的方法来部署新应用程序协议。然而,我们还需要另一种机制谈判中的协议,它将使用于TLS会话。</p>
+<h2 id="应用程序层协议谈判-ALPN-1"><a href="#应用程序层协议谈判-ALPN-1" class="headerlink" title="应用程序层协议谈判(ALPN)"></a>应用程序层协议谈判(ALPN)</h2><p>顾名思义,是一个TLS扩展。它扩展了TLS握手(图4 - 2),并允许在同行谈判协议没有额外的循环。具体来说,过程如下:</p>
+<p>客户端添加一个新的 ProtocolNameList领域,包含支持的应用程序协议列表,进入 ClientHello消息。</p>
+<p>服务器检查 ProtocolNameList场,并返回一个 ProtocolName字段显示选中的协议的一部分 ServerHello消息。</p>
+<p>服务器可能只有一个响应协议名称,如果它不支持任何客户机请求,那么可以选择终止连接。因此,一旦TLS握手完成后,建立安全的隧道,和客户端和服务器协议将使用哪些应用协议;客户端和服务器可以立即开始通过协商协议交换消息。</p>
+<h2 id="历史和NPN型和ALPN的关系"><a href="#历史和NPN型和ALPN的关系" class="headerlink" title="历史和NPN型和ALPN的关系"></a>历史和NPN型和ALPN的关系</h2><p>(NPN)是一个TLS扩展,谷歌开发它作为SPDY功能的一部分,使应用程序在TLS握手高效地协议谈判。听起来是不是很熟悉?最终的结果是功能上相当于ALPN。</p>
+<p>ALPN修订和IETF批准版的NPN型扩展。广告在NPN型中,服务器所支持的协议,然后客户端选择和确认协议。在ALPN,这种交换是逆转:现在客户端指定它所支持的协议,然后,服务器选择并确认协议。变化的基本原理是,这让ALPN更为契合其他协议谈判的标准。</p>
+<p>简而言之,ALPN是NPN型的一个接班人。</p>
+<h2 id="服务器名称指示-SNI"><a href="#服务器名称指示-SNI" class="headerlink" title="服务器名称指示(SNI)"></a>服务器名称指示(SNI)</h2><p>可以建立一个加密的TLS隧道之间的任何两个TCP同行:客户端只需要知道其他同行的IP地址进行连接和执行TLS握手。然而,如果服务器希望托管多个独立站点,每个都有自己的TLS证书,在相同的IP地址——这是如何工作的呢?技巧问题;它不。</p>
+<p>解决前面的问题,服务器名称指示(SNI)扩展了TLS协议,它允许客户端显示客户机试图连接到主机名的TLS握手。反过来,服务器可以检查SNI主机发送的 ClientHello信息,选择合适的证书,并完成所需主机的TLS握手。</p>
+<h2 id="TLS、HTTP和专用IPs"><a href="#TLS、HTTP和专用IPs" class="headerlink" title="TLS、HTTP和专用IPs"></a>TLS、HTTP和专用IPs</h2><p>TLS + SNI工作流是相同的 Host在HTTP头声明,客户端显示站点的主机名要求:一个IP地址可能会 host 过个域名,SNI和 Host他们之间需要消除歧义。</p>
+<p>不幸的是,一些老客户(如。,大多数IE版本上运行Windows XP,Android 2.2,和其他人)不支持SNI。因此,如果您需要提供TLS这样的客户,那么你可能需要一个专用的IP地址为每一个主机。</p>
+<h1 id="TLS会话恢复"><a href="#TLS会话恢复" class="headerlink" title="TLS会话恢复"></a>TLS会话恢复</h1><p>额外的延迟和成本计算完整的TLS握手一个严重的性能损失强加给所有的应用程序都需要安全通信。为了降低延时上的成本,TLS提供一个机制来共享多个连接之间相同的协商密钥数据。</p>
+<h2 id="会话标识符"><a href="#会话标识符" class="headerlink" title="会话标识符"></a>会话标识符</h2><p>第一个会话标识符(RFC 5246)恢复机制是在SSL 2.0中引入的,它允许服务器创建和发送32字节的会话标识符的一部分 在TLS协商之前发送ServerHello消息。与会话ID,客户机和服务器可以存储之前协商会话parameters-keyed会话ID和后续会话重用它们。</p>
+<p>具体来说,客户端可以包括的会话ID ClientHello消息告诉服务器它还记得密码套件和密钥协商从先前的握手和能够重用它们。反过来,如果服务器能够找到会话参数与广告相关的缓存ID,然后缩写握手(图4 - 3)可以发生。否则,就需要一个完整的新会话协商过程了,这将生成一个新的会话ID。<br><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/003.png" alt="图片描述"><br>图4 - 3。缩写TLS握手协议</p>
+<p>利用会话标识符允许我们减少一个完整的往返,以及公钥密码学的开销,用于协商共享密钥。这样子在建立一个安全快速的连接同时, 也不会损失的安全性,因为我们是重用以前协商会话数据。</p>
+<p>对于HTTP / 1会话恢复是一个重要的优化。HTTP / 2 x的应用可以消除了一个完整的往返延迟和显著减少计算双方的成本。</p>
+<p>事实上,如果浏览器需要多个连接相同的主机(例如当HTTP / 1.x是使用),它往往会故意等待第一个TLS协商完成之后才连接到同一台服务器上,这样他们可以“恢复”和重用相同的会话参数。如果你曾经看着网络跟踪,想知道为什么你很少看到同一主机TLS多个谈判并行,这就是为什么!</p>
+<p>然而实际的限制要求服务器会话标识符机制来创建和维护一个会话缓存为每一个客户。这导致服务器上的几个问题,这可能会每一天看到成千上万甚至上百万独特的连接:每打开TLS连接消耗内存,要求一个会话ID缓存和拆迁政策,对于拥有大量服务器的热门网站是一个重要挑战,在理想情况下,使用一个共享TLS会话缓存可以获得最佳性能。</p>
+<p>前面的问题都无法解决,但是许多高流量网站如今使用会话标识符依旧很成功。但对于任何多服务器部署、会话标识符需要仔细思考和系统架构,确保会话缓存的合理性。</p>
+<h2 id="Session-Tickets"><a href="#Session-Tickets" class="headerlink" title="Session Tickets"></a>Session Tickets</h2><p>为解决服务器端部署TLS会话缓存这个问题,“Session Ticket”(RFC 5077)替换机制被引入,服务器不需要保持每个客户机会话状态。相反,如果客户表示它支持Session Ticket,服务器可以包含一个 New Session Ticket记录,包括所有协商会话数据, 这些会话数据用一个只有服务器知道的密匙加密。</p>
+<p>这次会话Ticket然后会被存储在客户端,可以包含在 Session Ticket内的扩展 ClientHello消息的后续会话。因此,所有会话数据只存储在客户端,但Ticket仍然是安全的,因为它是用一个只有服务器知道的密钥加密。</p>
+<p>会话标识符和会话票机制通常分别称为会话缓存和无状态恢复机制。无状态恢复的主要改进是服务器端会话缓存,这简化了部署,每个新连接服务端要求客户端提供session ticket,直到ticket已经过期。</p>
+<p>在实践中,票在一组负载均衡服务器中部署session Tickets 也需要仔细思考和系统架构:所有服务器必须使用相同的初始化会话密钥,和一个额外的安全机制需要定期和旋转所有服务器的共享密钥。</p>
+<h1 id="信任链和证书颁发机构"><a href="#信任链和证书颁发机构" class="headerlink" title="信任链和证书颁发机构"></a>信任链和证书颁发机构</h1><p>身份验证是不可分割的一部分,建立每一个TLS连接。毕竟,可以进行一次谈话在一个与任何同行加密通道,包括攻击者,除非我们可以确定主人对我们信任,那么所有的加密工作可以。了解我们如何验证对等的身份,让我们看看一个简单的验证工作流之间的爱丽丝和鲍勃:</p>
+<p>爱丽丝和鲍勃生成自己的公钥和私钥。</p>
+<p>爱丽丝和鲍勃隐藏各自的私钥。</p>
+<p>爱丽丝和鲍勃,分享她的公钥和鲍勃分享了他与爱丽丝。</p>
+<p>爱丽丝为鲍勃和迹象表明,它生成一个新消息与她的私钥。</p>
+<p>Bob使用爱丽丝的公钥验证提供消息签名。</p>
+<p>信任是一个关键组成部分前面的交换。具体来说,公钥加密允许我们使用发送方的公钥来验证消息正确的私钥签署,但决定批准发送方仍是建立在信任的基础之上的。在交换显示,Alice和Bob可以交换他们的公钥亲自会面时,因为他们彼此很了解,他们确信他们的交流不被黑客impostor-perhaps他们甚至通过另一个验证他们的身份,秘密(物理)握手他们早先建立了!</p>
+<p>接下来,爱丽丝收到消息从查理,她从来没有见过谁,而是谁声称是鲍勃的朋友。事实上,证明他的朋友鲍勃,查理问鲍勃签署自己与鲍勃的公钥私钥,并与他的消息(这个签名图4 - 4)。在这种情况下,爱丽丝首先检查鲍勃的签名的查理的关键。她知道鲍勃的公钥,因而能够确认鲍勃确实签查理的关键。因为她相信鲍勃决定验证查理,她接受消息和对查理的消��执行类似的完整性检查,以确保它是,事实上,从查理。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/004.png" alt="图片描述"><br>图4 - 4。信任链的爱丽丝,鲍勃,和查理<br>我们刚刚做的就是建立信任链:爱丽丝相信鲍勃,鲍勃信托查理,传递信任,爱丽丝决定相信查理。只要没有人链中的妥协,这让我们构建出一个信任方的列表。</p>
+<p>网络身份验证和在浏览器中遵循相同的过程如图所示。这意味着在这一点上你应该问:你的浏览器信任谁,你信任谁,是你本人在使用浏览器吗?至少有三种回答这个问题:</p>
+<p>手动指定证书<br>所有浏览器和操作系统提供了一种机制让你手动导入任何你信任的证书。你如何获得证书并验证其完整性是完全取决于你。</p>
+<p>证书颁发机构<br>一个证书颁发机构(CA)是一个受信任的第三方信任的证书的主体(所有者)。</p>
+<p>浏览器和操作系统<br>每一个操作系统和大多数浏览器附带一个知名证书颁发机构列表。因此,您应该相信这个软件的供应商提供和维护的信任方列表。</p>
+<p>在实践中,手动的去储存每个网站证书是不切实际(尽管你可以)。因此,最常见的解决方案是使用证书颁发机构(ca)为我们做这个工作(图4 - 5):浏览器指定ca信任(根ca), 中科院的作用就是用来验证每个站点的sign,审计和验证这些证书不被误用或妥协。如果任何站点的安全与CA的证书被打破,那么它的责任,CA撤销妥协证书。<br><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/005.png" alt="图片描述"><br>图4 - 5。CA签名的数字证书<br>每个浏览器都允许你检查的信任链安全连接(图4 - 6),通常可以通过单击锁定图标旁边的URL。<br><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/006.png" alt="图片描述"><br>图4 - 6。信任的证书链为igvita.com(Google Chrome,25节)<br>igvita.com证书签署StartCom类1主要中间服务器。</p>
+<p>StartCom类1主要中间服务器证书签署的StartCom认证权威。</p>
+<p>StartCom认证中心是公认的根证书颁发机构。</p>
+<p>整个链的“信任锚”是根证书权威,这只是显示,StartCom认证权威。所有浏览器附带一个预表受信任的证书颁发机构(“根”),在这种情况下,浏览器信托和能够验证StartCom根证书。因此,通过传递信任链的浏览器,浏览器厂商和StartCom证书颁发机构,我们扩展信任我们的目的地网站。</p>
+<h2 id="证书的透明度"><a href="#证书的透明度" class="headerlink" title="证书的透明度"></a>证书的透明度</h2><p>每一个操作系统供应商和每一个浏览器提供一个他们信任并且公开上市的默认证书颁发机构。可以搜索引擎来查找和调查这些列表。在实践中,你会发现大多数系统依赖数以百计的受信任的证书颁发机构,这也是一个对系统常见的抱怨:大量的受信任的ca在您的浏览器中创建一个大型攻击表面积的信任链。</p>
+<p>好消息是,证书的透明度项目正在努力解决这些缺陷通过提供一个框架公开日志监控和审核发行的新证书。访问项目网站,了解更多信息。</p>
+<h2 id="证书撤销"><a href="#证书撤销" class="headerlink" title="证书撤销"></a>证书撤销</h2><p>偶尔的发行者证书需要撤销或无效证书由于许多可能的原因:证书的私钥被入侵,证书颁发机构本身已经遭到破坏,或由于各种良性原因取代证书等的变化关系,等等。为了解决这个问题,自己的证书包含指令(图4 - 7)如何检查是否已被撤消。因此,为了确保信任链不是妥协,每个同行都可以检查每个证书的状态根据嵌入式的指导,以及签名,验证证书链。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/007.png" alt="图片描述"><br>图4 - 7。CRL和OCSP指令为igvita.com(Google Chrome,25节)</p>
+<h2 id="证书撤销列表-CRL"><a href="#证书撤销列表-CRL" class="headerlink" title="证书撤销列表(CRL)"></a>证书撤销列表(CRL)</h2><p>证书撤销列表(CRL)由RFC 5280定义和指定了一个简单的机制来检查每一个证书的状态:每个证书颁发机构维护和定期发布撤销证书编号的列表。任何一个试图验证证书的人就能下载撤销列表,缓存,并检查特定序列号的存在,如果它存在,那么它被撤销。</p>
+<p>这个过程简单明了,但有很多限制:</p>
+<p>越来越多的撤销签证意味着CRL列表只会变得更长,和每个客户端必须获取序列号的完整列表。</p>
+<p>没有即时通知证书机制revocation-if CRL证书被撤销前由客户端缓存,然后CRL认为撤销证书有效,直到缓存到期。</p>
+<p>需要获取最新的CRL, CA可能会阻止证书验证列表,这将显著延长TLS握手时间。</p>
+<p>CRL获取可能会失败,由于各种原因,在这种情况下,浏览器的行为是未定义的。大多数浏览器把这种情况下定义为“软失败”,允许验证proceed-yes。</p>
+<h2 id="在线证书状态协议-OCSP"><a href="#在线证书状态协议-OCSP" class="headerlink" title="在线证书状态协议(OCSP)"></a>在线证书状态协议(OCSP)</h2><p>解决一些CRL机制的局限性,介绍了在线证书状态协议(OCSP)由RFC 2560,这提供了一种机制来执行一个实时检查证书的状态。不像CRL文件,其中包含所有的撤销序列号,OCSP允许客户端直接查询CA的证书数据库序列号的问题,同时验证证书链。</p>
+<p>因此,消耗更少的带宽和OCSP机制能够提供实时验证。然而,要求执行实时OCSP查询创建自己的一组问题:</p>
+<p>CA必须能够处理负载的实时查询。</p>
+<p>CA必须确保服务和全局可用。</p>
+<p>实时OCSP请求可能损害客户的隐私因为CA知道哪些网站客户端访问。</p>
+<p>客户端必须阻止OCSP请求而验证证书链。</p>
+<p>浏览器行为,再一次,未定义,通常导致“软失败”如果OCSP获取失败由于网络超时或其他错误。</p>
+<p>作为一个现实世界的数据点,Firefox遥测表明OCSP请求时间高达15%的时间,并添加TLS握手当successful-see大约350毫秒hpbn.co / ocsp-performance.</p>
+<h2 id="OCSP装订"><a href="#OCSP装订" class="headerlink" title="OCSP装订"></a>OCSP装订</h2><p>上面列出的原因,无论是CRL或OSCP撤销机制提供了安全性和性能保证我们渴望我们的应用程序。但是,不要绝望,因为OCSP装订(RFC 6066,“证书状态请求”扩展)解决了大部分的问题我们之前看到通过允许执行验证的服务器和发送(“钉”)的TLS握手到客户端:</p>
+<p>而不是客户OCSP请求,服务器,定期检索签署和时间戳OCSP CA的响应。</p>
+<p>然后,服务器(即附加内容。“主食”)签署了OCSP响应作为TLS握手的一部分,允许客户端验证证书和附加OCSP撤销CA签署的记录。</p>
+<p>这角色转换是安全的,因为ping CA签署的记录,可以由客户端验证,并提供一些重要的好处:</p>
+<p>客户不会流失,其导航历史。</p>
+<p>客户端没有阻止和查询OCSP服务器。</p>
+<p>客户端可能“hard-fail”撤销处理如果服务器选择加入(通过广告OSCP Must-Staple国旗)和验证失败。</p>
+<p>简而言之,两个最好的安全性和性能保证,确保在您的服务器上配置和测试OCSP装订。</p>
+<h1 id="TLS协议记录"><a href="#TLS协议记录" class="headerlink" title="TLS协议记录"></a>TLS协议记录</h1><p>不同的IP或TCP层下面,TLS会话中的所有数据交换框架使用一个定义良好的协议(图4 - 8)。TLS协议记录负责识别不同类型的消息(握手、警告或数据通过“内容类型”字段),以及保护和验证每个消息的完整性。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/008.png" alt="图片描述"><br>图4 - 8。TLS记录结构<br>交付应用程序的典型工作流数据如下:</p>
+<p>记录协议接收应用程序数据。</p>
+<p>接收的数据分为块:最多214字节,或16 KB /记录。</p>
+<p>消息验证码(MAC)或HMAC被添加到每个记录。</p>
+<p>数据在每个记录是使用协商加密密码。</p>
+<p>一旦完成了这些步骤,加密的数据传递到TCP层的传输。在接收端,相同的工作流程,但是反过来说,由同行应用:解密使用密码谈判记录,核实MAC,提取和交付应用程序上面的数据。</p>
+<p>好消息是,所有的工作就显示由TLS层本身,对于大多数应用程序是完全透明的。然而,记录协议并介绍几个重要的意义,我们需要注意的:</p>
+<p>最大TLS记录大小是16 KB</p>
+<p>每条记录包含一个5字节的头,一个MAC(SSLv3 20字节,TLS 1.0,TLS 1.1,TLS 1.2)和32字节,如果使用分组密码和填充。</p>
+<p>解密和验证记录,整个记录必须是可用的。</p>
+<p>为应用程序选择正确的记录大小,如果你有这样做的能力,可以是一个重要的优化。小记录招致更大的CPU和开销字节由于框架和MAC验证记录,而大的记录必须交付和重组的TCP层之前,他们可以处理的TLS层和提前送到你application-skip优化TLS记录大小全部细节。</p>
+<h1 id="优化TLS"><a href="#优化TLS" class="headerlink" title="优化TLS"></a>优化TLS</h1><p>部署您的应用程序在TLS需要一些额外的工作,在您的应用程序(如资源迁移到HTTPS以避免混合内容),以及基础设施的配置负责交付应用程序数据在TLS。调整部署可以使一个巨大的不同凡响的观测性能,用户体验,和整体运营成本。就让我们一探究竟吧。</p>
+<h2 id="降低计算成本"><a href="#降低计算成本" class="headerlink" title="降低计算成本"></a>降低计算成本</h2><p>建立和维护一个加密的通道同行介绍了附加的计算成本。具体来说,首先是不对称的(公钥)加密中使用TLS握手(解释道TLS握手)。然后,一旦建立共享密钥,它被用作一个对称密钥加密所有TLS记录。</p>
+<p>正如我们前面提到的,公钥密码术更计算昂贵的相比,对称密钥加密,并在早期的Web通常需要额外的硬件来执行“SSL卸载。“好消息是,这不再是必要的,一旦需要专用硬件在CPU上直接就可以完成。大型组织如Facebook、Twitter和谷歌提供TLS数十亿的用户,在计算软件和硬件执行所有必要的TLS协商。</p>
+<p>2010年1月,Gmail将默认为所有使用HTTPS。之前它被引入作为一个选项,但现在我们所有的用户使用HTTPS来保护他们的浏览器和谷歌之间他们的电子邮件,所有的时间。为了做到这一点我们还没有部署额外的机器,没有特殊硬件。在我们的前端生产环境服务器机,SSL / TLS占不到1%的CPU负载、每个连接不到10 KB的内存和不到2%的网络开销。许多人认为,SSL / TLS需要大量的CPU时间,我们希望前面的数字(公共)可以帮助大家打消那个误解。</p>
+<p>如果你现在停止阅读你只需要记住一件事:SSL / TLS不再计算昂贵了。</p>
+<p>亚当·兰利(谷歌)<br>我们在大规模部署TLS使用硬件和软件负载平衡器。我们发现,现代的基于软件的TLS实现产品, 高速cpu来处理大量HTTPS流量负载,而不需要采取专门的加密硬件。我们的服务所有的HTTPS都使用软件来运行.</p>
+<p>Doug海狸(Facebook)<br>椭圆曲线diffie - hellman(ECDHE)仅仅是一个更昂贵的比RSA同等安全级别…在实际部署中,我们发现,启用和优先ECDHE密码套件是微不足道的CPU使用量的增加引起的。HTTP keepalives和会话恢复意味着大多数请求不需要一个完整的握手,握手操作并不占用我们的CPU使用率。我们发现75%的Twitter客户端使用ECDHE在连接建立请求被发送。剩下的25%主要由老客户还不支持ECDHE密码套件。</p>
+<p>雅各Hoffman-Andrews(Twitter)<br>在自己的部署过程中得到最好的结果,启动最好的TLS会话恢复,优化其成功率。消除每一个握手需要执行昂贵的公钥密码学操作将明显降低计算成本,同时减少TLS延迟;没有理由把CPU周期浪费在本不需要做的事情上面。</p>
+<p>谈到优化CPU周期,请一定要保持你的服务器更新与TLS库的最新版本!除了安全改进,你也会经常看到性能优势。安全性和性能是密不可分的。</p>
+<h2 id="启用-1-RTT-TLS握手"><a href="#启用-1-RTT-TLS握手" class="headerlink" title="启用 1-RTT TLS握手"></a>启用 1-RTT TLS握手</h2><p>一个未优化的TLS部署可以轻松添加许多额外的往返和介绍user-e.g明显延迟。multi-RTT握手,缓慢而无效的证书撤销支票、大TLS记录,需要多次往返的</p>
+<p>调优的TLS部署应该最多添加一个额外的往返谈判TLS连接,不管它是新的或恢复,并避免其他延迟陷阱:配置会话恢复,并使向前保密支持TLS FALSE Start。</p>
+<p>要获得最佳的端到端性能,确保审计自己的和第三方服务和服务器所使用的应用程序,包括你的CDN提供商。快速,与流行的服务器和发布商的概述,请查看istlsfastyet.com.</p>
+<h2 id="优化连接重用"><a href="#优化连接重用" class="headerlink" title="优化连接重用"></a>优化连接重用</h2><p>最好的方法减少计算开销和延迟设置新的TCP + TLS连接优化连接重用。这样平摊到了设置成本在请求和向用户提供更快的体验。</p>
+<p>验证您的服务器和代理配置设置允许keepalive连接,和审计连接超时设置。许多流行的服务器组积极的连接超时(例如Apache版本默认为5 s超时),迫使很多不必要的协议。为达到最佳效果,使用你的日志和分析来确定最优超时值。</p>
+<h2 id="利用提前终止"><a href="#利用提前终止" class="headerlink" title="利用提前终止"></a>利用提前终止</h2><p>正如我们讨论的Primer on Latency and Bandwidth,我们可能无法使我们的包跑得更快,但我们可以让他们更短的距离。通过将我们的“边缘”服务器接近用户(图4 - 9日),我们可以显著减少往返时间和TCP和TLS握手的总成本。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/009.png" alt="图片描述"><br>图4 - 9日。客户端连接的早期终止<br>一个简单的方法来做到这一点是利用内容分发网络(CDN)的服务,维护全球的边缘服务器池,或者自己部署。通过允许用户终止与附近的服务器,而不是穿越在海洋和大陆链接你的来源,客户得到的好处与短循环“提前终止”。这种技术同样是有用的和重要的静态和动态内容:静态内容也可以由边缘服务器缓存,而动态请求可以在建立路由连接从边缘到原点。</p>
+<h2 id="CDN获取资源"><a href="#CDN获取资源" class="headerlink" title="CDN获取资源"></a>CDN获取资源</h2><p>使用CDN技术或代理服务器来获取资源,这可能需要每个用户定制的或包含其它私人数据,因此不是一个全球缓存资源的优势,通常被称为一个“未取回起源。”</p>
+<p>而cdn效果最好,当数据被缓存在geo-distributed服务器在全世界范围内,仍未起源获取提供了一个非常重要的优化:客户端连接终止与附近的服务器,这可以大大减少握手延迟成本。反过来,CDN,或者自己的代理服务器,可以维持一个“温暖的连接池”起源服务器传递数据,允许您返回一个快速响应返回到客户机。</p>
+<p>事实上,作为一个额外的一层优化,附近一些CDN提供商使用服务器连接两岸的!客户端连接终止在附近的一个CDN节点,然后将请求到CDN节点接近原点,然后请求被路由到原点。跳在CDN网络允许流量路由优化CDN骨干,这有助于进一步减少客户端和起源服务器之间的延迟。</p>
+<h2 id="配置会话缓存和无状态恢复"><a href="#配置会话缓存和无状态恢复" class="headerlink" title="配置会话缓存和无状态恢复"></a>配置会话缓存和无状态恢复</h2><p>终止接近用户的连接是一种优化,有助于降低延迟为用户在所有情况下,但再一次,没有一点比一点快sent-send更少的比特。支持TLS会话缓存和无状态恢复允许我们消除整个往返重复访客的延迟和减少计算开销。</p>
+<p>会话标识符,TLS会话缓存依赖,介绍了SSL宽2.0,大多数客户端和服务器的支持。然而,如果你是在您的服务器上配置TLS,不要认为会话将在默认情况下支持。事实上,它是更常见的在大多数服务器的默认设置你知道更好!仔细检查并验证您的服务器、代理和CDN配置:</p>
+<p>服务器有多个进程或员工应该使用一个共享会话缓存。</p>
+<p>共享会话缓存的大小应该调整你的交通水平。</p>
+<p>应提供会话超时时间。</p>
+<p>在一个多服务器的设置中,客户端IP路由一样,或TLS会话ID相同,相同的服务器是一种提供良好的会话缓存利用率。</p>
+<p>“粘性”负载平衡在哪里并不是一个选择,应该使用一个共享缓存不同服务器之间提供良好的会话缓存利用率,并建立安全机制需要分享和更新提供会话密钥来解密票。</p>
+<p>检查和监控你的TLS会话缓存统计数据最佳性能。</p>
+<p>在实践中,为达到最佳效果,你应配置两个会话缓存机制和会话ticket。这些机制共同努力,为新老客户提供最好的报道。</p>
+<h2 id="支持TLS-False-Start"><a href="#支持TLS-False-Start" class="headerlink" title="支持TLS False Start"></a>支持TLS False Start</h2><p>会话恢复提供了两个重要的好处:它消除了额外的握手往返返回游客和降低计算成本的握手,允许重用之前协商会话参数。然而,它在第一次与服务器通信,或者前一交易日已经过期是无效的。</p>
+<p>得到最好的两个全世界一个往返握手为新和重复访客,和计算节省重复visitors-we可以使用TLS FALSE Start,这是一个可选的扩展协议,允许发送方发送应用程序数据(图4到10)握手时只有部分完成。</p>
+<p><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/010.png" alt="图片描述"><br>图4到10。TLS握手与错误的开始<br> FALSE Start不修改TLS握手协议,相反,它只会影响协议的时机当应用程序可以发送数据。直观地说,一旦客户端发送 ClientKeyExchange记录,它已经知道加密密钥,就可以开始发送应用程序数据,剩下的握手是花握手确认没有人篡改记录,并且可以并行完成的。因此,错误的开始让我们保持TLS握手一次往返不管我们是否执行一个完整的或缩写握手。</p>
+<h2 id="部署TLS-False-Start"><a href="#部署TLS-False-Start" class="headerlink" title="部署TLS False Start"></a>部署TLS False Start</h2><p>因为错误的开始只是握手协议的修改时间,它不需要任何更新TLS协议本身和可以unilaterally-i.e实现。,客户端可以开始传输加密的应用程序数据。理论上是这样的。</p>
+<p>在实践中,尽管TLS False Start应该向后兼容所有现有的TLS客户机和服务器,使其默认为所有TLS连接问题被证明是由于一些糟糕的服务器实现。因此,所有现代浏览器都能够使用TLS FALSE Start,但某些条件得到满足时才会这么做的服务器:</p>
+<p>Chrome和Firefox需要ALPN协议声明出现在服务器的握手,和选择的密码套件服务器使保密。</p>
+<p>Safari要求密码组合要求服务器支持向前保密。</p>
+<p>Internet Explorer使用黑名单的网站的结合,打破启用TLS False Start 时,和一个超时重复握手如果TLS FALSE Start握手失败了。</p>
+<p>所有浏览器支持TLS FALSE Start服务器应该做广告支持的协议的列表通过ALPN extension-e.g。“h2,http / 1.1”——被配置为支持和更喜欢密码套件,使保密。</p>
+<h2 id="优化TLS记录大小"><a href="#优化TLS记录大小" class="headerlink" title="优化TLS记录大小"></a>优化TLS记录大小</h2><p>所有应用程序数据通过TLS内运输记录协议(图4 - 8)。每个记录是16 KB的最大大小,取决于所选的密码,每个记录将增加20到40字节的头开销,MAC和可选的填充。如果记录符合一个TCP数据包,然后我们还必须添加TCP / IP开销:IP 20-byte头,20-byte头不为TCP选项。因此,有可能为每一个记录60到100字节的开销。对于一个典型的最大传输单元(MTU)线大小为1500字节,这包结构转化为最小帧开销的6%。</p>
+<p>记录越小,帧开销越高。然而,仅仅增加记录其最大尺寸的大小(16 KB)并不一定是一个好主意。如果记录多个TCP数据包,那么TLS层必须等待所有TCP数据包到达才能解密数据(图4 -)。如果这些TCP数据包迷路了,重新排序,或限制由于拥塞控制,然后TLS的各个片段记录必须缓冲之前可以解码,导致额外的延迟。在实践中,这些延迟可以为浏览器创建的重要瓶颈,更愿意消费数据以流的方式。<br><img src="/2016/04/01/blog_tanslation/高性能网络浏览器_TSL/011.png" alt="图片描述"><br>图4。WireShark捕获的11211字节的TLS记录分歧8 TCP段<br>小记录产生开销,大型记录产生延迟,没有一个“最优”记录的值大小。相反,为web应用程序,使用浏览器,最好的策略是动态调整记录大小基于TCP连接的状态:</p>
+<p>当连接是新的和TCP拥塞窗口较低,或当连接闲置一段时间(见缓慢的开始重启),每个TCP包应该携带一个TLS记录,和TLS记录应该占领整个最大段大小由TCP(MSS)分配。</p>
+<p>当连接拥塞窗口很大,如果我们将一个大型流(如。流媒体视频),TLS记录的大小可以增加跨多个TCP数据包(16 kb)减少框架和客户端和服务器上的CPU开销。</p>
+<p>如果TCP连接一直闲置,即使慢启动重启服务器上禁用,最好的策略是减少数据的记录大小在发送一个新的破裂:条件可能改变了自去年传播,我们的目标是最小化的概率缓冲在应用程序层由于丢包,重新排序,重发。</p>
+<p>使用一个动态交互式交通战略提供最佳性能:小记录大小可以消除不必要的缓冲延迟和提高time-to-first - { HTML字节,…,视频帧},和一个更大的记录大小优化吞吐量为长寿流TLS的开销最小化。</p>
+<p>确定最优记录大小为每个状态让我们从最初的开始一个新的或闲置的TCP连接,我们希望避免TLS记录跨越多个TCP数据包:</p>
+<p>IPv4分配20字节帧开销和40个字节为IPv6。</p>
+<p>为TCP框架的开销分配20字节。</p>
+<p>分配40字节TCP选项开销(时间戳,袋)。</p>
+<p>假设一个常见的1500字节的MTU开始,这使得1420字节的TLS记录交付在IPv4,并为IPv6 1400字节。不会过时的技术,使用IPv6大小,留下1400字节为每个TLS记录,并根据需要调整如果你的MTU低。</p>
+<p>接下来,决定当记录大小应该增加和复位如果连接一直闲置,可以设置基于预配置的阈值:记录大小增加到16 KB XKB的数据传输,重置后记录大小 Y空闲时间的毫秒。</p>
+<p>通常情况下,配置TLS记录大小不是我们可以控制在应用程序层。相反,通常这是一个设置,有时TLS服务器的编译时常量。检查您的服务器的文档有关如何配置这些值。</p>
+<h1 id="TLS在谷歌优化"><a href="#TLS在谷歌优化" class="headerlink" title="TLS在谷歌优化"></a>TLS在谷歌优化</h1><p>2014年初,谷歌的服务器使用小TLS记录,符合一个TCP段第一1 MB的数据,记录大小增加到16 KB之后优化吞吐量,然后重置记录大小回到一段inactivity-lather一秒钟之后,冲洗,重复。</p>
+<p>同样,如果您的服务器处理大量的TLS连接,然后最小化优化内存使用每个连接可以是至关重要的。默认情况下,OpenSSL等流行的库将50 KB的内存分配每个连接,但与记录大小,它可能值得检查文件或源代码如何调整这个值。谷歌服务器减少OpenSSL缓冲区下降到5 KB。</p>
+<h2 id="优化证书链"><a href="#优化证书链" class="headerlink" title="优化证书链"></a>优化证书链</h2><p>验证信任链遍历链要求浏览器,从网站的证书,并递归地验证证书的父母,直到达到一个可信的根。因此,它是至关重要的,提供链包括所有中级证书。如果有遗漏,浏览器将被迫暂停验证过程和获取丢失的证书,添加额外的DNS查找,TCP握手和HTTP请求到流程中。</p>
+<p>浏览器如何知道从哪里获取丢失的证书吗?每个孩子父母证书通常包含一个URL。如果省略的URL和所需的证书是不包括的,然后验证将会失败。</p>
+<p>相反,不包括不必要的证书,如受信任的根证书中那些添加不必要的字节。回想一下,发送服务器证书链的TLS握手,这是可能发生在一个新的TCP连接,在早期阶段的慢启动算法。如果证书链的大小超过最初TCP的拥塞窗口,然后我们将无意中添加额外的次往返TLS握手:证书长度将溢出拥塞窗口,导致服务器停止,等待客户ACK之前。</p>
+<p>在实践中,证书链的大小和深度是一个更大的担忧和问题在旧TCP堆栈初始化其初始4 TCP segments-see拥塞窗口慢启动。对于更新的部署,最初的TCP拥塞窗口已经提高到10段,应该足够大多数证书链。</p>
+<p>也就是说,验证您的服务器使用的是最新的TCP协议栈和设置,并优化,减少你的证书链的大小。少发送字节总是良好的和有价值的优化。</p>
+<h2 id="配置OCSP装订"><a href="#配置OCSP装订" class="headerlink" title="配置OCSP装订"></a>配置OCSP装订</h2><p>每一个新的TLS连接要求,浏览器必须验证发送的签名证书链。然而,还有一个重要的步骤,我们不能忘记:浏览器也需要验证证书没有被撤销。</p>
+<p>验证证书的状态浏览器可以使用几种方法之一:证书撤销列表(CRL),在线证书状态协议(OCSP),或OCSP装订。每种方法都有自己的局限性,但OCSP装订提供,到目前为止,最好的安全性和性能guarantees-refer早期部分的细节。确保配置你的服务器包括(主食)提供证书的CA的OCSP反应链。这样做允许浏览器执行撤销检查没有任何额外的网络数据传输次数和提高安全保证。</p>
+<p>OCSP响应可以改变从400年到4000字节大小。装订这个响应你的证书链将增加其size-pay密切关注证书链的总大小,这样它不会溢出的初始拥塞窗口新的TCP连接。</p>
+<p>当前OCSP装订实现只允许一个单一的OCSP响应包含,这意味着浏览器可能要回退到另一个如果它需要验证其他证书撤销机制的chain-reduce证书链的长度。在未来,OCSP Multi-Stapling应该解决这个问题。</p>
+<p>最受欢迎的服务器支持OCSP装订。检查相关文档的支持和配置说明。同样,如果使用或决定一个CDN,检查他们的TLS堆栈支持和配置为使用OCSP装订。</p>
+<h2 id="启用HTTP严格的传输安全性-hst"><a href="#启用HTTP严格的传输安全性-hst" class="headerlink" title="启用HTTP严格的传输安全性(hst)"></a>启用HTTP严格的传输安全性(hst)</h2><p>HTTP严格的交通安全是一个重要的安全策略机制,允许一个起源宣布访问规则通过一个简单的HTTP header-e.g兼容的浏览器。“Strict-Transport-Security:信息= 31536000”。具体地说,它指示用户代理执行以下规定:</p>
+<p>所有请求的起源应该发送/ HTTPS。这包括导航和所有其他同源子资源requests-e.g。如果用户类型没有https URL前缀用户代理应该自动将它转换成一个https请求;如果一个页面包含一个引用非http资源,用户代理应该自动转换成请求https版本。</p>
+<p>如果不能建立一个安全连接,用户不允许绕过HTTP version-i.e警告和请求。origin的协议是是https。</p>
+<p>信息在几秒钟内指定指定hst的生命周期规则集(例如, max-age=31536000等于365天一生的广告策略)。</p>
+<p>includeSubdomains表明当前的政策应该适用于所有子域。</p>
+<p>hst origin 转换为一个https目的地和帮助保护应用程序从各种各样的被动和主动网络的攻击。还有一个额外的好处,它还提供了一个不错的性能优化通过消除需要HTTP-to-HTTPS重定向:客户端自动重写所有请求安全起源之前派遣!</p>
+<p>确保启用hst之前彻底地测试您的TLS部署。一旦政策是由客户端缓存,未能协商将导致hard-fail-i.e TLS连接。用户将看到浏览器错误页面,不会被允许继续下去。这种行为是明确的和必要的设计选择,以防止网络攻击者骗取客户没有HTTPS访问你的网站。</p>
+<h2 id="hst预加载列表"><a href="#hst预加载列表" class="headerlink" title="hst预加载列表"></a>hst预加载列表</h2><p>hst机制留下第一个请求的来源不受保护的积极attacks-e.g。恶意方可以降低客户的请求,并防止它注册hst政策。为了解决这个问题,大多数浏览器提供一个单独的“hst预加载列表”机制,该机制允许一个起源请求包含列表中的HSTS-enabled附带浏览器的网站。</p>
+<p>一旦你有信心在你的HTTPS部署,考虑提交你的网站到hst通过预加载列表hstspreload.appspot.com.</p>
+<h2 id="启用-HTTP-Public-Key-Pinning-HPKP"><a href="#启用-HTTP-Public-Key-Pinning-HPKP" class="headerlink" title="启用 HTTP Public Key Pinning (HPKP)"></a>启用 HTTP Public Key Pinning (HPKP)</h2><p>的缺点之一,当前系统中讨论链的信任和证书颁发机构是我们的依赖大量的受信任的证书颁发机构(CA)。一方面,这是方便的,因为它意味着我们可以获得一个有效的证书从一个大池的实体。然而,这也意味着其中任何一个实体也能够发出有效的证书给我们</p>
+<p>DigiNotar认证权威的妥协的引人注目的例子之一是一个攻击者能够发行和使用虚假但有效证件与数以百计的高调的网站。</p>
+<p>HPKP允许一个站点发送一个HTTP头指示浏览器记住(“pin”)一个或多个证书的证书链。通过这样做,它可以范围证书,或者发行人,应该接受浏览器在随后的访问:</p>
+<p>origin可以销毁叶证书。这是最安全的策略,因为,实际上,硬编码一个小的特定证书签名应该接受浏览器。</p>
+<p>父的起源可以销一个证书的证书链。例如,原点可以销中级证书的CA,告诉浏览器,这个特殊的起源,它应该只信任证书签署的证书颁发机构。</p>
+<p>销哪个证书,选择正确的战略和多少备份提供,时间,和其他标准部署HPKP是重要的,微妙的,超出了我们的讨论范围。咨询你的最喜欢的搜索引擎,或者你当地的安全专家,以获取更多信息。</p>
+<p>HPKP还公开一个“报告”模式,不执行提供销但能够检测到故障报告。这是一个伟大的第一步验证您的部署,和作为一种机制来检测违规。</p>
+<h2 id="更新网站内容-HTTPS"><a href="#更新网站内容-HTTPS" class="headerlink" title="更新网站内容,HTTPS"></a>更新网站内容,HTTPS</h2><p>得到最好的安全性和性能担保实际上是至关重要的,网站使用HTTPS来获取它的所有资源。否则,我们遇到一些问题,最坏的就是网站崩溃</p>
+<p>将被浏览器混合的“活跃”内容(如HTTP上的脚本和样式表传递)可能会破坏网站的功能。</p>
+<p>混合的“被动”内容(如图片、视频、音频等,交付通过HTTP)将获取,但将允许攻击者观察和推断用户活动,并降低性能要求额外的连接和握手。</p>
+<p>审计内容和更新你的资源和链接,包括第三方的内容,使用HTTPS。的内容安全政策(CSP)机制可以很大的帮助,确定违反HTTPS和执行所需的政策。</p>
+<p>Content-Security-Policy: upgrade-insecure-requests<br>Content-Security-Policy-Report-Only: default-src https:;<br>  report-uri <a href="https://example.com/reporting/endpoint" target="_blank" rel="noopener">https://example.com/reporting/endpoint</a><br>告诉浏览器升级所有(自己的和第三方)请求HTTPS。<br>告诉浏览器报告任何违反非http指定端点。<br>CSP提供了一个高度可配置的机制来控制哪些资产可以被使用,以及如何,从那里他们可以获取。利用这些功能,可以保护你的网站和你的用户。</p>
+<h1 id="性能检查表"><a href="#性能检查表" class="headerlink" title="性能检查表"></a>性能检查表</h1><p>作为应用程序开发人员我们免受大多数TLS协议的复杂性客户机和服务器代表我们做最困难的工作。然而,正如我们在本章中看到的,这并不意味着我们可以忽视在TLS交付我们的应用程序的性能方面。优化我们的服务器,使关键TLS优化和配置应用程序启用客户端利用这些特性支付高额股息:更快的握手,减少延迟,更好的安全保障,等等。</p>
+<p>考虑到这一点,一个简短的清单放在议事日程:</p>
+<p>从TCP获得最佳性能;请参阅优化TCP.</p>
+<p>TLS库升级到最新版本,和(重新)构建服务器。</p>
+<p>启用和配置会话缓存和无状态的恢复。</p>
+<p>监控你的会话缓存命中率,并相应地调整配置。</p>
+<p>配置向前保密密码启用TLS FALSE Start。</p>
+<p>终止TLS会话更接近用户往返延迟最小化。</p>
+<p>使用动态TLS记录分级优化延迟和吞吐量。</p>
+<p>审计和优化你的证书链的大小。</p>
+<p>配置OCSP装订。</p>
+<p>配置hst和HPKP。</p>
+<p>配置CSP的政策。</p>
+<p>启用HTTP / 2;看到HTTP / 2.</p>
+<h1 id="测试和验证"><a href="#测试和验证" class="headerlink" title="测试和验证"></a>测试和验证</h1><p>最后,为了验证和测试您的配置,您可以使用一个在线服务,比如Qualys SSL服务器测试扫描你的公共服务器常见配置和安全漏洞。此外,你应该熟悉 openssl命令行界面,这将帮助你检查整个握手并在本地配置你的服务器。</p>
+<pre><code>$ &gt; openssl s_client状态-CAfile startssl.ca。crt连接igvita.com:443
+
+连接(00000003)
+SSL_connect:前/连接初始化
+SSL_connect:SSLv2的站点时/ v3写客户你好
+SSL_connect:SSLv3读服务器你好
+深度= 2 / C = IL / O = StartCom有限公司/ OU =安全数字证书签名
+/ CN = StartCom认证权威
+验证返回:1
+深度= 1 / C = IL / O = StartCom有限公司/ OU =安全数字证书签名
+/ CN = StartCom类1主要中间服务器
+验证返回:1
+深度= 0 = ABjQuqt3nPv7ebEG /描述/ C =
+/ CN =www.igvita.com/emailAddress=ilya@igvita.com
+验证返回:1
+SSL_connect:SSLv3读服务器证书
+SSL_connect:SSLv3读服务器做了
+  SSL_connect:SSLv3 write client key exchange A
+  SSL_connect:SSLv3 write change cipher spec A
+  SSL_connect:SSLv3 write finished A
+  SSL_connect:SSLv3 flush data
+  SSL_connect:SSLv3 read finished A
+  ---
+  Certificate chain 
+   0 s:/description=ABjQuqt3nPv7ebEG/C=US
+       /CN=www.igvita.com/emailAddress=ilya@igvita.com
+     i:/C=IL/O=StartCom Ltd./OU=Secure Digital Certificate Signing
+       /CN=StartCom Class 1 Primary Intermediate Server CA
+   1 s:/C=IL/O=StartCom Ltd./OU=Secure Digital Certificate Signing
+       /CN=StartCom Class 1 Primary Intermediate Server CA
+     i:/C=IL/O=StartCom Ltd./OU=Secure Digital Certificate Signing
+       /CN=StartCom Certification Authority
+  ---
+  Server certificate
+  -----BEGIN CERTIFICATE-----
+  ... snip ...
+  ---
+  No client certificate CA names sent
+  ---
+  SSL handshake has read 3571 bytes and written 444 bytes 
+  ---
+  New, TLSv1/SSLv3, Cipher is RC4-SHA
+  Server public key is 2048 bit
+  Secure Renegotiation IS supported
+  Compression: NONE
+  Expansion: NONE
+  SSL-Session:
+      Protocol  : TLSv1
+      Cipher    : RC4-SHA
+      Session-ID: 269349C84A4702EFA7 ... 
+      Session-ID-ctx:
+      Master-Key: 1F5F5F33D50BE6228A ...
+      Key-Arg   : None
+      Start Time: 1354037095
+      Timeout   : 300 (sec)
+      Verify return code: 0 (ok)
+  ---
+</code></pre><p>客户端完成验证收到的证书链。<br>收到证书链(两个证书)。<br>收到了证书链的大小。<br>发布了有状态的会话标识符TLS的简历。<br>在前面的例子中,我们连接igvita.com在默认的TLS端口(443),并执行TLS握手。因为 s_client没有假设已知的根证书,我们手动指定路径StartSSL证书的根证书Authority-this是很重要的。浏览器已经StartSSL的根证书,因此能够验证链,但是 s_client没有这样的假设。试着删除根证书,你将看到一个验证错误日志中。</p>
+<p>检查证书链显示服务器发送两个证书,加起来3571个字节。同时,我们可以看到协商会话variables-chosen TLS协议,密码,钥匙,我们还可以看到服务器发布当前会话的会话标识符。</p>
+<p>outshineamaze: 时间匆忙, 如有错误, 多多包涵</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/translation/" rel="tag"># translation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/01/daily_think/面经/" rel="next" title="面试">
+                <i class="fa fa-chevron-left"></i> 面试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/01/daily_think/学习记录/" rel="prev" title="2016/6实习工作记录">
+                2016/6实习工作记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不要让大量的版本号误导你"><span class="nav-number">1.1.</span> <span class="nav-text">不要让大量的版本号误导你:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#notice"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">notice</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密、身份验证、完整性-Encryption-Authentication-Integrity"><span class="nav-number">2.</span> <span class="nav-text">加密、身份验证、完整性 (Encryption, Authentication, Integrity)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理-中介机构-TLS-web-上的新协议"><span class="nav-number">3.</span> <span class="nav-text">代理,中介机构,TLS,web 上的新协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS无处不在"><span class="nav-number">4.</span> <span class="nav-text">HTTPS无处不在</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS保护网站的完整性"><span class="nav-number">4.1.</span> <span class="nav-text">HTTPS保护网站的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS保护用户的隐私和安全"><span class="nav-number">4.2.</span> <span class="nav-text">HTTPS保护用户的隐私和安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS支持强大的功能"><span class="nav-number">4.3.</span> <span class="nav-text">HTTPS支持强大的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Let’s-Encrypt"><span class="nav-number">4.4.</span> <span class="nav-text">Let’s Encrypt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS握手"><span class="nav-number">5.</span> <span class="nav-text">TLS握手</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA、diffie-hellman和保密"><span class="nav-number">6.</span> <span class="nav-text">RSA、diffie - hellman和保密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共与对称密钥加密的性能"><span class="nav-number">6.1.</span> <span class="nav-text">公共与对称密钥加密的性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序层协议谈判-ALPN"><span class="nav-number">6.2.</span> <span class="nav-text">应用程序层协议谈判(ALPN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notice-1"><span class="nav-number">6.3.</span> <span class="nav-text">notice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序层协议谈判-ALPN-1"><span class="nav-number">6.4.</span> <span class="nav-text">应用程序层协议谈判(ALPN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史和NPN型和ALPN的关系"><span class="nav-number">6.5.</span> <span class="nav-text">历史和NPN型和ALPN的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器名称指示-SNI"><span class="nav-number">6.6.</span> <span class="nav-text">服务器名称指示(SNI)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TLS、HTTP和专用IPs"><span class="nav-number">6.7.</span> <span class="nav-text">TLS、HTTP和专用IPs</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS会话恢复"><span class="nav-number">7.</span> <span class="nav-text">TLS会话恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#会话标识符"><span class="nav-number">7.1.</span> <span class="nav-text">会话标识符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-Tickets"><span class="nav-number">7.2.</span> <span class="nav-text">Session Tickets</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信任链和证书颁发机构"><span class="nav-number">8.</span> <span class="nav-text">信任链和证书颁发机构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#证书的透明度"><span class="nav-number">8.1.</span> <span class="nav-text">证书的透明度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书撤销"><span class="nav-number">8.2.</span> <span class="nav-text">证书撤销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书撤销列表-CRL"><span class="nav-number">8.3.</span> <span class="nav-text">证书撤销列表(CRL)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线证书状态协议-OCSP"><span class="nav-number">8.4.</span> <span class="nav-text">在线证书状态协议(OCSP)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OCSP装订"><span class="nav-number">8.5.</span> <span class="nav-text">OCSP装订</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS协议记录"><span class="nav-number">9.</span> <span class="nav-text">TLS协议记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优化TLS"><span class="nav-number">10.</span> <span class="nav-text">优化TLS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#降低计算成本"><span class="nav-number">10.1.</span> <span class="nav-text">降低计算成本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用-1-RTT-TLS握手"><span class="nav-number">10.2.</span> <span class="nav-text">启用 1-RTT TLS握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化连接重用"><span class="nav-number">10.3.</span> <span class="nav-text">优化连接重用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用提前终止"><span class="nav-number">10.4.</span> <span class="nav-text">利用提前终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN获取资源"><span class="nav-number">10.5.</span> <span class="nav-text">CDN获取资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置会话缓存和无状态恢复"><span class="nav-number">10.6.</span> <span class="nav-text">配置会话缓存和无状态恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持TLS-False-Start"><span class="nav-number">10.7.</span> <span class="nav-text">支持TLS False Start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署TLS-False-Start"><span class="nav-number">10.8.</span> <span class="nav-text">部署TLS False Start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化TLS记录大小"><span class="nav-number">10.9.</span> <span class="nav-text">优化TLS记录大小</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS在谷歌优化"><span class="nav-number">11.</span> <span class="nav-text">TLS在谷歌优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优化证书链"><span class="nav-number">11.1.</span> <span class="nav-text">优化证书链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置OCSP装订"><span class="nav-number">11.2.</span> <span class="nav-text">配置OCSP装订</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用HTTP严格的传输安全性-hst"><span class="nav-number">11.3.</span> <span class="nav-text">启用HTTP严格的传输安全性(hst)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hst预加载列表"><span class="nav-number">11.4.</span> <span class="nav-text">hst预加载列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用-HTTP-Public-Key-Pinning-HPKP"><span class="nav-number">11.5.</span> <span class="nav-text">启用 HTTP Public Key Pinning (HPKP)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新网站内容-HTTPS"><span class="nav-number">11.6.</span> <span class="nav-text">更新网站内容,HTTPS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能检查表"><span class="nav-number">12.</span> <span class="nav-text">性能检查表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试和验证"><span class="nav-number">13.</span> <span class="nav-text">测试和验证</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

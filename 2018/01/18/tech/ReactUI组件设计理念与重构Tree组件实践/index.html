@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景在SPAUI提供的众多组件中, Tree树状选择器组件是比较复杂的UI组件之一, 由于前端架构的演进, 老的Tree组件在功能拓展性和兼容性越来越显得吃力. 重构Tree组件似乎越来越有必要了.在重构Tree组件的过程中, 缩小50%+代码量和提升40%性能的背后是对组件完全重新设计, 包括数据传入处理, 渲染, 事件处理等 写这篇文章的初衷也是为了记录自己在重构Tree组件中的一些思考, 方">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactUI组件设计理念与重构Tree组件实践">
+<meta property="og:url" content="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="背景在SPAUI提供的众多组件中, Tree树状选择器组件是比较复杂的UI组件之一, 由于前端架构的演进, 老的Tree组件在功能拓展性和兼容性越来越显得吃力. 重构Tree组件似乎越来越有必要了.在重构Tree组件的过程中, 缩小50%+代码量和提升40%性能的背后是对组件完全重新设计, 包括数据传入处理, 渲染, 事件处理等 写这篇文章的初衷也是为了记录自己在重构Tree组件中的一些思考, 方">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/1516278922_90_w2346_h1126.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/1516278898_10_w2536_h1172.png">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactUI组件设计理念与重构Tree组件实践">
+<meta name="twitter:description" content="背景在SPAUI提供的众多组件中, Tree树状选择器组件是比较复杂的UI组件之一, 由于前端架构的演进, 老的Tree组件在功能拓展性和兼容性越来越显得吃力. 重构Tree组件似乎越来越有必要了.在重构Tree组件的过程中, 缩小50%+代码量和提升40%性能的背后是对组件完全重新设计, 包括数据传入处理, 渲染, 事件处理等 写这篇文章的初衷也是为了记录自己在重构Tree组件中的一些思考, 方">
+<meta name="twitter:image" content="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/1516278922_90_w2346_h1126.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/"/>
+
+
+
+
+
+  <title>ReactUI组件设计理念与重构Tree组件实践 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">ReactUI组件设计理念与重构Tree组件实践</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T00:00:00+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在SPAUI提供的众多组件中, Tree树状选择器组件是比较复杂的UI组件之一, 由于前端架构的演进, 老的Tree组件在功能拓展性和兼容性越来越显得吃力. 重构Tree组件似乎越来越有必要了.<br>在重构Tree组件的过程中, 缩小50%+代码量和提升40%性能的背后是对组件完全重新设计, 包括数据传入处理, 渲染, 事件处理等</p>
+<p>写这篇文章的初衷也是为了记录自己在重构Tree组件中的一些思考, 方便后续维护的同学理解它, 同时也希望里面提到的组件设计思想可以被认可并推广<br><a id="more"></a></p>
+<h2 id="组件的设计理念"><a href="#组件的设计理念" class="headerlink" title="组件的设计理念"></a>组件的设计理念</h2><h4 id="1-组件的能力拓展"><a href="#1-组件的能力拓展" class="headerlink" title="1. 组件的能力拓展"></a>1. 组件的能力拓展</h4><p>随着前端架构的不断演进, 底层的UI组件在项目中的角色也慢慢的发生了改变, 从当初大包大揽的提供尽可能多的功能慢慢转换为提供更好的功能组合能力, 在设计组件的时候, 也要节制, 并非功能越多越好. 太多的组件属性一方面会导致组件自身特殊逻辑很复杂, 不方便拓展; 另外一方面开发者要面对N多自己不关心的属性, 在使用的过程中也容易出现理解偏差;</p>
+<p>开发组件就好比建房子, 作为底层的基础组件, 先把房屋的框架搭建好, 至于墙用什么材质, 地板用啥瓷砖, 屋顶盖啥颜色的瓦, 使用者通过子组件的形式传入组合即可, 当然组件本身也要提供默认的子组件组件. </p>
+<h4 id="2-组件的数据管理"><a href="#2-组件的数据管理" class="headerlink" title="2. 组件的数据管理"></a>2. 组件的数据管理</h4><p>组件运行的环境也会影响组件最初的设计, 之前的架构中没有把所有的数据完全用redux管理起来, 组件会把数据在state里面存一份, 然后通过 componentWillReceiveProps 等方法获取数据书更新. 可能一个底层小组件的数据要在父节点里冗余好几份. 更新数据的过程除了性能损耗, 还容易出bug. 由于组件渲染之前会对props做浅对比, 为了防止经常出现数据改变但视图不变的情况,  我们不得不写很多的cloneDeep的逻辑, 深复制是非常耗费性能的. 同时也非常容易出现问题<br>为了解决系统中的数据管理, 我们做了点小改变</p>
+<ol>
+<li><p>从充血(Smart)组件到贫血(Dumb)组件的转变, 具体的差别是：Smart组件偏向于纯展示，减少组件内置的逻辑, 把更多的逻辑集中到 容器组件(smart组件)或者action和reducer里面</p>
+</li>
+<li><p>在前端的架构中, 把数据放到全局Store，并且做到数据的immutable, 带来的好处是在架构上更加清晰, 更好的数据流管理, 也减少了很多不必要的渲染, 进而带来了性能上的提升. </p>
+</li>
+</ol>
+<h4 id="3-往函数式靠拢一点点"><a href="#3-往函数式靠拢一点点" class="headerlink" title="3. 往函数式靠拢一点点"></a>3. 往函数式靠拢一点点</h4><h5 id="1-使用stateless-component"><a href="#1-使用stateless-component" class="headerlink" title="1. 使用stateless component"></a>1. 使用stateless component</h5><p>react本身就是函数式编程的一个实践, render方法就是一个 pure function, 满足<br>view = render(data) 这个公式, 这里要引入stateless component这个概念, 对于很多小的组件我们不需要写成 XXXComponent extends PureComponent 这种形式, 我们只需要定义一个类似下面的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const XXXComponent = (props) =&gt; return (&lt;div&gt;&#123;props.data&#125;&lt;/div&gt;)</span><br></pre></td></tr></table></figure>
+<p>使用stateLessComponent的好处是没有那么多普通组件的生命周期, 优化系统的性能 </p>
+<h5 id="2-把数据处理的逻辑抽离出来-独立成-pure-function的逻辑"><a href="#2-把数据处理的逻辑抽离出来-独立成-pure-function的逻辑" class="headerlink" title="2. 把数据处理的逻辑抽离出来,独立成 pure function的逻辑"></a>2. 把数据处理的逻辑抽离出来,独立成 pure function的逻辑</h5><p>组件在渲染之前避免不了会做一些数据处理的逻辑,如果我们使用函数式的编程思维来看待组件的渲染,一个渲染的逻辑可以用下面这样的一个表达式表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">render(handleData(getData(param)))</span><br></pre></td></tr></table></figure>
+<p>可以看到在整个过程中并没有去设置变量, 每个函数的参数是另外一个函数的返回,整个过程中不会设置变量来暂存上一步的执行结果, 这就是面向过程抽象. 每一个函数都可以被看做独立单元，很有利于进行单元测试（unit testing）和调试（debugging），以及模块化组合.</p>
+<p>上面讲了三点的组件设计理念, 在新版的Tree组件中, 我们也在努力的把这些概念落地到实际的组件中</p>
+<h2 id="在Tree组件的实践我们的设计理念"><a href="#在Tree组件的实践我们的设计理念" class="headerlink" title="在Tree组件的实践我们的设计理念"></a>在Tree组件的实践我们的设计理念</h2><p>tree组件接受的是一个树状的数据, 这里我们把组件分为: 数据处理,组件渲染,事件响应三块</p>
+<blockquote>
+<p>注明: </p>
+<ol>
+<li>组件内部不保存状态, 所有的数据与状态由父组件通过props传入</li>
+<li>每次render都会遍历整个树, 时间复杂度为O(n), 因为树的结构比较特殊, 如果一个底层叶子节点选中, 可能会导致整条树枝的元素都是半选的状态</li>
+</ol>
+</blockquote>
+<h4 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h4><p>直接拿到父组件传入的树状数据直接渲染是不够的, 这里我们扩展一下数据节点的能力, 构建一个属性更多的树.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 一个树的节点数据结构</span><br><span class="line"> */</span><br><span class="line">export const treeNodeStruct = &#123;</span><br><span class="line">    // 作为数据节点的唯一标识, 如果原始数据有value, 则设为value的值</span><br><span class="line">    key: null,</span><br><span class="line">    // 节点的的value</span><br><span class="line">    value: null,</span><br><span class="line">    // 节点的展示文案</span><br><span class="line">    desc: null,</span><br><span class="line">    // 指向原始数据节点的指针</span><br><span class="line">    sourceData: null,</span><br><span class="line">    // 指向父节点的指针</span><br><span class="line">    parentNode: null,</span><br><span class="line">    // 孩子节点数组,里面是一个个treeNodeStruct的指针</span><br><span class="line">    childrenNodes: null,</span><br><span class="line">    // 节点的 check 状态: checked/unchecked/indeterminate</span><br><span class="line">    status: null,</span><br><span class="line">    // 节点是否展开子节点</span><br><span class="line">    isExpand: null,</span><br><span class="line">    // 节点在处在第几个branch, 最左branch为1, 往右递增</span><br><span class="line">    deepLevel: null,</span><br><span class="line">    // 是否展示loading状态</span><br><span class="line">    isLoading: null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>拿到父组件传入的树状数据之后,  以 treeNodeStruct为节点数据结构的模板,通过 genNodeTree方法, 构建出一个NodeTree的结构.</p>
+<blockquote>
+<p>genNodeTree是一个递归遍历树的方法, 返回一个NodeTree的数据结构, 还有一些树的熟悉比如深度, valueTreeNodeMap等熟悉</p>
+</blockquote>
+<p>这是一个包含更多信息,可用于简化渲染流程的树状数据, 可以快速获取节点的父亲,兄弟节点, 节点选中状态等. 相当于我们把渲染之前数据处理逻辑全部收敛到 genNodeTree这个函数里面. </p>
+<h4 id="组件渲染"><a href="#组件渲染" class="headerlink" title="组件渲染"></a>组件渲染</h4><p>拿到genNodeTree生成的 NodeTree之后, 就可以开始执行渲染的步骤了, 具体渲染的逻辑可以参考下面函数式的伪代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let renderOneBranch = compose(map, renderOneNode(TreeNodeComponent))</span><br><span class="line">let TreeComponent = compose(map, renderOneBranch(TreeBranchComponent))</span><br><span class="line">render(compose(TreeComponent, genNodeTree(props.list)))</span><br></pre></td></tr></table></figure>
+<p>简述一下组件数据处理和渲染流程:</p>
+<ol>
+<li>遍历由父组件传入的整个的树状数据</li>
+<li>生成NodeTree, NodeTree的节点以 treeNodeStruct 为结构模板</li>
+<li>深度遍历仅需要展示的那条路径的节点</li>
+</ol>
+<h4 id="事件响应"><a href="#事件响应" class="headerlink" title="事件响应"></a>事件响应</h4><p>tree组件在设计的时候开放了两个事件回调接口, onChange 和 onClick</p>
+<p>onChange事件:</p>
+<ol>
+<li>以勾选的节点TreeNode开始, 向上更新父节点链</li>
+<li>以勾选的节点TreeNode开始, 向下递归更新子节点</li>
+<li>生成新的 checkedIds, 通过传递到到父组件</li>
+<li>由父组件传入value重新render</li>
+</ol>
+<p>onClick事件:</p>
+<ol>
+<li>获取点击的节点的所在树的层级</li>
+<li>生成新的 expandNodeIds, 通过onClick传递到到父组件</li>
+<li>由父组件传入expandNodeIds重新render</li>
+</ol>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>升级完成之后, 可能最大的担心是: 每次全部递归遍历整个树会不会导致性能下降?<br>直接在浏览器里面做比较吧!</p>
+<p>测试中树节点数量为: 3480</p>
+<p><img src="/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/1516278922_90_w2346_h1126.png" alt="重构之前一次点击节点的performance"></p>
+<p>重构之前一次点击节点操作到视图更新, 大约需要45ms的时间</p>
+<p><img src="/2018/01/18/tech/ReactUI组件设计理念与重构Tree组件实践/1516278898_10_w2536_h1172.png" alt="新版组件点击节点的performance"><br>重构之后一次点击到视图更新的操作时间25ms左右, 我们可以看到主要耗时是render这个方法, 因为其中包括对树状数据的遍历操作, 3480个节点大约10s, 这个时间复杂度是 O(n), 随着节点数量呈现线性增长的, 假定浏览器的刷新频率是60Hz, 那么一帧的时间是 16.6666666667ms, 那么树状组件节点只要在5000个以内, 都可以在下一帧被渲染到视图上.</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在重构树状组件的过程中, 最开始的目标是把代码结构优化一下方便维护和拓展, 后面吸取了同事们的建议采用新的思路摒弃了老的组件的很多字段, 采用新的设计思想, 特别是在代码层面引入新的函数式思维(最后代码看起来其实也不怎么函数式….), 在完成开发之后做了一下性能测试, 代码减少了50%, 性能提升了45%. 简化代码提升性能, 基本完成了重构Tree组件的初衷. 同时也实践了上述的组件设计思想和函数式的应用. </p>
+<p>更多组件相关信息可以参考</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/07/tech/Node异步解决方案-co与async:await/" rel="next" title="Node异步解决方案-co与async">
+                <i class="fa fa-chevron-left"></i> Node异步解决方案-co与async
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/25/tech/浅谈React事件系统-源码解读/" rel="prev" title="浅谈React事件系统-源码解读">
+                浅谈React事件系统-源码解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的设计理念"><span class="nav-number">2.</span> <span class="nav-text">组件的设计理念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-组件的能力拓展"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 组件的能力拓展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-组件的数据管理"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 组件的数据管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-往函数式靠拢一点点"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. 往函数式靠拢一点点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-使用stateless-component"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">1. 使用stateless component</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-把数据处理的逻辑抽离出来-独立成-pure-function的逻辑"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">2. 把数据处理的逻辑抽离出来,独立成 pure function的逻辑</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Tree组件的实践我们的设计理念"><span class="nav-number">3.</span> <span class="nav-text">在Tree组件的实践我们的设计理念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据处理"><span class="nav-number">3.0.1.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件渲染"><span class="nav-number">3.0.2.</span> <span class="nav-text">组件渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件响应"><span class="nav-number">3.0.3.</span> <span class="nav-text">事件响应</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">4.</span> <span class="nav-text">性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

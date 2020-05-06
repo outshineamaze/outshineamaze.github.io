@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react,Redux,Mobx,Vue,React Hook," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="React Hooks目前是 React 处于提案阶段的一个特性, 根据其官方的介绍, Hooks被创建出来主要动机如下:  跨组件复用stateful logic(包含状态的逻辑)十分困难  复杂的组件难以理解  Hooks让React组件也是更接近于函数">
+<meta name="keywords" content="react,Redux,Mobx,Vue,React Hook">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析组件化时代的前端状态管理(六):React Hook">
+<meta property="og:url" content="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(六):React Hook/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="React Hooks目前是 React 处于提案阶段的一个特性, 根据其官方的介绍, Hooks被创建出来主要动机如下:  跨组件复用stateful logic(包含状态的逻辑)十分困难  复杂的组件难以理解  Hooks让React组件也是更接近于函数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+<meta property="og:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+<meta property="og:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.715Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析组件化时代的前端状态管理(六):React Hook">
+<meta name="twitter:description" content="React Hooks目前是 React 处于提案阶段的一个特性, 根据其官方的介绍, Hooks被创建出来主要动机如下:  跨组件复用stateful logic(包含状态的逻辑)十分困难  复杂的组件难以理解  Hooks让React组件也是更接近于函数">
+<meta name="twitter:image" content="https://codesandbox.io/static/img/play-codesandbox.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(六):React Hook/"/>
+
+
+
+
+
+  <title>浅析组件化时代的前端状态管理(六):React Hook | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2019/02/19/tech/浅析组件化时代的前端状态管理(六):React Hook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">浅析组件化时代的前端状态管理(六):React Hook</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T18:53:24+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端状态管理/" itemprop="url" rel="index">
+                    <span itemprop="name">前端状态管理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/19/tech/浅析组件化时代的前端状态管理(六):React Hook/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/19/tech/浅析组件化时代的前端状态管理(六):React Hook/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://react.docschina.org/docs/hooks-intro.html" target="_blank" rel="noopener">React Hooks</a>目前是 React 处于提案阶段的一个特性, 根据其官方的介绍, Hooks被创建出来主要动机如下:</p>
+<ul>
+<li><p>跨组件复用stateful logic(包含状态的逻辑)十分困难</p>
+</li>
+<li><p>复杂的组件难以理解</p>
+</li>
+<li><p>Hooks让React组件也是更接近于函数</p>
+</li>
+</ul>
+<a id="more"></a>
+<p>很多时候组件之间的逻辑都是相似的, 如果想复用组件中的逻辑 或者扩展组件的逻辑, 我们可以通过 <a href="https://react.docschina.org/docs/render-props.html" target="_blank" rel="noopener">render props</a> 或者<a href="https://react.docschina.org/docs/higher-order-components.html" target="_blank" rel="noopener">高阶组件</a>,  所以我们在使用很多开源的组件时, 可以经常看到组件支持传入一个 函数作为 props.  通过这个方式, 我们甚至可以完全重新定义组件的具体渲染</p>
+<p>使用 render props 和 stateless component</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; PureComponent &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//举个例子, 现在要开发一个列表组件应用, 点击某一行, 就会在这行后面添加字符串 "已选择"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ListItemComponent = <span class="function">(<span class="params">props = &#123;&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; isSelected, onClick, value &#125; = props;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;li onClick=&#123;onClick&#125;&gt;</span><br><span class="line">      &lt;span&gt;&#123;value&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">      &#123;isSelected ? "已选择" : ""&#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>li&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      selectedList: []</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.onClick = <span class="keyword">this</span>.onClick.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  onClick(e, value) &#123;</span><br><span class="line">    <span class="keyword">const</span> newSelectedList = <span class="keyword">this</span>.state.selectedList.concat([value]);</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      selectedList: newSelectedList</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;&gt;</span><br><span class="line">        demo <span class="number">6</span>_1:</span><br><span class="line">        &lt;br /&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.data.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">// ListItemComponent 可以作为props的一个属性直接传递进来, 相当于 ListItemComponent的逻辑部分都是可以直接复用的.</span></span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;ListItemComponent</span><br><span class="line">              value=&#123;item&#125;</span><br><span class="line">              onClick=&#123;event =&gt; <span class="keyword">this</span>.onClick(event, item)&#125;</span><br><span class="line">              isSelected=&#123;<span class="keyword">this</span>.state.selectedList.includes(item)&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;)&#125;</span><br><span class="line">      &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://codesandbox.io/s/moqr8pxzqy?codemirror=1&amp;fontsize=14&amp;module=%2Fsrc%2Fdemo_6_1.js&amp;moduleview=1" target="_blank" rel="noopener"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit front_end_state_manage_demo"></a></p>
+<p>在真实的项目中, 一个组件的场景会比上述复杂的多, 可能需要拆分成非常多的子组件, 改造成本也比较高. 当项目中比较复杂的组件代码都改造为多个小的 stateless 组件, 并通过 render props 和 高阶组件的方式进行组装, 组件的可扩展性和代码的可复用性将会极大的提高.  </p>
+<p>本来只是想复用组件中的代码逻辑, 最后却重构整个组件,  React 团队认为这种现象也指出了一些更深层次的问题：React需要一些更好的底层元素来复用stateful logic.</p>
+<p>使用 React Hooks实现上述的功能<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ListItemComponent = <span class="function">(<span class="params">props = &#123;&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [isSelected, setIsSelected] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> &#123; value &#125; = props;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;li onClick=&#123;() =&gt; setIsSelected(!isSelected)&#125;&gt;</span><br><span class="line">      &lt;span&gt;&#123;value&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">      &#123;isSelected ? "已选择" : ""&#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>li&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];</span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      demo <span class="number">6</span>_2:</span><br><span class="line">      &lt;br /&gt;</span><br><span class="line">      &#123;data.map(<span class="function"><span class="params">item</span> =&gt;</span> (</span><br><span class="line">        &lt;ListItemComponent value=&#123;item&#125; /&gt;</span><br><span class="line">      ))&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="https://codesandbox.io/s/moqr8pxzqy?codemirror=1&amp;fontsize=14&amp;module=%2Fsrc%2Fdemo_6_2.js&amp;moduleview=1" target="_blank" rel="noopener"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit front_end_state_manage_demo"></a></p>
+<p>从上面使用 React Hooks改造过的代码中, 可以直观的看到, 在ListItemComponent里面可以直接创建一个 值 和 修改值的方法, 就不用像 render props那样子需要把 “值 和 修改值的方法” 从父组件 一层层的传递到子组件. 利用useState这个 hooks,  等同于把依赖的状态数据注入组件, 只是这些数据并非是集中管理的, 而是分散且粒度更细的数据, 关于数据共享 和 数据修改,  还有useReducer 和  useContext  等hooks可以提供能力支持</p>
+<h4 id="React-hooks-只是逻辑的复用-并非数据的复用"><a href="#React-hooks-只是逻辑的复用-并非数据的复用" class="headerlink" title="React hooks 只是逻辑的复用, 并非数据的复用"></a>React hooks 只是逻辑的复用, 并非数据的复用</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useIsSelected</span>(<span class="params">friendID</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [isSelected, setIsSelected] = useState(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">handleStatusChange</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    setIsSelected(!isSelected);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> [isSelected, handleStatusChange];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">List1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [selected, actions] = useIsSelected();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &lt;span onClick=&#123;actions&#125;&gt;list1(点我) &#123;selected ? "选中" : ""&#125; &lt;/span&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">List2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [selected, actions] = useIsSelected();</span><br><span class="line">  <span class="keyword">return</span> &lt;span onClick=&#123;actions&#125;&gt;list2(点我) &#123;selected ? "选中" : ""&#125;&lt;/span&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      demo <span class="number">6</span>_3:</span><br><span class="line">      &lt;br /&gt;</span><br><span class="line">      &lt;List1 /&gt;</span><br><span class="line">      &lt;br /&gt;</span><br><span class="line">      &lt;List2 /&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://codesandbox.io/s/moqr8pxzqy?codemirror=1&amp;fontsize=14&amp;module=%2Fsrc%2Fdemo_6_3.js&amp;moduleview=1" target="_blank" rel="noopener"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit front_end_state_manage_demo"></a></p>
+<p>上述的 List1  List2 都复用  useIsSelected,  但是只是逻辑的复用,  实际上会创建两个独立的值, 互不干扰.</p>
+<h4 id="React-hooks-本质上只是数组"><a href="#React-hooks-本质上只是数组" class="headerlink" title="React hooks 本质上只是数组"></a>React hooks 本质上只是数组</h4><p>React Hooks 带来两个使用上的约定:</p>
+<ul>
+<li>不要在循环，条件判断，嵌套函数里面调用 Hooks</li>
+<li>只在 React 的函数里面调用 Hooks</li>
+</ul>
+<p>其实很好理解, 每次使用 useXXX Hooks的时候, 是通过两个数组来存储对应的 值 和修改值的方法, <a href="http://react-china.org/t/react-hooks/27122" target="_blank" rel="noopener">原理详细参考</a></p>
+<p>React Hooks 这部分就草草的收尾了, 一方面是这块确实没有太多的实践经验, 纯属是在理论上做简单的分析与介绍, 更多的 Hooks 细节介绍由于有 <a href="https://react.docschina.org/docs/hooks-reference.html" target="_blank" rel="noopener">官方文档</a>, 就不重复阐述,<br>React Hooks 部分也可以参考:  <a href="https://juejin.im/post/5be8d3def265da611a476231" target="_blank" rel="noopener">精读《React Hooks》</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+            <a href="/tags/Redux/" rel="tag"># Redux</a>
+          
+            <a href="/tags/Mobx/" rel="tag"># Mobx</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+            <a href="/tags/React-Hook/" rel="tag"># React Hook</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/tech/浅析组件化时代的前端状态管理(五):响应式状态管理/" rel="next" title="浅析组件化时代的前端状态管理(五):响应式状态管理">
+                <i class="fa fa-chevron-left"></i> 浅析组件化时代的前端状态管理(五):响应式状态管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/07/tech/golang源码工程是如何提交代码的/" rel="prev" title="golang源码工程是如何提交代码的">
+                golang源码工程是如何提交代码的 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#React-hooks-只是逻辑的复用-并非数据的复用"><span class="nav-number">1.</span> <span class="nav-text">React hooks 只是逻辑的复用, 并非数据的复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#React-hooks-本质上只是数组"><span class="nav-number">2.</span> <span class="nav-text">React hooks 本质上只是数组</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

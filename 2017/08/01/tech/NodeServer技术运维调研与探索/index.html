@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="nodejs," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="为何要用公司内部的框架, 直接跑服务不好么?简单的部署运维 pm2 + (koa or express) + MongoDB可能遇到的问题:  日志怎么管理? 有没有服务监控与告警? 怎么快速部署, 扩容? 运维管理还得用命令行? 负载均衡咋办?  结论:  尽可能接入公司现有的运维与技术框架, 减少开发成本与运维成本,提高系统的稳定性和安全性">
+<meta name="keywords" content="nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeServer技术运维调研与探索">
+<meta property="og:url" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="为何要用公司内部的框架, 直接跑服务不好么?简单的部署运维 pm2 + (koa or express) + MongoDB可能遇到的问题:  日志怎么管理? 有没有服务监控与告警? 怎么快速部署, 扩容? 运维管理还得用命令行? 负载均衡咋办?  结论:  尽可能接入公司现有的运维与技术框架, 减少开发成本与运维成本,提高系统的稳定性和安全性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501589836_61_w1880_h806.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501589941_34_w1900_h868.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501590001_50_w1508_h816.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501590331_94_w1854_h912.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501590378_16_w1892_h1048.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501590404_58_w1918_h1068.png">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeServer技术运维调研与探索">
+<meta name="twitter:description" content="为何要用公司内部的框架, 直接跑服务不好么?简单的部署运维 pm2 + (koa or express) + MongoDB可能遇到的问题:  日志怎么管理? 有没有服务监控与告警? 怎么快速部署, 扩容? 运维管理还得用命令行? 负载均衡咋办?  结论:  尽可能接入公司现有的运维与技术框架, 减少开发成本与运维成本,提高系统的稳定性和安全性">
+<meta name="twitter:image" content="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/1501589836_61_w1880_h806.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/"/>
+
+
+
+
+
+  <title>NodeServer技术运维调研与探索 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2017/08/01/tech/NodeServer技术运维调研与探索/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">NodeServer技术运维调研与探索</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T00:00:00+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">Nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/01/tech/NodeServer技术运维调研与探索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/08/01/tech/NodeServer技术运维调研与探索/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="为何要用公司内部的框架-直接跑服务不好么"><a href="#为何要用公司内部的框架-直接跑服务不好么" class="headerlink" title="为何要用公司内部的框架, 直接跑服务不好么?"></a>为何要用公司内部的框架, 直接跑服务不好么?</h2><p>简单的部署运维 pm2 + (koa or express) + MongoDB<br>可能遇到的问题:</p>
+<ul>
+<li>日志怎么管理?</li>
+<li>有没有服务监控与告警?</li>
+<li>怎么快速部署, 扩容?</li>
+<li>运维管理还得用命令行?</li>
+<li>负载均衡咋办?</li>
+</ul>
+<p>结论:  尽可能接入公司现有的运维与技术框架, 减少开发成本与运维成本,提高系统的稳定性和安全性<br><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501589836_61_w1880_h806.png" alt=""><br><a id="more"></a></p>
+<blockquote>
+<p>tips: 虽然目前 pm2 等工具已经非常强大, 也提供现有的运维监控平台,但是由于服务运维是关键的路径,直接使用第三方还是需要详细研究,  目前还是使用自研的产品比较好</p>
+</blockquote>
+<h2 id="公司现有的管理运维平台"><a href="#公司现有的管理运维平台" class="headerlink" title="公司现有的管理运维平台"></a>公司现有的管理运维平台</h2><p>Node in tars –  Node.js 大规模商用平台</p>
+<p>TSW – 针对web前端开发同学的server端web开发解决方案   <a href="https://tswjs.org/" target="_blank" rel="noopener">https://tswjs.org/</a></p>
+<h3 id="Node-in-tars"><a href="#Node-in-tars" class="headerlink" title="Node in tars :"></a>Node in tars :</h3><ol>
+<li>无需进行任何代码层面的的变更</li>
+<li>在线的进程管理系统与运维平台</li>
+<li>实时的日志查询</li>
+<li>系统用量与请求监控</li>
+<li>快速部署工具</li>
+</ol>
+<p>###SNG-TSW</p>
+<ol>
+<li>开箱自带内部通用组件接口特性</li>
+<li>TSW 作者维护 tsw 包的版本, 机器负责人负责机器包更新</li>
+<li>实时日志系统与服务端抓包</li>
+<li>与包发布发布系统耦合</li>
+<li>开源框架的兼容</li>
+<li>路由,全局变量,常用 util</li>
+</ol>
+<h2 id="一个技术框架与运维体系的应有的功能与组成"><a href="#一个技术框架与运维体系的应有的功能与组成" class="headerlink" title="一个技术框架与运维体系的应有的功能与组成"></a>一个技术框架与运维体系的应有的功能与组成</h2><ul>
+<li>进程管理 </li>
+<li>请求监控 与 用量监控 </li>
+<li>日志与监控告警平台 </li>
+<li>debug 定位问题 </li>
+<li>接入公司内部标准组件</li>
+<li>开发流程 </li>
+<li>部署流程 </li>
+<li>启动,停止,重启,热重启</li>
+<li>扩容与迁移</li>
+</ul>
+<h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><h4 id="TSW"><a href="#TSW" class="headerlink" title="TSW:"></a>TSW:</h4><ul>
+<li>主进程负责监听端口,分发请求</li>
+<li>worker进程负责处理业务</li>
+<li>负载均衡</li>
+</ul>
+<p><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501589941_34_w1900_h868.png" alt="TSW"></p>
+<p>Node in tars:</p>
+<p><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501590001_50_w1508_h816.png" alt="tars"></p>
+<blockquote>
+<p>tips: 由主进程负责监听端口，接收新连接后再将连接循环分发给工作进程<br>有一种基于round-robin 算法的模型,master 进程创建socket, 绑定地址端口, 同时负责监听<br>当获取到新的连接之后(调用 accept 方法与客户端建立 tcp 连接), 再将这个连接分发到指定的 worker 进程, 这里如何分发到指定的 worker 进程是可控的, 这里使用了 round-robin 算法, 当然还有其他的算法也可以用于请求的分发.</p>
+</blockquote>
+<h3 id="请求监控用量监控"><a href="#请求监控用量监控" class="headerlink" title="请求监控用量监控"></a>请求监控用量监控</h3><ul>
+<li>tars: <ul>
+<li>系统集成自带的监控</li>
+<li>SET 内存、CPU用量数据，以及 eventloop 滞后数据</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>TSW: 主要依赖于公司平台级别的监控</p>
+<ol>
+<li>机器性能监控</li>
+<li>kv 运行查看</li>
+<li>模块调用日志</li>
+<li>流水</li>
+</ol>
+<h3 id="tips-eventloop-滞后的定义"><a href="#tips-eventloop-滞后的定义" class="headerlink" title="tips:  eventloop 滞后的定义"></a>tips:  eventloop 滞后的定义</h3></li>
+</ul>
+<p>作者给出的定义: js主线程处理不过来了,计算方法为: setTimeout 2s,然后减去2s, 得到的非0值就是滞后时间</p>
+<p>我的理解: EventLoop 滞后根据 js 的 event 事件模型中的概念来看的话: 可以作为一个指标来衡量 event 事件队列的长度, 比如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function a()&#123;</span><br><span class="line">	setTimeout(function()&#123;alert(&apos;1&apos;);&#125;, 0);</span><br><span class="line">	alert(&apos;2&apos;);</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br></pre></td></tr></table></figure>
+<p>这里 alert(1), 会滞后 alert(2) 执行, 这个之间的时间差可以用来作为 eventloop 滞后数据指标<br>(这是我分析了event 事件的运行机制得出, 可能不一定准确, 有错误希望指出)</p>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><p>TSW:</p>
+<ul>
+<li>实时日志 </li>
+<li>历史日志</li>
+<li>服务器本地日志</li>
+</ul>
+<p>Node in tars:</p>
+<ul>
+<li>Console 重定向到特定的日志</li>
+<li>管理端动态变更日志基本</li>
+<li>实时日志查看客户端</li>
+</ul>
+<h2 id="监控告警平台"><a href="#监控告警平台" class="headerlink" title="监控告警平台"></a>监控告警平台</h2><p>TSW:</p>
+<ul>
+<li>邮件告警, 自主配置通知者(业务模块、请求头、错误堆栈等)</li>
+<li>模调低于阈值98%告警(短信、内部IM信息通知)</li>
+</ul>
+<p>tars:</p>
+<ul>
+<li>系统/网络层监控(系统负载，磁盘，网络连通性)</li>
+<li>应用层监控(ps，http，log，port)</li>
+<li>业务层监控: pp监控(自定义多维度上报)</li>
+</ul>
+<h3 id="debug-定位问题"><a href="#debug-定位问题" class="headerlink" title="debug 定位问题"></a>debug 定位问题</h3><p>TSW:</p>
+<ul>
+<li>服务端抓包 (毫秒级延时)</li>
+<li>log(14天)</li>
+<li>服务器端日志</li>
+<li>染色</li>
+</ul>
+<p>tars</p>
+<ul>
+<li>实时日志查看</li>
+<li>管理平台更改日志输出级别</li>
+<li>染色 平台</li>
+</ul>
+<h3 id="开发流程与部署流程"><a href="#开发流程与部署流程" class="headerlink" title="开发流程与部署流程"></a>开发流程与部署流程</h3><p>TSW:</p>
+<ul>
+<li>推荐本地搭建 tsw 环境调试</li>
+<li>需要应用接入 tsw(成本较低)</li>
+<li>支持 文件 提单发布</li>
+<li>包发布打包发布(推荐)</li>
+</ul>
+<p>tars</p>
+<ul>
+<li>无需配置环境, tars 只是一个运行容器, 本地开发调试</li>
+<li>nodetools 发布工具</li>
+<li>Svn, git 在线编译与发布 </li>
+</ul>
+<blockquote>
+<p> tips: 在 tars 中,正式部署分为：编译与发布两个环节。<br>编译环节中，先在平台上配置 SVN / GIT 并打 TAG 之后即可编译。<br>编译完成了之后即可选择不同的版本进行发布，一旦发布出现问题则可快速进行回滚操作。</p>
+</blockquote>
+<h3 id="启动-停止-重启-热重启"><a href="#启动-停止-重启-热重启" class="headerlink" title="启动,停止,重启,热重启"></a>启动,停止,重启,热重启</h3><ul>
+<li>包发布包中设置重启脚本</li>
+<li>安装或升级完成之后直接点击热重启或者重启</li>
+<li>tars也支持在管理页面重启应用等操作</li>
+<li>reload方案: 60秒刷新cache , 对性能损耗3%</li>
+</ul>
+<h3 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h3><ul>
+<li>TSW: 包发布自动化一键安装(安装包,下发配置)</li>
+</ul>
+<h1 id="—————-分割线—————"><a href="#—————-分割线—————" class="headerlink" title="—————-分割线—————"></a>—————-分割线—————</h1><h2 id="一点小改变-在docker容器中运行NodeServer"><a href="#一点小改变-在docker容器中运行NodeServer" class="headerlink" title="一点小改变: 在docker容器中运行NodeServer"></a>一点小改变: 在docker容器中运行NodeServer</h2><h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><ul>
+<li>Docker 镜像（Image）就是一个只读的模板。</li>
+<li>仓库（Repository）是集中存放镜像文件的场所,</li>
+<li>容器（Container）是从镜像创建的运行实例。它可以被启动、开始、停止、删除</li>
+</ul>
+<blockquote>
+<p>tips:  Docker 和传统虚拟化方式的不同之处， Docker 的基础是 Linux 容器（LXC）,容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现。</p>
+</blockquote>
+<h3 id="镜像-ufs-容器"><a href="#镜像-ufs-容器" class="headerlink" title="镜像 ufs 容器"></a>镜像 ufs 容器</h3><p>Dockerfile是由一系列命令和参数构成的脚本，这些命令应用于基础镜像并最终创建一个新的镜像。<br><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501590331_94_w1854_h912.png" alt="镜像ufs容器"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Dockerfile</span><br><span class="line">FROM ubuntu:14.04</span><br><span class="line">ADD run.sh /</span><br><span class="line">VOLUME /data</span><br><span class="line">CMD [&quot;./run.sh&quot;]</span><br></pre></td></tr></table></figure>
+<p>FROM ubuntu:14.04 :设置基础镜像，此时会使用基础镜像 ubuntu:14.04的所有镜像层，为简单起见，图中将其作为一个整体展示。<br>ADD run.sh /:将Dockerfile所在目录的文件run.sh加至镜像的根目录，此时新一层的镜像只有一项内容，即根目录下的run.sh.</p>
+<p>VOLUME /data:设定镜像的VOLUME，此VOLUME在容器内部的路径为/data。需要注意的是，此时并未在新一层的镜像中添加任何文件，但更新了镜像的json文件，以便通过此镜像启动容器时获取这方面的信息。</p>
+<p>CMD [“./run.sh”]:设置镜像的默认执行入口，此命令同样不会在新建镜像中添加任何文件，仅仅在上一层镜像json文件的基础上更新新建镜像的json文件。</p>
+<p>初始层(Init Layer)与可读写层(Read－Write Layer)，初始层中大多是初始化容器环境时，与容器相关的环境信息，如容器主机名，主机host信息以及域名服务文件等。</p>
+<h3 id="构建基础镜像与开发部署流程"><a href="#构建基础镜像与开发部署流程" class="headerlink" title="构建基础镜像与开发部署流程"></a>构建基础镜像与开发部署流程</h3><p><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501590378_16_w1892_h1048.png" alt="使用流程"></p>
+<ol>
+<li>开发代码</li>
+<li>将代码打入现有的基础镜像</li>
+<li>build 出来 release 镜像</li>
+<li>创建容器运行服务</li>
+</ol>
+<h3 id="容器管理与运维"><a href="#容器管理与运维" class="headerlink" title="容器管理与运维"></a>容器管理与运维</h3><p><img src="/2017/08/01/tech/NodeServer技术运维调研与探索/1501590404_58_w1918_h1068.png" alt="docker 三剑客"></p>
+<ul>
+<li>docker-machine相当于创建了几台可以运行docker的容器</li>
+<li>docker swarm将多个容器做replication</li>
+<li><p>docker engine就是单独的容器执行命令</p>
+<p>tips:开源可视化 swarm 容器管理界面<br><a href="https://github.com/portainer/portainer" target="_blank" rel="noopener">https://github.com/portainer/portainer</a><br><a href="https://github.com/shipyard/shipyard" target="_blank" rel="noopener">https://github.com/shipyard/shipyard</a></p>
+</li>
+</ul>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>告别紊乱的开发环境</li>
+<li>开发-生产环境，为应用提供了一致的环境</li>
+<li>应用程序运行环境隔离</li>
+<li>自带版本控制功能</li>
+<li>提升研发交付和运维上线效率</li>
+<li>快速部署</li>
+</ul>
+<h2 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h2><p>从部署一个app.js开始, 多维对比 tsw 和tars, 设想Node服务与容器结合, 其实太多的技术细节我们都不了解了, 还是要一步一步慢慢来, 先做好基础技术储备, 一步一个脚印, 从现在的1.0 技术储备时代转向  2.0小规模业务使用的探索时代</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/01/tech/探究HTTP2/" rel="next" title="探究HTTP2">
+                <i class="fa fa-chevron-left"></i> 探究HTTP2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/" rel="prev" title="一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库">
+                一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为何要用公司内部的框架-直接跑服务不好么"><span class="nav-number">1.</span> <span class="nav-text">为何要用公司内部的框架, 直接跑服务不好么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公司现有的管理运维平台"><span class="nav-number">2.</span> <span class="nav-text">公司现有的管理运维平台</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-in-tars"><span class="nav-number">2.1.</span> <span class="nav-text">Node in tars :</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个技术框架与运维体系的应有的功能与组成"><span class="nav-number">3.</span> <span class="nav-text">一个技术框架与运维体系的应有的功能与组成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程管理"><span class="nav-number">3.1.</span> <span class="nav-text">进程管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TSW"><span class="nav-number">3.1.1.</span> <span class="nav-text">TSW:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求监控用量监控"><span class="nav-number">3.2.</span> <span class="nav-text">请求监控用量监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tips-eventloop-滞后的定义"><span class="nav-number">3.3.</span> <span class="nav-text">tips:  eventloop 滞后的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志"><span class="nav-number">3.4.</span> <span class="nav-text">日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控告警平台"><span class="nav-number">4.</span> <span class="nav-text">监控告警平台</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#debug-定位问题"><span class="nav-number">4.1.</span> <span class="nav-text">debug 定位问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发流程与部署流程"><span class="nav-number">4.2.</span> <span class="nav-text">开发流程与部署流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-停止-重启-热重启"><span class="nav-number">4.3.</span> <span class="nav-text">启动,停止,重启,热重启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩容"><span class="nav-number">4.4.</span> <span class="nav-text">扩容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#—————-分割线—————"><span class="nav-number"></span> <span class="nav-text">—————-分割线—————</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一点小改变-在docker容器中运行NodeServer"><span class="nav-number">1.</span> <span class="nav-text">一点小改变: 在docker容器中运行NodeServer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心概念"><span class="nav-number">1.1.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#镜像-ufs-容器"><span class="nav-number">1.2.</span> <span class="nav-text">镜像 ufs 容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建基础镜像与开发部署流程"><span class="nav-number">1.3.</span> <span class="nav-text">构建基础镜像与开发部署流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器管理与运维"><span class="nav-number">1.4.</span> <span class="nav-text">容器管理与运维</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优势"><span class="nav-number">1.5.</span> <span class="nav-text">优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾"><span class="nav-number">2.</span> <span class="nav-text">回顾</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

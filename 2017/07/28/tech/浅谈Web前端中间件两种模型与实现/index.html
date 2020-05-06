@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="nodejs," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="中间件是什么?首先它是一个组件, 其次, 它与具体的业务逻辑是解耦的,  业务逻辑经常需要调用底层逻辑或者一些系统通用逻辑,  然而每次都需要去编写这些接口和代码是没有必要的,  这时候中间件就可以出场了.  具体的场景是可以看做如下:  前端业务需要某个服务,  我无需关心提供这项服务的具体底层逻辑, 只需要通过中间件获取到结果就好了 具体的例子我们开发了一个很简单 webserver, 现在需">
+<meta name="keywords" content="nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈 Web 前端中间件两种模型与实现">
+<meta property="og:url" content="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="中间件是什么?首先它是一个组件, 其次, 它与具体的业务逻辑是解耦的,  业务逻辑经常需要调用底层逻辑或者一些系统通用逻辑,  然而每次都需要去编写这些接口和代码是没有必要的,  这时候中间件就可以出场了.  具体的场景是可以看做如下:  前端业务需要某个服务,  我无需关心提供这项服务的具体底层逻辑, 只需要通过中间件获取到结果就好了 具体的例子我们开发了一个很简单 webserver, 现在需">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/1501247526_13_w478_h435.png">
+<meta property="og:image" content="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/1501247580_47_w594_h700.gif">
+<meta property="og:updated_time" content="2020-05-06T16:31:55.717Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈 Web 前端中间件两种模型与实现">
+<meta name="twitter:description" content="中间件是什么?首先它是一个组件, 其次, 它与具体的业务逻辑是解耦的,  业务逻辑经常需要调用底层逻辑或者一些系统通用逻辑,  然而每次都需要去编写这些接口和代码是没有必要的,  这时候中间件就可以出场了.  具体的场景是可以看做如下:  前端业务需要某个服务,  我无需关心提供这项服务的具体底层逻辑, 只需要通过中间件获取到结果就好了 具体的例子我们开发了一个很简单 webserver, 现在需">
+<meta name="twitter:image" content="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/1501247526_13_w478_h435.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/"/>
+
+
+
+
+
+  <title>浅谈 Web 前端中间件两种模型与实现 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">浅谈 Web 前端中间件两种模型与实现</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-28T00:00:00+08:00">
+                2017-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">Nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="中间件是什么"><a href="#中间件是什么" class="headerlink" title="中间件是什么?"></a>中间件是什么?</h2><p>首先它是一个组件, 其次, 它与具体的业务逻辑是解耦的,  业务逻辑经常需要调用底层逻辑或者一些系统通用逻辑,  然而每次都需要去编写这些接口和代码是没有必要的,  这时候中间件就可以出场了. </p>
+<p>具体的场景是可以看做如下:  前端业务需要某个服务,  我无需关心提供这项服务的具体底层逻辑, 只需要通过中间件获取到结果就好了</p>
+<h2 id="具体的例子"><a href="#具体的例子" class="headerlink" title="具体的例子"></a>具体的例子</h2><p>我们开发了一个很简单 webserver, 现在需要把不同 url 的请求路由到不同的业务处理 模块, 一开始我们的请求路径很少, 直接用 switch 语句就可以应付了, 后面随着路径越来越多, 每次都要改这个往这个 switch 加 case, 后面需求越来越变态了, 竟然要根据url路径中的参数(如用户 id 或者商品 id)路由到不同的 handler 方法,   显然我们的路由逻辑越来越复杂了</p>
+<p>作为一个开发者, 关于如何处理好的路由的显然不是我最关心的(我只想好好地写业务代码),  那么这时候如果有一个第三方(路由中间件), 只需要传入请求的匹配规则, 对应的 handler 函数, 至于如何把请求路由到正确的 handler 中, 那是路由中间件的事情了, 之后就可以愉快的写业务代码了<br><a id="more"></a></p>
+<h2 id="中间件的模型与机制"><a href="#中间件的模型与机制" class="headerlink" title="中间件的模型与机制"></a>中间件的模型与机制</h2><h3 id="1-洋葱模型-代表作-koa"><a href="#1-洋葱模型-代表作-koa" class="headerlink" title="1. 洋葱模型 (代表作 koa)"></a>1. 洋葱模型 (代表作 koa)</h3><p>首先来两张egg.js 官网的原理图帮助简单明地去理解<br>洋葱模型:<img src="/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/1501247526_13_w478_h435.png" alt=""><br>中间件执行顺序: <img src="/2017/07/28/tech/浅谈Web前端中间件两种模型与实现/1501247580_47_w594_h700.gif" alt=""></p>
+<p>通过上面的图看以看出, 所有的请求都会经过中间件两次,  先依次的进入中间件, 遇到 yield 退出来,执行下一个中间件,   反过来一个个往上面冒泡执行中间件yield 后面的代码, 这样子好处就是可以非常简单实现了后置处理逻辑, 比如想对返回的结果加一层封装就可以很简单的实现了</p>
+<p>下面来学习一下如何去实习,<br>提前了解几个知识点:</p>
+<p> Generator  <a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/generator</a><br> Promise   <a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/promise</a><br> Thunk函数  <a href="http://es6.ruanyifeng.com/#docs/generator-async#Thunk-函数" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/generator-async#Thunk-函数</a></p>
+<p>可以点击去回顾温习一下</p>
+<p>简单的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function* f1() &#123;</span><br><span class="line">    console.log(&apos;f1: pre next&apos;);</span><br><span class="line">    yield* f2();</span><br><span class="line">    console.log(&apos;f1: post next&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* f2() &#123;</span><br><span class="line">    console.log(&apos;  f2: pre next&apos;);</span><br><span class="line">    yield* f3();</span><br><span class="line">    console.log(&apos;  f2: post next&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* f3() &#123;</span><br><span class="line">    console.log(&apos;    f3: pre next&apos;);</span><br><span class="line">    console.log(&apos;    f3: post next&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var g = f1();</span><br><span class="line">g.next();</span><br></pre></td></tr></table></figure>
+<p>输出结果为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f1: pre next</span><br><span class="line">  f2: pre next</span><br><span class="line">    f3: pre next</span><br><span class="line">    f3: post next</span><br><span class="line">  f2: post next</span><br><span class="line">f1: post next</span><br></pre></td></tr></table></figure>
+<p>再看看 koa 实现的源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 很简单就一行</span><br><span class="line">var fn = this.experimental ? compose_es7(this.middleware) : co.wrap(compose(this.middleware));</span><br></pre></td></tr></table></figure>
+<p>也太简单了吧, 继续深入挖掘一下, 我们这里再重现一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//  compose 的作用就是把 compose([f1, f2, ..., fn])转化为fn(...f2(f1(noop())))</span><br><span class="line">function compose(middleware) &#123;</span><br><span class="line">    return function*(next) &#123;</span><br><span class="line">        var i = middleware.length;</span><br><span class="line">        var prev = next || noop();</span><br><span class="line">        var curr;</span><br><span class="line">        while (i--) &#123;</span><br><span class="line">            curr = middleware[i];</span><br><span class="line">            prev = curr.call(this, prev);</span><br><span class="line">        &#125;</span><br><span class="line">        yield* prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var co = require(&apos;co&apos;);</span><br><span class="line">co(compose([f1, f2, f3]));</span><br></pre></td></tr></table></figure>
+<p>看到这里可能会问 co 是什么?   <a href="https://github.com/tj/co" target="_blank" rel="noopener">https://github.com/tj/co</a>  可以看一下官网的 readme, 同时源代码很少很精巧.  co 是一个函数库, 可以帮助我们不用自动执行 generator 函数, 不需要我们手动执行 next() 方法.</p>
+<p>有两种方式可以自动执行 Generator</p>
+<ol>
+<li>Thunk </li>
+<li>Promise 对象</li>
+</ol>
+<p>co 模块其实就是将两种自动执行器集合到一起去了（Thunk 函数和 Promise 对象）<br>下面分别用用 Thunk 函数简单的实现 co 的原理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// Promise 版本的 co</span><br><span class="line">function co(gen) &#123;</span><br><span class="line">  var ctx = this;</span><br><span class="line"></span><br><span class="line">  return new Promise(function(resolve, reject) &#123;</span><br><span class="line">    if (typeof gen === &apos;function&apos;) gen = gen.call(ctx);</span><br><span class="line">    if (!gen || typeof gen.next !== &apos;function&apos;) return resolve(gen);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">// Thunk 版本的 co</span><br><span class="line">function co(fn) &#123;</span><br><span class="line">  var gen = fn();</span><br><span class="line"></span><br><span class="line">  function next(err, data) &#123;</span><br><span class="line">    var result = gen.next(data);</span><br><span class="line">    if (result.done) return;</span><br><span class="line">    result.value(next);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var gen = function* ()&#123;</span><br><span class="line">  var f1 = yield Promise.resolve(&apos;f1&apos;);</span><br><span class="line">  var f2 = yield Promise.resolve(&apos;f2&apos;);</span><br><span class="line">  // 还支持数组的写法, 可以处理并发的异步操作,全部完成之后才会下一步</span><br><span class="line">  // var result  = yield [ </span><br><span class="line">  //		 Promise.resolve(1),</span><br><span class="line">  // 		 Promise.resolve(2)]</span><br><span class="line">  console.log(f1.toString());</span><br><span class="line">  console.log(f2.toString());</span><br><span class="line">&#125;;</span><br><span class="line">co(gen);</span><br></pre></td></tr></table></figure>
+<p>小结: </p>
+<p>使用  洋葱模型的 中间件很多, 比较有名就是 koa 的,  阿里出品的 egg 也是基于这个模式的,  前端的 Redux 中间件也是基于这个模型的, 本质上就是捕捉store.dispatch(action), 然后在dispatch 前后执行一些操作,比如记录日志</p>
+<h3 id="2-瀑布流模型-代表作-connect"><a href="#2-瀑布流模型-代表作-connect" class="headerlink" title="2. 瀑布流模型 (代表作 connect  )"></a>2. 瀑布流模型 (代表作 connect  )</h3><p>虽然 “洋葱模型”  的中间件功能很强大, 也很符合中间件的设计逻辑, 但是”瀑布流模型”(connect) 结合 express中间件理念的设计, 我还是更加喜欢这种瀑布流方式的中间件设计方法</p>
+<p>具体的代码可以参考 <a href="https://github.com/senchalabs/connect#readme" target="_blank" rel="noopener">https://github.com/senchalabs/connect#readme</a>   connect 是一个中间件的库 , express 的中间件就是这个东西</p>
+<p>在 express 中, 一个完整个应用就是各种调用中间件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">app.use(function(request,response,next)&#123;</span><br><span class="line">    if(request.url === &apos;/&apos;)&#123;</span><br><span class="line">        response.writeHead(200,&#123;&quot;Content-Type&quot;:&quot;text/plain&quot;&#125;);</span><br><span class="line">        response.end(&quot;This is home\n&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>而这种调用方式也是十分优美的, 一个接着一个,顺序调用, 这与 express 框架的设计哲学相辅相成.<br>实现起来没有洋葱模型的 koa 那么炫酷,比较朴素 ,源码有284行,  精简一下,中间件相关代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 中间件本身是一个函数</span><br><span class="line">function middleware(req,res,next)&#123;</span><br><span class="line">    // do something;</span><br><span class="line">    // 做完后调用下一个函数</span><br><span class="line">    next();</span><br><span class="line">&#125;</span><br><span class="line">function express() &#123;</span><br><span class="line">    var funcs = []; // 待执行的函数数组, 这里可以拓展 funcs 为多层级对象,</span><br><span class="line">                    //可以借用中间件来实现路由的功能.</span><br><span class="line">    var app = function (req, res) &#123;</span><br><span class="line">        var i = 0;</span><br><span class="line">        function next() &#123;</span><br><span class="line">            var task = funcs[i++];  // 取出函数数组里的下一个函数</span><br><span class="line">            if (!task) &#123;    // 如果函数不存在,return</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            task(req, res, next);   // 否则,执行下一个函数</span><br><span class="line">        &#125;</span><br><span class="line">        next();</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * use方法就是把函数添加到函数数组中</span><br><span class="line">     * @param task</span><br><span class="line">     */</span><br><span class="line">    app.use = function (task) &#123;</span><br><span class="line">        funcs.push(task);</span><br><span class="line">    &#125;</span><br><span class="line">    return app;    // 返回实例</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单的来说express 的 connect 中间件功能并不入如洋葱模型的 中间件强大,  但是优势是结合了 express 框架的基于中间件运行的理念 , 在开发使用上面也能够得心应手</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本篇文章是最近了解 koa 和 egg.js 之后, 对  Web前端Server框架学习与探索  文中中间件部分的一个展开了解,  在学习的过程中, 也更加深刻的理解 generator 异步编程以及基于co 这个库一些异步编程应用</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/23/tech/Web前端Server框架学习与探索(承上)/" rel="next" title="Web前端Server框架学习与探索">
+                <i class="fa fa-chevron-left"></i> Web前端Server框架学习与探索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/01/tech/探究HTTP2/" rel="prev" title="探究HTTP2">
+                探究HTTP2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件是什么"><span class="nav-number">1.</span> <span class="nav-text">中间件是什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的例子"><span class="nav-number">2.</span> <span class="nav-text">具体的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件的模型与机制"><span class="nav-number">3.</span> <span class="nav-text">中间件的模型与机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-洋葱模型-代表作-koa"><span class="nav-number">3.1.</span> <span class="nav-text">1. 洋葱模型 (代表作 koa)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-瀑布流模型-代表作-connect"><span class="nav-number">3.2.</span> <span class="nav-text">2. 瀑布流模型 (代表作 connect  )</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
