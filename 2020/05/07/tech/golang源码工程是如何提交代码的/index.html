@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="持续交付," />
+  <meta name="keywords" content="持续交付,golang,六步提交法," />
 
 
 
@@ -78,22 +78,22 @@
 
 
 <meta name="description" content="前言：golang是一门非常年轻的语言，背靠工程实践非常强大的google， 在开源的研发流程上也是处处凸显google的工程师文化， 本文简要讲述在golang源码仓库中提交一个commit的过程及其涉及到的持续交付的知识">
-<meta name="keywords" content="持续交付">
+<meta name="keywords" content="持续交付,golang,六步提交法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang源码工程是如何提交代码的">
-<meta property="og:url" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/index.html">
+<meta property="og:url" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/index.html">
 <meta property="og:site_name" content="Outshine Amaze">
 <meta property="og:description" content="前言：golang是一门非常年轻的语言，背靠工程实践非常强大的google， 在开源的研发流程上也是处处凸显google的工程师文化， 本文简要讲述在golang源码仓库中提交一个commit的过程及其涉及到的持续交付的知识">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/golang-cla.png">
-<meta property="og:image" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/golang-goherbot.png">
-<meta property="og:image" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/gerrit-cr.png">
-<meta property="og:image" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/6-step-commit.png">
-<meta property="og:updated_time" content="2020-05-06T16:46:18.656Z">
+<meta property="og:image" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/golang-cla.png">
+<meta property="og:image" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/golang-goherbot.png">
+<meta property="og:image" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/gerrit-cr.png">
+<meta property="og:image" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/6-step-commit.png">
+<meta property="og:updated_time" content="2020-05-10T00:49:44.551Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang源码工程是如何提交代码的">
 <meta name="twitter:description" content="前言：golang是一门非常年轻的语言，背靠工程实践非常强大的google， 在开源的研发流程上也是处处凸显google的工程师文化， 本文简要讲述在golang源码仓库中提交一个commit的过程及其涉及到的持续交付的知识">
-<meta name="twitter:image" content="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/golang-cla.png">
+<meta name="twitter:image" content="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/golang-cla.png">
 
 
 
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/"/>
+  <link rel="canonical" href="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/"/>
 
 
 
@@ -272,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2020/05/07/tech/golang源码工程是如何提交代码的/">
+    <link itemprop="mainEntityOfPage" href="https://outshine.me/2020/05/07/tech/golang源码工程是如何提交代码的/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="laynezhou">
@@ -430,6 +430,10 @@
           
             <a href="/tags/持续交付/" rel="tag"># 持续交付</a>
           
+            <a href="/tags/golang/" rel="tag"># golang</a>
+          
+            <a href="/tags/六步提交法/" rel="tag"># 六步提交法</a>
+          
         </div>
       
 
@@ -450,6 +454,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/09/daily_think/学会使用纯键盘工作/" rel="prev" title="学会使用纯键盘工作">
+                学会使用纯键盘工作 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -533,7 +541,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +552,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="nodejs,kv,share_mem," />
+  <meta name="keywords" content="nodejs,kv缓存数据库,share_mem," />
 
 
 
@@ -78,14 +78,14 @@
 
 
 <meta name="description" content="需求最近在做一个网页静态化的工具, 后台用的 node+ express, 但是没有用 DB, 主要是考虑到业务的数据量实在是小的可怜, 就是几个配置和日志文件 ,  所以我把数据用 fs.writeFile 直接写到 json 文件中, 然后每次读都直接 fs.readFile 读出来 优化一但是这样子貌似是有些简陋, 其中完全可以把 文件读取相关的封装起来,  然后提供对象读写接口 类似于 g">
-<meta name="keywords" content="nodejs,kv,share_mem">
+<meta name="keywords" content="nodejs,kv缓存数据库,share_mem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库">
-<meta property="og:url" content="https://outshineamaze.github.io/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/index.html">
+<meta property="og:url" content="https://outshine.me/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/index.html">
 <meta property="og:site_name" content="Outshine Amaze">
 <meta property="og:description" content="需求最近在做一个网页静态化的工具, 后台用的 node+ express, 但是没有用 DB, 主要是考虑到业务的数据量实在是小的可怜, 就是几个配置和日志文件 ,  所以我把数据用 fs.writeFile 直接写到 json 文件中, 然后每次读都直接 fs.readFile 读出来 优化一但是这样子貌似是有些简陋, 其中完全可以把 文件读取相关的封装起来,  然后提供对象读写接口 类似于 g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-06T16:31:55.711Z">
+<meta property="og:updated_time" content="2020-05-10T00:49:40.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库">
 <meta name="twitter:description" content="需求最近在做一个网页静态化的工具, 后台用的 node+ express, 但是没有用 DB, 主要是考虑到业务的数据量实在是小的可怜, 就是几个配置和日志文件 ,  所以我把数据用 fs.writeFile 直接写到 json 文件中, 然后每次读都直接 fs.readFile 读出来 优化一但是这样子貌似是有些简陋, 其中完全可以把 文件读取相关的封装起来,  然后提供对象读写接口 类似于 g">
@@ -118,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://outshineamaze.github.io/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/"/>
+  <link rel="canonical" href="https://outshine.me/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/"/>
 
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://outshineamaze.github.io/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/">
+    <link itemprop="mainEntityOfPage" href="https://outshine.me/2017/08/13/tech/一个NodeJS多进程共享内存,高性能,文件存储,轻量KV数据库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="laynezhou">
@@ -306,6 +306,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">Nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -417,7 +439,7 @@
           
             <a href="/tags/nodejs/" rel="tag"># nodejs</a>
           
-            <a href="/tags/kv/" rel="tag"># kv</a>
+            <a href="/tags/kv缓存数据库/" rel="tag"># kv缓存数据库</a>
           
             <a href="/tags/share-mem/" rel="tag"># share_mem</a>
           
@@ -528,7 +550,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -539,7 +561,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -550,7 +572,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

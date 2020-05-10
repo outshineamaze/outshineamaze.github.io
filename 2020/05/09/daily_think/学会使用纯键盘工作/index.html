@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<link rel="manifest" href="/manifest.json">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HHKB,VIM,纯键盘工作," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="闲聊作为一个键盘党， 前前后后大概买过5个机械键盘了， 今天又新入了hhkb hybrid type-s，不得不说手感真的是非常好， 非常安静， 手感和我的红轴键盘比较接近， 按键非常稳定， 按下任意一个按键都是一样的手感， 仿佛在给手指在做马杀鸡。好了， 吹了hhkb， 终于退烧了之后， 得聊聊我为什么要买hhkb了， 答案就是使用纯键盘工作">
+<meta name="keywords" content="HHKB,VIM,纯键盘工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学会使用纯键盘工作">
+<meta property="og:url" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/index.html">
+<meta property="og:site_name" content="Outshine Amaze">
+<meta property="og:description" content="闲聊作为一个键盘党， 前前后后大概买过5个机械键盘了， 今天又新入了hhkb hybrid type-s，不得不说手感真的是非常好， 非常安静， 手感和我的红轴键盘比较接近， 按键非常稳定， 按下任意一个按键都是一样的手感， 仿佛在给手指在做马杀鸡。好了， 吹了hhkb， 终于退烧了之后， 得聊聊我为什么要买hhkb了， 答案就是使用纯键盘工作">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/app时间分布.png">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/terminal_vscode.png">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/vim_motion.gif">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/vimium.gif">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/12/16/204008.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/alfred.gif">
+<meta property="og:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/karabinor_elements.png">
+<meta property="og:updated_time" content="2020-05-10T03:57:49.931Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学会使用纯键盘工作">
+<meta name="twitter:description" content="闲聊作为一个键盘党， 前前后后大概买过5个机械键盘了， 今天又新入了hhkb hybrid type-s，不得不说手感真的是非常好， 非常安静， 手感和我的红轴键盘比较接近， 按键非常稳定， 按下任意一个按键都是一样的手感， 仿佛在给手指在做马杀鸡。好了， 吹了hhkb， 终于退烧了之后， 得聊聊我为什么要买hhkb了， 答案就是使用纯键盘工作">
+<meta name="twitter:image" content="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/app时间分布.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/"/>
+
+
+
+
+
+  <title>学会使用纯键盘工作 | Outshine Amaze</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Outshine Amaze</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">专注技术， 热爱生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-simulay">
+          <a href="https://outshineamaze.github.io/simulay/" rel="section">
+            
+            Simulay
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-iotshine">
+          <a href="https://outshineamaze.github.io/iotshine/" rel="section">
+            
+            Iotshine
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://outshine.me/2020/05/09/daily_think/学会使用纯键盘工作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laynezhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatars.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Outshine Amaze">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">学会使用纯键盘工作</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-09T23:14:40+08:00">
+                2020-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/日常/" itemprop="url" rel="index">
+                    <span itemprop="name">日常</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/09/daily_think/学会使用纯键盘工作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/09/daily_think/学会使用纯键盘工作/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="闲聊"><a href="#闲聊" class="headerlink" title="闲聊"></a>闲聊</h2><p>作为一个键盘党， 前前后后大概买过5个机械键盘了， 今天又新入了hhkb hybrid type-s，不得不说手感真的是非常好， 非常安静， 手感和我的红轴键盘比较接近， 按键非常稳定， 按下任意一个按键都是一样的手感， 仿佛在给手指在做马杀鸡。<br>好了， 吹了hhkb， 终于退烧了之后， 得聊聊我为什么要买hhkb了， 答案就是使用纯键盘工作<br><a id="more"></a></p>
+<p>大学我用了3年的windows， 也是一个十足的软粉， 但是, 在实习之后， 开始用mac工作了， 从此就是command按键的忠实粉丝，仿佛后半生都离不开command按键了， 在使用mac的过程中， 也逐步开始意识到快捷键的重要性， 讲真的mac的快捷键其实不咋地， 最初吸引我的是触摸板比较好用， 对现在的我来说， mac最好的一点是提供了一个简单稳定长续航的操作系统与硬件， 用完即走，不用折腾</p>
+<p>在使用mac的过程中， 陆续使用过两个机械键盘， 分别是 青轴的filco 圣手二代  和 ganss 87 红轴， 最开始的青轴因为太吵，被同时吐槽， 所以最终没有在公司使用，带回家吃灰快三年了。 取而代之的是ganss 87， 一个淘宝随便买的87红轴， 虽然也挺吵的，但是相比于filco青轴， 简直不要太安静了， 有时候想想写代码写的最多的居然是淘宝随便买的破键盘， 就跟之前我用耳机一样， 为了防止Imac意外在办公室外放， 我就接了一个EarPods耳机，结果最后用的最多也是这个有线的EarPods， 然后Boss QC35 和 AirPods也是吃灰，很多时候越是简单的东西反而越经常使用，  最好玩的是那个Earpods耳机是我买手机充电线送的山寨版的</p>
+<h2 id="回到主题"><a href="#回到主题" class="headerlink" title="回到主题"></a>回到主题</h2><p>影响我们工作效率的一大问题是啥呢？ 对于我来说 频繁的把手从键盘移动到鼠标， 再放回键盘<br>所以想要一个高的工作效率， 核心的关键点是如何让我们的手在整天的工作中不需要离开键盘，即使做到不离开键盘， 还要保证食指要在FJ两个按键上，这样子才能高效稳定的输出大脑指令</p>
+<h2 id="平时工作一般会用到哪些软件"><a href="#平时工作一般会用到哪些软件" class="headerlink" title="平时工作一般会用到哪些软件"></a>平时工作一般会用到哪些软件</h2><p><img src="/2020/05/09/daily_think/学会使用纯键盘工作/app时间分布.png" alt="使用时间分布"></p>
+<ol>
+<li>vscode 写代码， 写文档</li>
+<li>edge浏览器, 大部分的工作都是云端的， 所以浏览器非常重要</li>
+<li>企业微信、微信</li>
+</ol>
+<p>可以看到平时我平时主要就是这几个软件占用我大部分的时间</p>
+<p>还有一些其他的mac上的软件也支持很多的快捷键, 使用mac的同学可以搜索一下CheatSheet 这个软件， 按住command按键就会跳出当前软件支持的快捷键列表， 非常方便</p>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><p>最近两年一直都是使用远程开发的模式， 即代码存放在开发服务器中， 通过terminal登录开发服务器使用vim开发或者使用vscode remote-ssh 连接开发服务器开发， 目前已经是一个vscode的重度用户了。最开始用vscode的时候， 还背了一下vscode自带的快捷键， 然后用vim的时候还带切换回vim的快捷键， vscode的那几个快捷键是远远不够用的，虽然提供了强大的keymap的功能， 但是自己去配置也是不够现实的，  最后还是在vscode的开启vim mode， 可以把vscode + vim mode 等同于  一个高级的terminal+vim远程开发， 只不过vscode的GUI对于大部分人更加友好， 而在写代码过程中依旧使用vim的快捷键。 </p>
+<p>所以我的开发模式就变成了：</p>
+<ol>
+<li>使用iterm2登录开发服务器， tmux创建会话用于持久化窗口， 然后使用vim直接写代码， 这种模式其实用的不多</li>
+<li>启动vscode， 连接上远程开发服务器， 将常用的目前加到工作区中， 保存工作区， 下次打开会自动化连接上， 并恢复工作区的状态<br><img src="/2020/05/09/daily_think/学会使用纯键盘工作/terminal_vscode.png" alt=""><br>可以发现在两个模式之间， 我都使用vim mode 的快捷键编程, 其实对我来说本地电脑编辑器的快捷键配置就没有那么重要了</li>
+</ol>
+<p>写代码的是分两种情况， 一是在快速各个文件中跳转，或者快速查看代码文件； 另外一块是单个文件长时间的coding， </p>
+<p>单个文件的编辑， 主要的场景是我们打开一个文件， 现在可能需要花几个小时的时间来写一个模块或者写一篇文档， 这种场景我们主要使用的是单独的代码编辑器的功能，（代码编辑器，IDE还是有些区别的</p>
+<p>对于代码编辑器常用的几个功能是如何通过键盘操作的， 首先是要启用vim mode， vscode可以在商店中搜索vim，command + shift + p 搜索vim，点击 toggle vim mode</p>
+<p>vim的基本操作可以google搜索到很多的教程， 这里不过多阐述</p>
+<p>对于文本编辑器的操作， 我们给主要使用的功能进行了一个排序</p>
+<ol>
+<li>光标移动</li>
+<li>文本处理, 文本选择， 文本复制，文本删除, 文本移动</li>
+<li>搜索</li>
+<li>翻页</li>
+<li>跳转</li>
+</ol>
+<p>上面是我进行的一个使用频率的排序， 可以看到光标的移动在写代码中， 是非常频繁的操作， 假如我们习惯用鼠标的话，通常会用鼠标点到下一步的操作位置, 这时候手就离开键盘了，一来一回，就极大的拖慢我们的编程速度</p>
+<h4 id="特别讲一下光标的快速移动"><a href="#特别讲一下光标的快速移动" class="headerlink" title="特别讲一下光标的快速移动"></a>特别讲一下光标的快速移动</h4><p>开启vim mode 的 vim-easymotion模式</p>
+<p><img src="/2020/05/09/daily_think/学会使用纯键盘工作/vim_motion.gif" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&quot;vim.easymotion&quot;: true)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;leader&gt;&lt;leader&gt; t/T &lt;char&gt; 能够向前/向后快速到达可见范围内的某字符(&lt;char&gt;)的位置</span><br><span class="line">&lt;leader&gt;&lt;leader&gt; w/b 向前/向后到达可见范围内任何单词的开头</span><br><span class="line">&lt;leader&gt;&lt;leader&gt; e/ge 向前/向后到达可见范围内任何单词的结尾</span><br><span class="line">&lt;leader&gt;&lt;leader&gt; k/j 向前/向后到达可见范围内任何行的行首</span><br></pre></td></tr></table></figure>
+<p>更多操作查看文档 <a href="https://github.com/VSCodeVim/Vim/#vim-easymotion" target="_blank" rel="noopener">VSCodeVim/#vim-motion</a></p>
+<p>其他几项文本编辑器的操作，如果用熟练vscode快捷键， 在vscode使用原生的快捷键和vim的快捷键其实操作的效率是差不多的， 大家在编写一个文件的时候观察一下每次手离开键盘都是因为什么， 我的情况是大部分情况就是去移动光标。 为了统一在各大硬件平台的操作习惯， 建议是学习vim的快捷键， 一次学习受用终生，我可不想哪天换了电脑或者换了一个工作环境， 就得重新学一遍快捷键</p>
+<h4 id="关于vscode的常用快捷键"><a href="#关于vscode的常用快捷键" class="headerlink" title="关于vscode的常用快捷键"></a>关于vscode的常用快捷键</h4><p>在处理单文件的编辑之外，还有一个会导致我们手频繁离开键盘的操作是展开目录树打开另外一个文件， 这是要赞一下vscode 的 Command + P的快捷打开文件的操作， 模糊匹配路径+近期打开文件的列表， 可以帮助我们快速的打开想要的文件， 而不必去目录树一个个展开肉眼去寻找文件再用鼠标点击打开，所以非常建议在编辑单个文件使用vim mode， 我们还是需要去学习vscode的常用快捷键， 比如多窗口切换， 打开terminal等等</p>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>浏览器离不开vimium插件 </p>
+<p><img src="/2020/05/09/daily_think/学会使用纯键盘工作/vimium.gif" alt=""><br>下面是一些我最常常用到的页面操作：</p>
+<p>最基本的操作是可以使用j,k进行上下滚动， u,d进行上下翻页， f可以将页面中可以点击的都标记出来， 然后通过快捷键模拟点击动作<br>我的常用操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shift + jk 进行tab之间的左右切换</span><br><span class="line"></span><br><span class="line">shift + hl 进行页面的前进后退</span><br><span class="line"></span><br><span class="line">x关闭当前页面， X恢复前面关闭的页面</span><br><span class="line"></span><br><span class="line">t打开新的tab</span><br><span class="line"></span><br><span class="line">shift + o可以出现搜索框方便直接跳转标签、历史访问的页面（有点类似vscode的command+p)</span><br></pre></td></tr></table></figure>
+<p>可以看到上面把我们平时浏览器常用的操作都涵盖了， 基本都不需要使用鼠标操作页面， 双手也不需要离开键盘</p>
+<p>更多的快捷键可以参考 <img src="https://cdn.sspai.com/attachment/origin/2014/12/16/204008.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt=""></p>
+<h2 id="操作系统操作"><a href="#操作系统操作" class="headerlink" title="操作系统操作"></a>操作系统操作</h2><p>操作系统层级的我们使用的最多就是打开文件管理器， 打开应用， 打开系统设置等等</p>
+<p>那么就是得推荐一个神器了 Alfred， 我配置了opt + space的快捷键快速调起搜索输入框</p>
+<p>一般应用都是通过Alfred搜索启动的，搜索网页</p>
+<p><img src="/2020/05/09/daily_think/学会使用纯键盘工作/alfred.gif" alt=""></p>
+<p>除了使用Alfred快速打开所有的应用和文件， mac系统上我用的最多的就是command+ tab切换应用 和 ctrl + 左右箭头切换多桌面</p>
+<h2 id="关于键盘的键位的配置"><a href="#关于键盘的键位的配置" class="headerlink" title="关于键盘的键位的配置"></a>关于键盘的键位的配置</h2><p>对于键位, 我的观点一向是不要大改， 首先要想想自己平时用的最不顺手的按键是哪几个<br>对我而言 在使用87按键的键盘时， 还是会不自主的移动右手去按上下左右的方向键， 我的目标是左右两个食指不离开FJ两个按键， 频繁的移动右手去按方向键还是很麻烦的， 所以我引入了 <a href="https://karabiner-elements.pqrs.org/" target="_blank" rel="noopener">KaraBiner-Element</a>改键工具</p>
+<p><img src="/2020/05/09/daily_think/学会使用纯键盘工作/karabinor_elements.png" alt=""><br>出于克制的习惯， 我只加了一条改动策略，   Left Ctrl + hjkl to Arrow keys vim，  所以在非vim编辑器的地方， 我上下左右基本都是使用 ctrl + hjkl来代替方向键， 实现了方向键这几个高频按键的全系统的统一， 得益于hhkb的 ctrl按键替换了原先面积很大却不常用的Caps Lock按键的位置，即使之前使用其他的键盘，也是配置这条策略的， 只是在hhkb上， 这个ctrl的位置确实是真香，  所以我准备把其他的键盘的CapsLock按键也修改为Ctrl</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>学会使用纯键盘工作的标题可能确实有点标题党， 实际上如果你使用GUI的操作系统工作，是很难不用到鼠标或者触摸板的， 毕竟很多时候学习快捷键是有成本的， 很多软件对于快捷键的支持也不是那么好， 我们能做到的就是尽可能的降低在键盘和鼠标之间切换的频率。 在大部分情况下， 我们操作电脑的速度是比不过我们大脑思考的速度的， 所以提升电脑的键盘使用效率是非常重要的， 尽可能的做到流畅的操作不被打断，一旦熟练之后带来的生产力提升是难以想象的。 </p>
+<p>我们提升的是我们大脑的io的速度， 人的的大脑一旦有的io中断， 经常就回不来了， 从并行运算上看还是计算机做的比较厉害</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HHKB/" rel="tag"># HHKB</a>
+          
+            <a href="/tags/VIM/" rel="tag"># VIM</a>
+          
+            <a href="/tags/纯键盘工作/" rel="tag"># 纯键盘工作</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/07/tech/golang源码工程是如何提交代码的/" rel="next" title="golang源码工程是如何提交代码的">
+                <i class="fa fa-chevron-left"></i> golang源码工程是如何提交代码的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatars.png"
+                alt="laynezhou" />
+            
+              <p class="site-author-name" itemprop="name">laynezhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/outshineamaze/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#闲聊"><span class="nav-number">1.</span> <span class="nav-text">闲聊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回到主题"><span class="nav-number">2.</span> <span class="nav-text">回到主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平时工作一般会用到哪些软件"><span class="nav-number">3.</span> <span class="nav-text">平时工作一般会用到哪些软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发"><span class="nav-number">4.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特别讲一下光标的快速移动"><span class="nav-number">4.0.1.</span> <span class="nav-text">特别讲一下光标的快速移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于vscode的常用快捷键"><span class="nav-number">4.0.2.</span> <span class="nav-text">关于vscode的常用快捷键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">5.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统操作"><span class="nav-number">6.</span> <span class="nav-text">操作系统操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于键盘的键位的配置"><span class="nav-number">7.</span> <span class="nav-text">关于键盘的键位的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结："><span class="nav-number">8.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laynezhou</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500669000");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '0F7x1H9pH7A0VAKal3LN5idj-gzGzoHsz',
+        appKey: 'Czers2Dz1pcKcHPko0BT2mcj',
+        placeholder: '写的不对的地方请多多指教',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
